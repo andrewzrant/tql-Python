@@ -7,7 +7,7 @@ import sys
 from contextlib import closing
 from collections import deque
 
-class Pipe:
+class X:
     def __init__(self, function):
         self.function = function
         functools.update_wrapper(self, function)
@@ -17,4 +17,9 @@ class Pipe:
 
     def __call__(self, *args, **kwargs):
         return Pipe(lambda x: self.function(x, *args, **kwargs))
+        
+@X
+def xjson(dict_, ):
+    print(json.dumps(dict_, indent=4))
+#     return json.dumps(dict_, indent=4)
 ```
