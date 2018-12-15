@@ -24,3 +24,7 @@ def xjson(dict_, ):
 #     return json.dumps(dict_, indent=4)
 
 ```
+```
+base_dir = os.path.dirname(os.path.realpath('__file__'))
+
+```
