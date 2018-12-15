@@ -28,3 +28,6 @@ def xjson(dict_, ):
 base_dir = os.path.dirname(os.path.realpath('__file__'))
 
 ```
+sklearn.ex...
+
+https://stackoverflow.com/questions/40287657/load-pickled-object-in-different-file-attribute-error
