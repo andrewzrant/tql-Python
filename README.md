@@ -30,4 +30,6 @@ base_dir = os.path.dirname(os.path.realpath('__file__'))
 ```
 sklearn.ex...
 
+https://stackoverflow.com/questions/27732354/unable-to-load-files-using-pickle-and-multiple-modules
+
 https://stackoverflow.com/questions/40287657/load-pickled-object-in-different-file-attribute-error
