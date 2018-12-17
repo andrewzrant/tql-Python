@@ -7,7 +7,7 @@
 pip install x-plan
 ```
 
-## `from xplan.iterable import *`
+### `from xplan.iterable import *`
 ```python
 @X
 def xfunc1(x):
