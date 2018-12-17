@@ -5,7 +5,7 @@ __title__ = 'iter'
 __author__ = 'JieYuan'
 __mtime__ = '18-12-14'
 """
-from xplan import X
+from xplan.utils import X
 
 import numpy as np
 import pandas as pd
@@ -44,7 +44,7 @@ xsum, xmin, xmax, xabs, xlen, xmean, xmedian = [X(i) for i in funcs]
 
 xnorm = X(lambda iterable, ord=2: np.linalg.norm(iterable, ord))
 xcount = X(lambda iterable: Counter(iterable))
-xcounts = X(lambda iterable, name='iterable': (iterable | iterable(name=name)).value_counts())
+xcounts = X(lambda iterable, name='iterable': (iterable | xseries(name=name)).value_counts())
 xunique = X(lambda iterable: list(OrderedDict.fromkeys(iterable)))  # 移除列表中的重复元素(保持有序)
 xsort = X(lambda iterable, reverse=False, key=None: sorted(iterable, key=key, reverse=reverse))
 
