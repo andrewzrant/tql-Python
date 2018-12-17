@@ -4,7 +4,7 @@
 
 ## Install
 ```
-pip install xplan
+pip install x-plan
 ```
 
 ## `from xplan.iterable import *`
@@ -25,6 +25,16 @@ def xfunc2(x):
 - xtqdm
 
     ![tqdm](pic/tqdm.png)
+
+- xsort
+- xmap
+- xreduce
+- xfilter
+```python
+iterable | xfilter(lambda x: len(x) > 1) | xmap(str.upper) | xsort | xreduce(lambda x, y: x + '-' + y)
+
+'AM-LIKE-LINUX-PIPE-VERY'
+```
 
 - xseries
 - xdataframe
@@ -53,27 +63,6 @@ missing              0
 missing_perc        0%
 types           unique
 Name: iterable, dtype: object
-
-iterable | xsummary
-
-am       1
-very     1
-linux    1
-like     1
-I        1
-a        1
-pipe     1
-Name: iterable, dtype: int64
-```
-
-- xsort
-- xmap
-- xreduce
-- xfilter
-```python
-iterable | xfilter(lambda x: len(x) > 1) | xmap(str.upper) | xsort | xreduce(lambda x, y: x + '-' + y)
-
-'AM-LIKE-LINUX-PIPE-VERY'
 ```
 - ...
 
