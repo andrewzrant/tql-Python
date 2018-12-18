@@ -26,6 +26,7 @@ except:
 else:
     from tqdm import tqdm_notebook as tqdm
 
+
 # 统计函数: 待补充groupby.agg
 xsummary = X(lambda iterable: DataFrameSummary(iterable | xDataframe)['iterable'])
 xvalue_counts = X(lambda iterable, name='iterable': (iterable | xSeries(name=name)).value_counts())
@@ -50,6 +51,8 @@ xtqdm = X(lambda iterable, desc=None: tqdm(iterable, desc))
 # base types
 xtuple, xlist, xset = X(tuple), X(list), X(set)
 
+# string
+xjoin = X(lambda iterable, sep=' ': sep.join(iterable))
 
 @X
 def xSeries(iterable, name='iterable'):
