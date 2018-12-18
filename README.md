@@ -26,7 +26,7 @@ def xfunc2(x):
 
     ![tqdm](pic/tqdm.png)
 
-- xfilter/xmap/xsort/xreduce
+- `xfilter / xmap / xsort / xreduce`
 ```python
 iterable | xfilter(lambda x: len(x) > 1) | xmap(str.upper) | xsort | xreduce(lambda x, y: x + '-' + y)
 
