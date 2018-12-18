@@ -33,26 +33,9 @@ iterable | xfilter(lambda x: len(x) > 1) | xmap(str.upper) | xsort | xreduce(lam
 'AM-LIKE-LINUX-PIPE-VERY'
 ```
 
-- xseries
-- xdataframe
-```python
-iterable | xseries
-iterable | xdataframe
-
-0        I
-1       am
-2     very
-3     like
-4        a
-5    linux
-6     pipe
-Name: iterable, dtype: object
-```
-
-- xcounts
 - xsummary
 ```python
-iterable | xcounts
+iterable | xsummary
 
 counts               7
 uniques              7
