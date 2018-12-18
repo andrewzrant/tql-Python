@@ -22,7 +22,7 @@ def xfunc2(x):
 
 'I am very like a linux pipe' | xfunc1 | xfunc2
 ```
-- xtqdm
+- `xtqdm`
 
     ![tqdm](pic/tqdm.png)
 
@@ -33,7 +33,7 @@ iterable | xfilter(lambda x: len(x) > 1) | xmap(str.upper) | xsort | xreduce(lam
 'AM-LIKE-LINUX-PIPE-VERY'
 ```
 
-- xsummary
+- `xsummary`
 ```python
 iterable | xsummary
 
