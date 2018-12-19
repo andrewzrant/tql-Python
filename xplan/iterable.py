@@ -78,12 +78,12 @@ xfilter = X(lambda iterable, func: filter(func, iterable))
 
 # multiple
 @X
-def xmultiple_thread(iterable, func, max_workers=5):
+def xThreadPoolExecutor(iterable, func, max_workers=5):
     with ThreadPoolExecutor(max_workers) as pool:
         return pool.map(func, iterable)
 
 
 @X
-def xmultiple_process(iterable, func, max_workers=5):
+def xProcessPoolExecutor(iterable, func, max_workers=5):
     with ProcessPoolExecutor(max_workers) as pool:
         return pool.map(func, iterable)
