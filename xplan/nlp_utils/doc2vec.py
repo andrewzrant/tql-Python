@@ -1,6 +1,3 @@
-import numpy as np
-from tqdm import tqdm
-
 
 class Doc2Vec(object):
 
@@ -8,9 +5,7 @@ class Doc2Vec(object):
         self.embeddings = self._load_wv(fname)
 
     def sent2vec(self, sentence, tokenizer, mode='sum', normalize=True):
-
-        words = self.tokenizer(sentence)
-        words = [w for w in words if w in self.embeddings]
+        words = [w for w in tokenizer(sentence) if w in self.embeddings]
 
         if words:
             if mode == 'sum':
