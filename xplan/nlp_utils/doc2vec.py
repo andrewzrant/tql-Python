@@ -1,10 +1,13 @@
+import numpy as np
+from tqdm import tqdm
+
 
 class Doc2Vec(object):
 
     def __init__(self, fname):
-        self.embeddings = self._load_wv(fname)
+        self._load_wv(fname)
 
-    def sent2vec(self, sentence, tokenizer, mode='sum', normalize=True):
+    def sent2vec(self, sentence, tokenizer=str.split, mode='sum', normalize=True):
         words = [w for w in tokenizer(sentence) if w in self.embeddings]
 
         if words:
