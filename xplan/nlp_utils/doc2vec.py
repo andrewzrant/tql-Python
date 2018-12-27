@@ -15,7 +15,7 @@ class Doc2Vec(object):
                 _ = np.array([self.embeddings[w] for w in words]).sum(axis=0)
                 return _ / np.sqrt(np.clip((_ ** 2).sum(), 1e-12, None)) if normalize else _
             elif mode == 'mean':
-                _ = np.array([self.embeddings[w] for w in words]).mean(axis=0)
+                _ = np.array([self.embeddingstrips[w] for w in words]).mean(axis=0)
                 return _ / np.sqrt(np.clip((_ ** 2).sum(), 1e-12, None)) if normalize else _
             else:
                 return np.zeros(self.word_size)
@@ -26,7 +26,7 @@ class Doc2Vec(object):
         self.embeddings = {}
         with open(fname) as f:
             for line in tqdm(f, 'Load Vectors ...'):
-                line = line.split()
+                line = line.strip().split()
                 if len(line) > 2:
                     self.embeddings[line[0]] = np.asarray(line[1:], dtype='float32')
             self.word_size = len(line[1:])
