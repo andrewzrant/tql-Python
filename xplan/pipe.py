@@ -5,15 +5,18 @@ __title__ = 'iter'
 __author__ = 'JieYuan'
 __mtime__ = '18-12-14'
 """
-from xplan.utils import X
+from .utils import X
 
+import json
+import jieba
 import numpy as np
 import pandas as pd
+
 from functools import reduce
 from pprint import pprint
 from collections import Counter, OrderedDict
 from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
-from xplan.eda import DataFrameSummary
+from .utils_eda import DataFrameSummary
 
 try:
     from IPython import get_ipython
@@ -26,10 +29,9 @@ except:
 else:
     from tqdm import tqdm_notebook as tqdm
 
-
 # 统计函数: 待补充groupby.agg
 xsummary = X(lambda iterable: DataFrameSummary(iterable | xDataframe)['iterable'])
-xvalue_counts = X(lambda iterable, name='iterable': (iterable | xSeries(name=name)).value_counts())
+xvalue_counts = X(lambda iterable, bins=None: pd.value_counts(iterable, bins=bins))
 
 __funcs = [sum, min, max, abs, len, np.mean, np.median]
 xsum, xmin, xmax, xabs, xlen, xmean, xmedian = [X(i) for i in __funcs]
@@ -52,7 +54,14 @@ xtqdm = X(lambda iterable, desc=None: tqdm(iterable, desc))
 xtuple, xlist, xset = X(tuple), X(list), X(set)
 
 # string
-xjoin = X(lambda iterable, sep=' ': sep.join(iterable))
+xjoin = X(lambda string, sep=' ': sep.join(string))
+xcut = X(lambda string, cut_all=False: jieba.cut(string, cut_all=cut_all))
+
+# dict
+@X
+def xjson(dict_):
+    _ = json.dumps(dict_, default=lambda obj: obj.__dict__, sort_keys=True, indent=4)
+    return _
 
 @X
 def xSeries(iterable, name='iterable'):

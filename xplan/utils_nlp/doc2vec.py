@@ -5,9 +5,11 @@ from tqdm import tqdm
 class Doc2Vec(object):
 
     def __init__(self, fname):
+        self.embeddings = {}
+        self.word_size = None
         self._load_wv(fname)
 
-    def sent2vec(self, sentence, tokenizer=str.split, mode='sum', normalize=True):
+    def sent2vec(self, sentence, tokenizer=str.split, mode='sum', normalize=False):
         words = [w for w in tokenizer(sentence) if w in self.embeddings]
 
         if words:
@@ -15,7 +17,7 @@ class Doc2Vec(object):
                 _ = np.array([self.embeddings[w] for w in words]).sum(axis=0)
                 return _ / np.sqrt(np.clip((_ ** 2).sum(), 1e-12, None)) if normalize else _
             elif mode == 'mean':
-                _ = np.array([self.embeddingstrips[w] for w in words]).mean(axis=0)
+                _ = np.array([self.embeddings[w] for w in words]).mean(axis=0)
                 return _ / np.sqrt(np.clip((_ ** 2).sum(), 1e-12, None)) if normalize else _
             else:
                 return np.zeros(self.word_size)
@@ -23,7 +25,6 @@ class Doc2Vec(object):
             return np.zeros(self.word_size)
 
     def _load_wv(self, fname):
-        self.embeddings = {}
         with open(fname) as f:
             for line in tqdm(f, 'Load Vectors ...'):
                 line = line.strip().split()

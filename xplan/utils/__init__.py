@@ -6,12 +6,9 @@ __author__ = 'JieYuan'
 __mtime__ = '18-12-17'
 """
 import os
+from sklearn.utils import shuffle
 from .hive import Hive
-from .x import X
+from .download_file import DownloadFile
 
 base_dir = os.path.dirname(os.path.realpath('__file__'))
-_get_module_path = lambda path, file: os.path.normpath(os.path.join(os.getcwd(), os.path.dirname(file), path))
-
-
-from sklearn.utils import shuffle
-
+get_module_path = lambda path, file: os.path.normpath(os.path.join(os.getcwd(), os.path.dirname(file), path))

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """
 __title__ = 'download_file'
 __author__ = 'JieYuan'
@@ -12,6 +12,7 @@ from sklearn.externals import joblib
 
 
 class DownloadFile(object):
+    """方便远程部署模型"""
 
     def get(self, url, mode='sklearn'):
         self.__get_file(url)
@@ -21,7 +22,7 @@ class DownloadFile(object):
             with open('./temp.txt', 'rb') as f:
                 obj = pickle.load(f)
         else:
-            print("with open('./temp.txt') as f:")
+            print("please read with open('./temp.txt') !!!")
             obj = "./temp.txt"
         return obj
 
@@ -33,4 +34,4 @@ class DownloadFile(object):
                 for lines in tqdm(res.iter_content(100000), 'Loading'):
                     f.write(lines)
         except:
-            print('please input correct url!!!')
+            print('please input correct url !!!')
