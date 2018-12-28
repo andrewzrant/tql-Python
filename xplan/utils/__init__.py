@@ -7,7 +7,6 @@ __mtime__ = '18-12-17'
 """
 import os
 from sklearn.utils import shuffle
-from .hive import Hive
 from .download_file import DownloadFile
 
 base_dir = os.path.dirname(os.path.realpath('__file__'))

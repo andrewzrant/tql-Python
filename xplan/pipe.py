@@ -8,6 +8,7 @@ __mtime__ = '18-12-14'
 from .utils.x import X
 
 import json
+import pickle
 import jieba
 import numpy as np
 import pandas as pd
@@ -28,6 +29,20 @@ except:
 
 else:
     from tqdm import tqdm_notebook as tqdm
+
+
+# 序列化
+@X
+def xpickle_dump(obj, file='tmp.pkl'):
+    with open(file, 'wb') as f:
+        pickle.dump(obj, f)
+
+
+@X
+def xpickle_load(file):
+    with open(file, 'rb') as f:
+        return pickle.load(f)
+
 
 # 统计函数: 待补充groupby.agg
 xsummary = X(lambda iterable: DataFrameSummary(iterable | xDataframe)['iterable'])
@@ -57,11 +72,13 @@ xtuple, xlist, xset = X(tuple), X(list), X(set)
 xjoin = X(lambda string, sep=' ': sep.join(string))
 xcut = X(lambda string, cut_all=False: jieba.cut(string, cut_all=cut_all))
 
+
 # dict
 @X
 def xjson(dict_):
     _ = json.dumps(dict_, default=lambda obj: obj.__dict__, sort_keys=True, indent=4)
     return _
+
 
 @X
 def xSeries(iterable, name='iterable'):
@@ -96,3 +113,4 @@ def xThreadPoolExecutor(iterable, func, max_workers=5):
 def xProcessPoolExecutor(iterable, func, max_workers=5):
     with ProcessPoolExecutor(max_workers) as pool:
         return pool.map(func, iterable)
+
