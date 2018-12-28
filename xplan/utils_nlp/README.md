@@ -1,7 +1,16 @@
 [<h1 align = "center">:rocket: 特征工程 :facepunch:</h1>][1]
 
 ---
+## [word2vec][1]
+## [doc2vec][2]
 
+
+
+
+
+
+
+---
 ## 1. 特征工程
 
 - question(leak): 
@@ -42,5 +51,7 @@
 
 
 ---
+[1]: https://github.com/binzhouchn/Algorithm_Interview_Notes-Chinese/tree/master/B-%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86
+[2]: https://github.com/Jie-Yuan/text2vec
 [3]: https://www.kaggle.com/kardopaska/fast-how-to-abhishek-s-features-w-o-cray-xk7
 https://www.kaggle.com/rethfro/1d-cnn-single-model-score-0-14-0-16-or-0-23
