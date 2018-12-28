@@ -1,3 +1,2 @@
 tqdm
-sklearn
-pandas
+keras
