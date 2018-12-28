@@ -5,7 +5,7 @@ __title__ = 'iter'
 __author__ = 'JieYuan'
 __mtime__ = '18-12-14'
 """
-from .utils import X
+from .utils.x import X
 
 import json
 import jieba
