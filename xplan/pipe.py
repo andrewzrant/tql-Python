@@ -32,6 +32,19 @@ else:
 
 
 # 序列化
+def read(fname='./tmp.txt', mode='r'):
+    with open(fname, mode) as f:
+        for l in f:
+            yield l
+
+
+@X
+def xwrite(iterable, fname, mode='w', glue='\n'):
+    with open(fname, mode) as f:
+        for item in iterable:
+            f.write(str(item) + glue)
+
+
 @X
 def xpickle_dump(obj, file='tmp.pkl'):
     with open(file, 'wb') as f:
@@ -113,4 +126,3 @@ def xThreadPoolExecutor(iterable, func, max_workers=5):
 def xProcessPoolExecutor(iterable, func, max_workers=5):
     with ProcessPoolExecutor(max_workers) as pool:
         return pool.map(func, iterable)
-
