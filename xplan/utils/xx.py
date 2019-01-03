@@ -9,7 +9,7 @@ __mtime__ = '18-12-14'
 import functools
 
 
-class X:
+class xx:
     """I am very like a linux pipe"""
 
     def __init__(self, function):
@@ -20,18 +20,18 @@ class X:
         return self.function(other)
 
     def __call__(self, *args, **kwargs):
-        return X(lambda x: self.function(x, *args, **kwargs))
+        return xx(lambda x: self.function(x, *args, **kwargs))
 
 
 if __name__ == '__main__':
-    @X
+    @xx
     def xfunc1(x):
         _ = x.split()
         print(_)
         return _
 
 
-    @X
+    @xx
     def xfunc2(x):
         _ = '>>'.join(x)
         print(_)

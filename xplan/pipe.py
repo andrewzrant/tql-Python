@@ -5,7 +5,7 @@ __title__ = 'iter'
 __author__ = 'JieYuan'
 __mtime__ = '18-12-14'
 """
-from .utils.x import X
+from .utils.xx import xx
 
 import json
 import pickle
@@ -38,62 +38,62 @@ def read(fname='./tmp.txt', mode='r'):
             yield l
 
 
-@X
+@xx
 def xwrite(iterable, fname, mode='w', glue='\n'):
     with open(fname, mode) as f:
         for item in iterable:
             f.write(str(item) + glue)
 
 
-@X
+@xx
 def xpickle_dump(obj, file='tmp.pkl'):
     with open(file, 'wb') as f:
         pickle.dump(obj, f)
 
 
-@X
+@xx
 def xpickle_load(file):
     with open(file, 'rb') as f:
         return pickle.load(f)
 
 
 # 统计函数: 待补充groupby.agg
-xsummary = X(lambda iterable: DataFrameSummary(iterable | xDataframe)['iterable'])
-xvalue_counts = X(lambda iterable, bins=None: pd.value_counts(iterable, bins=bins))
+xsummary = xx(lambda iterable: DataFrameSummary(list(iterable) | xDataframe)['iterable'])
+xvalue_counts = xx(lambda iterable, normalize=False, bins=None: pd.value_counts(list(iterable), normalize=normalize, bins=bins))
 
 __funcs = [sum, min, max, abs, len, np.mean, np.median]
-xsum, xmin, xmax, xabs, xlen, xmean, xmedian = [X(i) for i in __funcs]
+xsum, xmin, xmax, xabs, xlen, xmean, xmedian = [xx(i) for i in __funcs]
 
-xnorm = X(lambda iterable, ord=2: np.linalg.norm(iterable, ord))
-xcount = X(lambda iterable: Counter(iterable))
+xnorm = xx(lambda iterable, ord=2: np.linalg.norm(list(iterable), ord))
+xcount = xx(lambda iterable: Counter(list(iterable)))
 
-xunique = X(lambda iterable: list(OrderedDict.fromkeys(iterable)))  # 移除列表中的重复元素(保持有序)
-xsort = X(lambda iterable, reverse=False, key=None: sorted(iterable, key=key, reverse=reverse))
+xunique = xx(lambda iterable: list(OrderedDict.fromkeys(list(iterable))))  # 移除列表中的重复元素(保持有序)
+xsort = xx(lambda iterable, reverse=False, key=None: sorted(list(iterable), key=key, reverse=reverse))
 
-xmax_index = X(lambda x: max(range(len(x)), key=x.__getitem__))  # 列表中最小和最大值的索引
-xmin_index = X(lambda x: min(range(len(x)), key=x.__getitem__))  # 列表中最小和最大值的索引
-xmost_freq = X(lambda x: max(set(x), key=x.count))  # 查找列表中频率最高的值, key作用于set(x), 可类推出其他用法
+xmax_index = xx(lambda x: max(range(len(x)), key=x.__getitem__))  # 列表中最小和最大值的索引
+xmin_index = xx(lambda x: min(range(len(x)), key=x.__getitem__))  # 列表中最小和最大值的索引
+xmost_freq = xx(lambda x: max(set(x), key=x.count))  # 查找列表中频率最高的值, key作用于set(x), 可类推出其他用法
 
 # print
-xprint = X(pprint)
-xtqdm = X(lambda iterable, desc=None: tqdm(iterable, desc))
+xprint = xx(pprint)
+xtqdm = xx(lambda iterable, desc=None: tqdm(iterable, desc))
 
 # base types
-xtuple, xlist, xset = X(tuple), X(list), X(set)
+xtuple, xlist, xset = xx(tuple), xx(list), xx(set)
 
 # string
-xjoin = X(lambda string, sep=' ': sep.join(string))
-xcut = X(lambda string, cut_all=False: jieba.cut(string, cut_all=cut_all))
+xjoin = xx(lambda string, sep=' ': sep.join(string))
+xcut = xx(lambda string, cut_all=False: jieba.cut(string, cut_all=cut_all))
 
 
 # dict
-@X
+@xx
 def xjson(dict_):
     _ = json.dumps(dict_, default=lambda obj: obj.__dict__, sort_keys=True, indent=4)
     return _
 
 
-@X
+@xx
 def xSeries(iterable, name='iterable'):
     if isinstance(iterable, pd.Series):
         return iterable
@@ -101,7 +101,7 @@ def xSeries(iterable, name='iterable'):
         return pd.Series(iterable, name=name)
 
 
-@X
+@xx
 def xDataframe(iterable, name='iterable'):
     if isinstance(iterable, pd.DataFrame):
         return iterable
@@ -110,19 +110,19 @@ def xDataframe(iterable, name='iterable'):
 
 
 # 高阶函数
-xmap = X(lambda iterable, func: map(func, iterable))
-xreduce = X(lambda iterable, func: reduce(func, iterable))
-xfilter = X(lambda iterable, func: filter(func, iterable))
+xmap = xx(lambda iterable, func: map(func, iterable))
+xreduce = xx(lambda iterable, func: reduce(func, iterable))
+xfilter = xx(lambda iterable, func: filter(func, iterable))
 
 
 # multiple
-@X
+@xx
 def xThreadPoolExecutor(iterable, func, max_workers=5):
     with ThreadPoolExecutor(max_workers) as pool:
         return pool.map(func, iterable)
 
 
-@X
+@xx
 def xProcessPoolExecutor(iterable, func, max_workers=5):
     with ProcessPoolExecutor(max_workers) as pool:
         return pool.map(func, iterable)

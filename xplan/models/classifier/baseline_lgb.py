@@ -9,7 +9,7 @@ __mtime__ =  19-1-2
 import lightgbm as lgb
 
 
-class LGBMBaseline(object):
+class BaselineLGB(object):
 
     def __init__(self, X, y, learning_rate=0.1, metrics='auc', feval=None, objective='binary', scale_pos_weight=1,
                  seed=None, n_jobs=8):
