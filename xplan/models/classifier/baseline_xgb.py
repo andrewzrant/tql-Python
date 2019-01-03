@@ -34,7 +34,7 @@ class BaselineXGB(object):
                 return '1 / (1 + rmse)', 1 /(rmse(y_true, y_pred) + 1), True
         :param scale_pos_weight:
         """
-        self.xgb_data = xgb.DMatrix(X, y)
+        self.data = xgb.DMatrix(X, y)
         self.objective = objective
         self.metrics = metrics
         self.feval = feval

@@ -7,10 +7,13 @@ __mtime__ = '19-1-3'
 """
 import numpy as np
 from sklearn.preprocessing import StandardScaler
-from sklearn.cluster import KMeans, DBSCAN, MeanShift, AgglomerativeClustering
+from sklearn.cluster import KMeans, DBSCAN, MeanShift, AgglomerativeClustering, SpectralClustering
 from sklearn.mixture import GaussianMixture
 
-
+"""
+SpectralClustering
+import hdbscan 待补充 
+"""
 class BaselineCluster(object):
     """
     bc = BaselineCluster(X, y)

@@ -8,6 +8,8 @@ __mtime__ = '19-1-2'
 
 from .baseline_lgb import BaselineLGB
 from .baseline_xgb import BaselineXGB
+from .bayes_opt_lgb import BayesOptLGB
+from .bayes_opt_xgb import BayesOptXGB
 
 # _clf = LGBMClassifier(n_estimators=1)
 # X = iris.data[:100, :]
