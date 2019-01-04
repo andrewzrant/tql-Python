@@ -75,7 +75,7 @@ class BaselineXGB(object):
             self.params['objective'] = self.objective
             self.params['num_class'] = self.num_class
 
-    def run(self, return_model=False, nfold=5, early_stopping_rounds=50, verbose_eval=50):
+    def run(self, return_model=False, nfold=5, early_stopping_rounds=100, verbose_eval=50):
 
         print("XGB CV ...\n")
         try:
