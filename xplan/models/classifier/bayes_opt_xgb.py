@@ -22,14 +22,13 @@ class BayesOptXGB(object):
         logger = JSONLogger(path="./opt_xgb_logs.json")
 
         BoParams = {
-            'learning_rate': (0.003, 0.05),
-            'max_depth': (6, 12),
+            'max_depth': (5, 16),
             'min_split_gain': (0, 1),
-            'min_child_weight': (0, 10),
+            'gamma': (0.01, 1),
             'subsample': (0.6, 1),
             'colsample_bytree': (0.6, 1),
-            'reg_alpha': (0, 100),
-            'reg_lambda': (0, 100),
+            'reg_alpha': (0, 1),
+            'reg_lambda': (0, 1),
         }
         optimizer = BayesianOptimization(self.__evaluator, BoParams)
         if save_log:
@@ -38,15 +37,15 @@ class BayesOptXGB(object):
         optimizer.maximize(init_points=3, n_iter=n_iter, acq='ucb', kappa=2.576, xi=0.0, **gp_params)
         return optimizer.max
 
-    def __evaluator(self, learning_rate, max_depth, min_split_gain, min_child_weight, subsample, colsample_bytree,
+    def __evaluator(self, max_depth, gamma, min_child_weight, subsample, colsample_bytree,
                     reg_alpha, reg_lambda):
         params = dict(
             silent=True,
             booster='gbtree',
             objective='binary:logistic',
             max_depth=int(max_depth),
-            learning_rate=learning_rate,
-            gamma=min_split_gain,
+            learning_rate=0.01,
+            gamma=gamma,  # min_split_gain
             min_child_weight=min_child_weight,
             subsample=subsample,
             colsample_bylevel=0.8,  # 每一层的列数
@@ -62,7 +61,7 @@ class BayesOptXGB(object):
         params['lambda'] = params.pop('reg_lambda')
 
         metric = 'auc'
-        cv_rst = xgb.cv(params, self.data, num_boost_round=3000, nfold=5, metrics=metric, early_stopping_rounds=100,
+        cv_rst = xgb.cv(params, self.data, num_boost_round=3600, nfold=5, metrics=metric, early_stopping_rounds=100,
                         verbose_eval=None, stratified=True, show_stdv=False, as_pandas=False)
 
         _ = cv_rst['test-%s-mean' % metric]

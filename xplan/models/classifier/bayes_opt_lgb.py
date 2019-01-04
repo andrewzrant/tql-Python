@@ -22,14 +22,14 @@ class BayesOptLGB(object):
         logger = JSONLogger(path="./opt_lgb_logs.json")
 
         BoParams = {
-            'learning_rate': (0.003, 0.05),
-            'max_depth': (6, 12),
-            'min_split_gain': (0, 1),
-            'min_child_weight': (0, 10),
+            'num_leaves': (2 ** 5, 2 ** 16),
+            'min_split_gain': (0.01, 1),
+            'min_child_weight': (0, 0.01),
+            'min_child_samples': (8, 32),
             'subsample': (0.6, 1),
             'colsample_bytree': (0.6, 1),
-            'reg_alpha': (0, 100),
-            'reg_lambda': (0, 100),
+            'reg_alpha': (0, 1),
+            'reg_lambda': (0, 1),
         }
         optimizer = BayesianOptimization(self.__evaluator, BoParams)
         if save_log:
@@ -38,16 +38,17 @@ class BayesOptLGB(object):
         optimizer.maximize(init_points=3, n_iter=n_iter, acq='ucb', kappa=2.576, xi=0.0, **gp_params)
         return optimizer.max
 
-    def __evaluator(self, learning_rate, max_depth, min_split_gain, min_child_weight, subsample, colsample_bytree,
+    def __evaluator(self, num_leaves, min_split_gain, min_child_weight, min_child_samples, subsample, colsample_bytree,
                     reg_alpha, reg_lambda):
         params = dict(
             boosting_type='gbdt',
             objective='binary',
             max_depth=-1,
-            num_leaves=2 ** int(max_depth) - 1,
-            learning_rate=learning_rate,
+            num_leaves=int(num_leaves),
+            learning_rate=0.01,
             min_split_gain=min_split_gain,
             min_child_weight=min_child_weight,
+            min_child_samples=int(min_child_samples),
             subsample=subsample,
             subsample_freq=8,
             colsample_bytree=colsample_bytree,

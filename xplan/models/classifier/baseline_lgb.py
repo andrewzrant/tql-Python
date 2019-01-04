@@ -41,6 +41,7 @@ class BaselineLGB(object):
 
             min_split_gain=0.0,  # 描述分裂的最小 gain, 控制树的有用的分裂
             min_child_weight=0.001,  # 决定最小叶子节点样本权重和, 孩子节点中最小的样本权重和, 避免过拟合, 如果一个叶子节点的样本权重和小于min_child_weight则拆分过程结束
+            min_child_samples=20,
 
             subsample=0.8,
             subsample_freq=8,
@@ -97,7 +98,6 @@ class BaselineLGB(object):
             return lgb.train(self.params, self.lgb_data, self.best_iter)
 
 
-
 params = {
     'boosting': 'gbdt',
     'application': 'binary',
@@ -107,7 +107,7 @@ params = {
     'min_split_gain': 0.20911485032925814,
     'min_child_weight': 9.442861759045304,
     'subsample': 0.8134760806268698,
-    'subsample_freq':8,
+    'subsample_freq': 8,
     'colsample_bytree': 0.7892701972905127,
     'reg_alpha': 0.10654600090207467,
     'reg_lambda': 9.848683596927557,
