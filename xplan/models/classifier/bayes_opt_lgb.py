@@ -43,30 +43,9 @@ class BayesOptLGB(object):
         gp_params = {"alpha": 1e-5, "n_restarts_optimizer": 2}
         optimizer.maximize(init_points=3, n_iter=n_iter, acq='ucb', kappa=2.576, xi=0.0, **gp_params)
         self.best_params = optimizer.max
+        self.__get_params()
 
     def get_best_model(self, best_iter):
-        params = {'boosting_type': 'gbdt',
-                  'objective': 'binary',
-                  'max_depth': -1,
-                  'num_leaves': 127,
-                  'learning_rate': 0.01,
-                  'min_split_gain': 0.0,
-                  'min_child_weight': 0.001,
-                  'min_child_samples': 20,
-                  'subsample': 0.8,
-                  'subsample_freq': 8,
-                  'colsample_bytree': 0.8,
-                  'reg_alpha': 0.0,
-                  'reg_lambda': 0.0,
-                  'scale_pos_weight': 1,
-                  'random_state': None,
-                  'n_jobs': 8}
-        params.update(self.best_params['params'])
-        params['num_leaves'] = int(params['num_leaves'])
-        params['min_child_samples'] = int(params['min_child_samples'])
-        self.params = {k: float('%.3f' % v) if isinstance(v, float) else v for k, v in params.items()}
-        self.params_sk = self.params.copy()
-
         return lgb.train(self.params, self.data, best_iter)
 
     def __evaluator(self, num_leaves, min_split_gain, min_child_weight, min_child_samples, subsample, colsample_bytree,
@@ -97,3 +76,26 @@ class BayesOptLGB(object):
         _ = cv_rst['%s-mean' % metric]
         print('\nBest Iter: %s' % len(_))
         return _[-1]
+
+    def __get_params(self):
+        params = {'boosting_type': 'gbdt',
+                  'objective': 'binary',
+                  'max_depth': -1,
+                  'num_leaves': 127,
+                  'learning_rate': 0.01,
+                  'min_split_gain': 0.0,
+                  'min_child_weight': 0.001,
+                  'min_child_samples': 20,
+                  'subsample': 0.8,
+                  'subsample_freq': 8,
+                  'colsample_bytree': 0.8,
+                  'reg_alpha': 0.0,
+                  'reg_lambda': 0.0,
+                  'scale_pos_weight': 1,
+                  'random_state': None,
+                  'n_jobs': 8}
+        params.update(self.best_params['params'])
+        params['num_leaves'] = int(params['num_leaves'])
+        params['min_child_samples'] = int(params['min_child_samples'])
+        self.params = {k: float('%.3f' % v) if isinstance(v, float) else v for k, v in params.items()}
+        self.params_sk = self.params.copy()

@@ -42,35 +42,9 @@ class BayesOptXGB(object):
         gp_params = {"alpha": 1e-5, "n_restarts_optimizer": 2}
         optimizer.maximize(init_points=3, n_iter=n_iter, acq='ucb', kappa=2.576, xi=0.0, **gp_params)
         self.best_params = optimizer.max
+        self.__get_params()
 
     def get_best_model(self, best_iter):
-        params = {'booster': 'gbtree',
-                  'objective': 'binary:logistic',
-                  'max_depth': 7,
-                  'gamma': 0.0,
-                  'min_child_weight': 1,
-                  'subsample': 0.8,
-                  'colsample_bytree': 0.8,
-                  'colsample_bylevel': 0.8,
-                  'scale_pos_weight': 1,
-                  'random_state': None,
-                  'n_jobs': 8,
-                  'silent': True,
-                  'eta': 0.01,
-                  'alpha': 0.0,
-                  'lambda': 0.0}
-        _params = self.best_params['params']
-        _params['alpha'] = _params.pop('reg_alpha')
-        _params['lambda'] = _params.pop('reg_lambda')
-
-        params.update(self.best_params['params'])
-        params['max_depth'] = int(params['max_depth'])
-        self.params = {k: float('%.3f' % v) if isinstance(v, float) else v for k, v in params.items()}
-        self.params_sk = self.params.copy()
-        self.params_sk['learning_rate'] = self.params_sk.pop('eta')
-        self.params_sk['reg_alpha'] = self.params_sk.pop('alpha')
-        self.params_sk['reg_lambda'] = self.params_sk.pop('lambda')
-
         return xgb.train(self.params, self.data, best_iter)
 
     def __evaluator(self, max_depth, gamma, min_child_weight, subsample, colsample_bytree,
@@ -103,3 +77,31 @@ class BayesOptXGB(object):
         _ = cv_rst['test-%s-mean' % metric]
         print('\nBest Iter: %s' % len(_))
         return _[-1]
+
+    def __get_params(self):
+        params = {'booster': 'gbtree',
+                  'objective': 'binary:logistic',
+                  'max_depth': 7,
+                  'gamma': 0.0,
+                  'min_child_weight': 1,
+                  'subsample': 0.8,
+                  'colsample_bytree': 0.8,
+                  'colsample_bylevel': 0.8,
+                  'scale_pos_weight': 1,
+                  'random_state': None,
+                  'n_jobs': 8,
+                  'silent': True,
+                  'eta': 0.01,
+                  'alpha': 0.0,
+                  'lambda': 0.0}
+        _params = self.best_params['params']
+        _params['alpha'] = _params.pop('reg_alpha')
+        _params['lambda'] = _params.pop('reg_lambda')
+
+        params.update(self.best_params['params'])
+        params['max_depth'] = int(params['max_depth'])
+        self.params = {k: float('%.3f' % v) if isinstance(v, float) else v for k, v in params.items()}
+        self.params_sk = self.params.copy()
+        self.params_sk['learning_rate'] = self.params_sk.pop('eta')
+        self.params_sk['reg_alpha'] = self.params_sk.pop('alpha')
+        self.params_sk['reg_lambda'] = self.params_sk.pop('lambda')
