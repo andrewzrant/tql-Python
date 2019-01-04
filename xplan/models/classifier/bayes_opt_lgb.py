@@ -22,7 +22,7 @@ class BayesOptLGB(object):
     """
 
     def __init__(self, X, y, categorical_feature='auto'):
-        self.data = lgb.Dataset(X, y, categorical_feature=categorical_feature)
+        self.data = lgb.Dataset(X, y, categorical_feature=categorical_feature, free_raw_data=False)
 
     def run(self, n_iter=10, save_log=False):
         logger = JSONLogger(path="./opt_lgb_logs.json")

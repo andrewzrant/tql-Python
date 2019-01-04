@@ -29,7 +29,7 @@ class BayesOptXGB(object):
 
         BoParams = {
             'max_depth': (5, 16),
-            'min_split_gain': (0, 1),
+            'min_child_weight': (1, 10),
             'gamma': (0.01, 1),
             'subsample': (0.6, 1),
             'colsample_bytree': (0.6, 1),
