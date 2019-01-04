@@ -62,13 +62,13 @@ class BaselineLGB(object):
             self.params['objective'] = self.objective
             self.params['num_class'] = self.num_class
 
-    def cv(self, return_model=False, nfold=5, early_stopping_rounds=50, verbose_eval=50):
+    def run(self, return_model=False, nfold=5, early_stopping_rounds=50, verbose_eval=50):
 
         print("LGB CV ...\n")
         try:
             cv_rst = lgb.cv(
                 self.params,
-                self.lgb_data,
+                self.data,
                 metrics=self.metrics,
                 feval=self.feval,
                 nfold=nfold,
