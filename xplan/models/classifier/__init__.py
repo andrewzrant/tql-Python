@@ -20,6 +20,3 @@ from .bayes_opt_xgb import BayesOptXGB
 #
 # model = _clf.booster_.dump_model()
 # tree_infos = model['tree_info'] # xgb_._Booster.get_dump()
-from xgboost import XGBClassifier
-import xgboost as xgb
-xgb.train()
