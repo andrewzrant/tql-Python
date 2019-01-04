@@ -65,9 +65,13 @@ class BayesOptXGB(object):
 
         params.update(self.best_params['params'])
         params['max_depth'] = int(params['max_depth'])
-        params = {k: float('%.3f' % v) if isinstance(v, float) else v for k, v in params.items()}
+        self.params = {k: float('%.3f' % v) if isinstance(v, float) else v for k, v in params.items()}
+        self.params_sk = self.params.copy()
+        self.params_sk['learning_rate'] = self.params_sk.pop('eta')
+        self.params_sk['reg_alpha'] = self.params_sk.pop('alpha')
+        self.params_sk['reg_lambda'] = self.params_sk.pop('lambda')
 
-        return xgb.train(params, self.data, best_iter)
+        return xgb.train(self.params, self.data, best_iter)
 
     def __evaluator(self, max_depth, gamma, min_child_weight, subsample, colsample_bytree,
                     reg_alpha, reg_lambda):

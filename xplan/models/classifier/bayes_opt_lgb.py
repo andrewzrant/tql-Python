@@ -64,9 +64,10 @@ class BayesOptLGB(object):
         params.update(self.best_params['params'])
         params['num_leaves'] = int(params['num_leaves'])
         params['min_child_samples'] = int(params['min_child_samples'])
-        params = {k: float('%.3f' % v) if isinstance(v, float) else v for k, v in params.items()}
+        self.params = {k: float('%.3f' % v) if isinstance(v, float) else v for k, v in params.items()}
+        self.params_sk = self.params.copy()
 
-        return lgb.train(params, self.data, best_iter)
+        return lgb.train(self.params, self.data, best_iter)
 
     def __evaluator(self, num_leaves, min_split_gain, min_child_weight, min_child_samples, subsample, colsample_bytree,
                     reg_alpha, reg_lambda):

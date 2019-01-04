@@ -16,7 +16,7 @@ class BaselineXGB(object):
     tree_method='exact'
     """
 
-    def __init__(self, X, y, learning_rate=0.1, metrics='auc', feval=None, objective='binary:logistic',
+    def __init__(self, X, y, missing=None, learning_rate=0.1, metrics='auc', feval=None, objective='binary:logistic',
                  scale_pos_weight=1,
                  seed=None, n_jobs=8):
         """
@@ -34,7 +34,7 @@ class BaselineXGB(object):
                 return '1 / (1 + rmse)', 1 /(rmse(y_true, y_pred) + 1), True
         :param scale_pos_weight:
         """
-        self.data = xgb.DMatrix(X, y)
+        self.data = xgb.DMatrix(X, y, missing=missing)
         self.objective = objective
         self.metrics = metrics
         self.feval = feval

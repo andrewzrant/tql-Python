@@ -10,8 +10,13 @@ import lightgbm as lgb
 
 
 class BaselineLGB(object):
+    """
+    b_lgb = BaselineLGB(X, y)
+    b_lgb.run()
+    """
 
-    def __init__(self, X, y, learning_rate=0.1, metrics='auc', feval=None, objective='binary', scale_pos_weight=1,
+    def __init__(self, X, y, categorical_feature='auto', learning_rate=0.1, metrics='auc', feval=None,
+                 objective='binary', scale_pos_weight=1,
                  seed=None, n_jobs=8):
         """
         :param objective:
@@ -26,7 +31,8 @@ class BaselineLGB(object):
                 return '1 / (1 + rmse)', 1 /(rmse(y_true, y_pred) + 1), True
         :param scale_pos_weight:
         """
-        self.data = lgb.Dataset(X, y, weight=None, init_score=None)  # init_score初始分(例如常值回归的得分)
+        self.data = lgb.Dataset(X, y, categorical_feature=categorical_feature, free_raw_data=False, weight=None,
+                                init_score=None)  # init_score初始分(例如常值回归的得分)
         self.objective = objective
         self.metrics = metrics
         self.feval = feval
