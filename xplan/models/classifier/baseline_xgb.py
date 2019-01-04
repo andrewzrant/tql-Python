@@ -14,10 +14,13 @@ class BaselineXGB(object):
     待补充: https://xgboost.readthedocs.io/en/release_0.81/tutorials/feature_interaction_constraint.html
     新版xgb支持交叉特征interaction_constraints
     tree_method='exact'
+
+    b_xgb = BaselineXGB(X, y, learning_rate=0.01)
+    b_xgb.run()
     """
 
     def __init__(self, X, y, missing=None, learning_rate=0.1, metrics='auc', feval=None, objective='binary:logistic',
-                 scale_pos_weight=1, seed=None):
+                 scale_pos_weight=1, seed=0):  # seed不能为None
         """
         https://blog.csdn.net/fuqiuai/article/details/79495910
         https://blog.csdn.net/fantacy10000/article/details/84504394

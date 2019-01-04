@@ -11,7 +11,7 @@ import lightgbm as lgb
 
 class BaselineLGB(object):
     """
-    b_lgb = BaselineLGB(X, y)
+    b_lgb = BaselineLGB(X, y, learning_rate=0.01)
     b_lgb.run()
     """
 

@@ -65,7 +65,7 @@ class BayesOptLGB(object):
             reg_alpha=reg_alpha,
             reg_lambda=reg_lambda,
             scale_pos_weight=1,
-            random_state=None,
+            random_state=None,  ##
             n_jobs=-1
         )
 
@@ -92,7 +92,7 @@ class BayesOptLGB(object):
                   'reg_alpha': 0.0,
                   'reg_lambda': 0.0,
                   'scale_pos_weight': 1,
-                  'random_state': None,
+                  'random_state': None,  ##
                   'n_jobs': -1}
         params.update(self.best_params['params'])
         params['num_leaves'] = int(params['num_leaves'])
