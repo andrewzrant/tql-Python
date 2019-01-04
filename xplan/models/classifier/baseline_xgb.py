@@ -109,4 +109,4 @@ class BaselineXGB(object):
 
         if return_model:
             print("\nReturning Model ...\n")
-            return xgb.train(self.params, self.xgb_data, self.best_iter)
+            return xgb.train(self.params, self.data, self.best_iter)

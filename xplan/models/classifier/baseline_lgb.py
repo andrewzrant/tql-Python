@@ -101,4 +101,4 @@ class BaselineLGB(object):
 
         if return_model:
             print("\nReturning Model ...\n")
-            return lgb.train(self.params, self.lgb_data, self.best_iter)
+            return lgb.train(self.params, self.data, self.best_iter)
