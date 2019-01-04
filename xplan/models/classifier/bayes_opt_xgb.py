@@ -15,8 +15,14 @@ from bayes_opt.event import Events
 
 
 class BayesOptXGB(object):
-    def __init__(self, X, y):
-        self.data = xgb.DMatrix(X, y)
+    """
+    opt_xgb = BayesOptXGB(X, y)
+    opt_xgb.run(3)
+    opt_xgb.get_best_model()
+    """
+
+    def __init__(self, X, y, missing=None):
+        self.data = xgb.DMatrix(X, y, missing=missing)
 
     def run(self, n_iter=10, save_log=False):
         logger = JSONLogger(path="./opt_xgb_logs.json")
@@ -35,7 +41,33 @@ class BayesOptXGB(object):
             optimizer.subscribe(Events.OPTMIZATION_STEP, logger)
         gp_params = {"alpha": 1e-5, "n_restarts_optimizer": 2}
         optimizer.maximize(init_points=3, n_iter=n_iter, acq='ucb', kappa=2.576, xi=0.0, **gp_params)
-        return optimizer.max
+        self.best_params = optimizer.max
+
+    def get_best_model(self, best_iter):
+        params = {'booster': 'gbtree',
+                  'objective': 'binary:logistic',
+                  'max_depth': 7,
+                  'gamma': 0.0,
+                  'min_child_weight': 1,
+                  'subsample': 0.8,
+                  'colsample_bytree': 0.8,
+                  'colsample_bylevel': 0.8,
+                  'scale_pos_weight': 1,
+                  'random_state': None,
+                  'n_jobs': 8,
+                  'silent': True,
+                  'eta': 0.01,
+                  'alpha': 0.0,
+                  'lambda': 0.0}
+        _params = self.best_params['params']
+        _params['alpha'] = _params.pop('reg_alpha')
+        _params['lambda'] = _params.pop('reg_lambda')
+
+        params.update(self.best_params['params'])
+        params['max_depth'] = int(params['max_depth'])
+        params = {k: float('%.3f' % v) if isinstance(v, float) else v for k, v in params.items()}
+
+        return xgb.train(params, self.data, best_iter)
 
     def __evaluator(self, max_depth, gamma, min_child_weight, subsample, colsample_bytree,
                     reg_alpha, reg_lambda):

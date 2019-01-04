@@ -96,21 +96,3 @@ class BaselineLGB(object):
         if return_model:
             print("\nReturning Model ...\n")
             return lgb.train(self.params, self.lgb_data, self.best_iter)
-
-
-params = {
-    'boosting': 'gbdt',
-    'application': 'binary',
-    'learning_rate': 0.01,
-    'max_depth': -1,
-    'num_leaves': 2 ** 7 - 1,
-    'min_split_gain': 0.20911485032925814,
-    'min_child_weight': 9.442861759045304,
-    'subsample': 0.8134760806268698,
-    'subsample_freq': 8,
-    'colsample_bytree': 0.7892701972905127,
-    'reg_alpha': 0.10654600090207467,
-    'reg_lambda': 9.848683596927557,
-    'scale_pos_weight': 1,
-    'num_threads': 8,
-}
