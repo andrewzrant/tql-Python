@@ -17,7 +17,7 @@ class BaselineLGB(object):
 
     def __init__(self, X, y, categorical_feature='auto', learning_rate=0.1, metrics='auc', feval=None,
                  objective='binary', scale_pos_weight=1,
-                 seed=None, n_jobs=8):
+                 seed=None):
         """
         :param objective:
             Default: 'regression' for LGBMRegressor, 'binary' or 'multiclass' for LGBMClassifier, 'lambdarank' for LGBMRanker.
@@ -59,7 +59,7 @@ class BaselineLGB(object):
             scale_pos_weight=scale_pos_weight,
 
             random_state=seed,
-            n_jobs=n_jobs
+            n_jobs=-1
         )
         self.params = self.params_sk.copy()
 
@@ -68,7 +68,7 @@ class BaselineLGB(object):
             self.params['objective'] = self.objective
             self.params['num_class'] = self.num_class
 
-    def run(self, return_model=False, nfold=5, early_stopping_rounds=50, verbose_eval=50):
+    def run(self, return_model=False, nfold=5, early_stopping_rounds=100, verbose_eval=50):
 
         print("LGB CV ...\n")
         try:

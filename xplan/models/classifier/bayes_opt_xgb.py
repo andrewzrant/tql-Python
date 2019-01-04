@@ -64,7 +64,7 @@ class BayesOptXGB(object):
             reg_lambda=reg_lambda,
             scale_pos_weight=1,
             random_state=None,
-            n_jobs=8
+            n_jobs=-1
         )
         params['eta'] = params.pop('learning_rate')
         params['alpha'] = params.pop('reg_alpha')
@@ -89,7 +89,7 @@ class BayesOptXGB(object):
                   'colsample_bylevel': 0.8,
                   'scale_pos_weight': 1,
                   'random_state': None,
-                  'n_jobs': 8,
+                  'n_jobs': -1,
                   'silent': True,
                   'eta': 0.01,
                   'alpha': 0.0,

@@ -30,7 +30,7 @@ class BayesOptLGB(object):
         BoParams = {
             'num_leaves': (2 ** 5, 2 ** 16),
             'min_split_gain': (0.01, 1),
-            'min_child_weight': (0, 0.01),
+            'min_child_weight': (0, 0.01),  # 0.001可以考虑不调?
             'min_child_samples': (8, 32),
             'subsample': (0.6, 1),
             'colsample_bytree': (0.6, 1),
@@ -66,7 +66,7 @@ class BayesOptLGB(object):
             reg_lambda=reg_lambda,
             scale_pos_weight=1,
             random_state=None,
-            n_jobs=8
+            n_jobs=-1
         )
 
         metric = 'auc'
@@ -93,7 +93,7 @@ class BayesOptLGB(object):
                   'reg_lambda': 0.0,
                   'scale_pos_weight': 1,
                   'random_state': None,
-                  'n_jobs': 8}
+                  'n_jobs': -1}
         params.update(self.best_params['params'])
         params['num_leaves'] = int(params['num_leaves'])
         params['min_child_samples'] = int(params['min_child_samples'])

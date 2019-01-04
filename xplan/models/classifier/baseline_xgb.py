@@ -17,8 +17,7 @@ class BaselineXGB(object):
     """
 
     def __init__(self, X, y, missing=None, learning_rate=0.1, metrics='auc', feval=None, objective='binary:logistic',
-                 scale_pos_weight=1,
-                 seed=None, n_jobs=8):
+                 scale_pos_weight=1, seed=None):
         """
         https://blog.csdn.net/fuqiuai/article/details/79495910
         https://blog.csdn.net/fantacy10000/article/details/84504394
@@ -59,7 +58,7 @@ class BaselineXGB(object):
             scale_pos_weight=scale_pos_weight,
 
             random_state=seed,
-            n_jobs=n_jobs,
+            n_jobs=-1,
             silent=True
         )
         self.params = self.params_sk.copy()
