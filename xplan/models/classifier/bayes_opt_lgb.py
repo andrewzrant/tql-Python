@@ -57,7 +57,7 @@ class BayesOptLGB(object):
             num_leaves=int(num_leaves),
             learning_rate=0.01,
             min_split_gain=min_split_gain,
-            min_child_weight=min_child_weight,
+            min_child_weight=min_child_weight,  # 可以固定?
             min_child_samples=int(min_child_samples),
             subsample=subsample,
             subsample_freq=8,

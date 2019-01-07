@@ -15,9 +15,8 @@ class BaselineLGB(object):
     b_lgb.run()
     """
 
-    def __init__(self, X, y, categorical_feature='auto', learning_rate=0.1, metrics='auc', feval=None,
-                 objective='binary', scale_pos_weight=1,
-                 seed=None):
+    def __init__(self, X, y, learning_rate=0.01, categorical_feature='auto', metrics='auc', feval=None,
+                 objective='binary', scale_pos_weight=1, seed=None):
         """
         :param objective:
             Default: 'regression' for LGBMRegressor, 'binary' or 'multiclass' for LGBMClassifier, 'lambdarank' for LGBMRanker.

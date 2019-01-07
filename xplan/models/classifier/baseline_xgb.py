@@ -19,7 +19,7 @@ class BaselineXGB(object):
     b_xgb.run()
     """
 
-    def __init__(self, X, y, missing=None, learning_rate=0.1, metrics='auc', feval=None, objective='binary:logistic',
+    def __init__(self, X, y, learning_rate=0.01, missing=None, metrics='auc', feval=None, objective='binary:logistic',
                  scale_pos_weight=1, seed=0):  # seed不能为None
         """
         https://blog.csdn.net/fuqiuai/article/details/79495910
