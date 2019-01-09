@@ -22,8 +22,6 @@ class BayesOptXGB(object):
     opt_xgb.run(3)
     opt_xgb.get_best_model()
     """
-    print('\033[94m%s\033[0m\n' % " Fix min_child_weight ...")
-
 
 def __init__(self, X, y, topk=10, missing=None, metric='auc', fix_params={}):
     self.data = xgb.DMatrix(X, y, missing=missing)
@@ -46,8 +44,7 @@ def best_model(self):
     if self.params_best:
         return xgb.train(dtrain=self.data, **self.params_best)
     else:
-        print("Please Run !")
-
+        print('\033[94m%s\033[0m\n' % " Please Run !")
 
 def run(self, n_iter=10, save_log=False):
     logger = JSONLogger(path="./opt_xgb_logs.json")
