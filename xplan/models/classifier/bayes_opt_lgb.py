@@ -76,7 +76,6 @@ class BayesOptLGB(object):
 
         gp_params = {"alpha": 1e-5, "n_restarts_optimizer": 2}
         optimizer.maximize(init_points=3, n_iter=n_iter, acq='ucb', kappa=2.576, xi=0.0, **gp_params)
-        self.best_params = optimizer.max
         self.params_opt = (
             pd.concat([pd.DataFrame(self.__iteration), pd.DataFrame(optimizer.res)], 1)
                 .sort_values('target', ascending=False)
