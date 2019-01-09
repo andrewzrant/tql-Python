@@ -44,7 +44,7 @@ def best_model(self):
     if self.params_best:
         return xgb.train(dtrain=self.data, **self.params_best)
     else:
-        print('\033[94m%s\033[0m\n' % " Please Run !")
+        print('\033[94m%s\033[0m\n' % "Please Run !")
 
 def run(self, n_iter=10, save_log=False):
     logger = JSONLogger(path="./opt_xgb_logs.json")
