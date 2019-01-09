@@ -38,8 +38,8 @@ class BayesOptLGB(object):
             print('\033[94m%s\033[0m\n' % " Fix min_child_weight ...")
 
     @property
-    def get_best_model(self):
-        if self.params_best):
+    def best_model(self):
+        if self.params_best:
             return lgb.train(train_set=self.data, **self.params_best)
         else:
             print('\033[94m%s\033[0m\n' % "Please Run !")
@@ -77,12 +77,11 @@ class BayesOptLGB(object):
         gp_params = {"alpha": 1e-5, "n_restarts_optimizer": 2}
         optimizer.maximize(init_points=3, n_iter=n_iter, acq='ucb', kappa=2.576, xi=0.0, **gp_params)
         self.best_params = optimizer.max
-        self.__get_params()
-
         self.params_opt = (
             pd.concat([pd.DataFrame(self.__iteration), pd.DataFrame(optimizer.res)], 1)
                 .sort_values('target', ascending=False)
                 .reset_index(drop=True)[:self.topk])
+        
         self.__get_params()
 
     def __evaluator(self, num_leaves, min_split_gain, min_child_weight, min_child_samples, subsample, colsample_bytree,
