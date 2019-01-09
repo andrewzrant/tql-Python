@@ -19,7 +19,7 @@ class BayesOptLGB(object):
     """
     opt_lgb = BayesOptLGB(X, y, categorical_feature=cats)
     opt_lgb.run(3)
-    opt_lgb.get_best_model()
+    opt_lgb.best_model
     """
 
     def __init__(self, X, y, topk=10, categorical_feature='auto', metric='auc', fix_params={'min_child_weight': 0.001}):
@@ -38,10 +38,13 @@ class BayesOptLGB(object):
             print('\033[94m%s\033[0m\n' % " Fix min_child_weight ...")
 
     @property
-    def get_best_model(self, best_iter):
-        return lgb.train(self.params, self.data, best_iter)
+    def get_best_model(self):
+        if self.params_best):
+            return lgb.train(train_set=self.data, **self.params_best)
+        else:
+            print('\033[94m%s\033[0m\n' % "Please Run !")
 
-    def run(self, n_iter=10, save_log=False):
+    def run(self, n_iter=5, save_log=False):
         logger = JSONLogger(path="./opt_lgb_logs.json")
 
         BoParams = {
