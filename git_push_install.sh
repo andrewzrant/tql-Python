@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-while getopts ":a:b:c:" opt
+while getopts ":m:b:c:" opt
 do
     case $opt in
         m)
