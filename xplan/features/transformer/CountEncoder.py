@@ -6,6 +6,7 @@ __author__ = 'JieYuan'
 __mtime__ = '19-1-10'
 """
 import pandas as pd
+from ...pipe import tqdm
 
 from concurrent.futures import ProcessPoolExecutor
 
@@ -22,12 +23,12 @@ class CountEncoder(object):
 
     def fit(self, df):
         self.w = df.shape[1]
-        self.counter_ls = list(self._pe(self._fit, self._get_series_ls(df), self.w))
+        self.counter_ls = list(self._pe(self._fit, tqdm(self._get_series_ls(df), 'Fitting ...'), self.w))
         return self
 
     def transform(self, df):
         assert self.w == df.shape[1]
-        _ = self._pe(self._transform, zip(self.counter_ls, self._get_series_ls(df)), self.w)
+        _ = self._pe(self._transform, tqdm(zip(self.counter_ls, self._get_series_ls(df)), 'Transforming ...'), self.w)
         return pd.concat(_, 1)
 
     def fit_transform(self, df):
