@@ -4,6 +4,7 @@ do
     case $opt in
         m)
         m = $OPTARG
+        echo m
         ;;
         b)
         echo "参数b的值$OPTARG"
