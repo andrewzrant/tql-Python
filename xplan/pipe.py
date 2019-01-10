@@ -18,6 +18,7 @@ from pprint import pprint
 from collections import Counter, OrderedDict
 from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
 from .utils_eda import DataFrameSummary
+from .utils import Cprint
 
 try:
     from IPython import get_ipython
@@ -59,7 +60,8 @@ def xpickle_load(file):
 
 # 统计函数: 待补充groupby.agg
 xsummary = xx(lambda iterable: DataFrameSummary(list(iterable) | xDataframe)['iterable'])
-xvalue_counts = xx(lambda iterable, normalize=False, bins=None: pd.value_counts(list(iterable), normalize=normalize, bins=bins))
+xvalue_counts = xx(
+    lambda iterable, normalize=False, bins=None: pd.value_counts(list(iterable), normalize=normalize, bins=bins))
 
 __funcs = [sum, min, max, abs, len, np.mean, np.median]
 xsum, xmin, xmax, xabs, xlen, xmean, xmedian = [xx(i) for i in __funcs]
@@ -75,7 +77,7 @@ xmin_index = xx(lambda x: min(range(len(x)), key=x.__getitem__))  # 列表中最
 xmost_freq = xx(lambda x: max(set(x), key=x.count))  # 查找列表中频率最高的值, key作用于set(x), 可类推出其他用法
 
 # print
-xprint = xx(pprint)
+xprint = xx(lambda obj, bg='blue': Cprint().cprint(obj, bg))
 xtqdm = xx(lambda iterable, desc=None: tqdm(iterable, desc))
 
 # base types

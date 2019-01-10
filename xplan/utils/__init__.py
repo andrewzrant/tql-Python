@@ -9,7 +9,7 @@ import os
 import numpy as np
 import wrapt
 import resource
-
+from cprint import Cprint
 from .download_file import DownloadFile
 
 base_dir = os.path.dirname(os.path.realpath('__file__'))
