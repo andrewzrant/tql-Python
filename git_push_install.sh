@@ -3,7 +3,7 @@ while getopts ":m:b:c:" opt
 do
     case $opt in
         m)
-        m=$OPTARG
+        m="$OPTARG"
         echo m
         ;;
         b)
