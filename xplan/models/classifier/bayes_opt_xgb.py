@@ -40,7 +40,7 @@ class BayesOptXGB(object):
         else:
             print('\033[94m%s\033[0m\n' % "Please Run !")
 
-    def run(self, n_iter=10, save_log=False):
+    def run(self, n_iter=5, save_log=False):
 
         BoParams = {
             'max_depth': (5, 16),

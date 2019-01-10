@@ -12,13 +12,17 @@ from datetime import datetime
 import numpy as np
 import pandas as pd
 
-from sklearn.preprocessing import *
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import *
 from sklearn.pipeline import make_pipeline
-from sklearn.model_selection import cross_validate, StratifiedKFold, cross_val_predict, train_test_split
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.model_selection import *
+from sklearn.preprocessing import *
+from sklearn.linear_model import *
+from sklearn.ensemble import *
+from sklearn.metrics import *
 
+import warnings
+
+warnings.filterwarnings("ignore")
 try:
     from IPython import get_ipython
 
