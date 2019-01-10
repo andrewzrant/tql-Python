@@ -8,6 +8,8 @@ __mtime__ = '18-12-17'
 import os
 import numpy as np
 import wrapt
+import resource
+
 from .download_file import DownloadFile
 
 base_dir = os.path.dirname(os.path.realpath('__file__'))
@@ -43,3 +45,12 @@ def feval(multiclass=None, is_bigger_better=True, model='lgb'):
             return wrapped.__name__, wrapped(y_pred, y_true)
 
     return wrapper
+
+
+def limit_memory(res_mem="120G"):
+    rsrc = resource.RLIMIT_AS
+    # res_mem=os.environ["RESOURCE_MEM"]
+    memlimit = float(res_mem[:-1]) * 1024 ** 3
+    resource.setrlimit(rsrc, (memlimit, memlimit))
+    soft, hard = resource.getrlimit(rsrc)
+    print("memory limit as:", res_mem, soft, hard)

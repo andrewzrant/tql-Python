@@ -31,11 +31,12 @@ class BayesOptLGB(object):
         self.params_ls_sk = []
         self.params_best = {}
         self.params_best_sk = {}
-        self.params_opt = None
-        self.__iteration = {}
+        self.params_opt_df = None
+
+        self._iter_ls = []
 
         if self.fix_params:
-            print('\033[94m%s\033[0m\n' % " Fix min_child_weight ...")
+            print('\033[94m%s\033[0m\n' % self.fix_params)
 
     @property
     def best_model(self):
@@ -45,7 +46,6 @@ class BayesOptLGB(object):
             print('\033[94m%s\033[0m\n' % "Please Run !")
 
     def run(self, n_iter=5, save_log=False):
-        logger = JSONLogger(path="./opt_lgb_logs.json")
 
         BoParams = {
             'num_leaves': (2 ** 5, 2 ** 16),
@@ -59,29 +59,26 @@ class BayesOptLGB(object):
         }
         optimizer = BayesianOptimization(self.__evaluator, BoParams)
         if save_log:
+            logger = JSONLogger(path="./opt_lgb_logs.json")
             optimizer.subscribe(Events.OPTMIZATION_STEP, logger)
 
         if self.fix_params:
             optimizer.set_bounds({k: (v, v) for k, v in self.fix_params.items()})
 
-        optimizer.probe(
-            {'num_leaves': 2 ** 7 - 1,
-             'min_split_gain': 0,
-             'min_child_weight': 0.001,
-             'min_child_samples': 6,
-             'subsample': 0.8,
-             'colsample_bytree': 0.8,
-             'reg_alpha': 0.01,
-             'reg_lambda': 1})
+        # optimizer.probe(
+        #     {'num_leaves': 2 ** 7 - 1,
+        #      'min_split_gain': 0,
+        #      'min_child_weight': 0.001,
+        #      'min_child_samples': 6,
+        #      'subsample': 0.8,
+        #      'colsample_bytree': 0.8,
+        #      'reg_alpha': 0.01,
+        #      'reg_lambda': 1})
 
-        gp_params = {"alpha": 1e-5, "n_restarts_optimizer": 2}
+        gp_params = {"alpha": 1e-5, "n_restarts_optimizer": 3}
         optimizer.maximize(init_points=3, n_iter=n_iter, acq='ucb', kappa=2.576, xi=0.0, **gp_params)
-        self.params_opt = (
-            pd.concat([pd.DataFrame(self.__iteration), pd.DataFrame(optimizer.res)], 1)
-                .sort_values('target', ascending=False)
-                .reset_index(drop=True)[:self.topk])
-        
-        self.__get_params()
+
+        self.__get_params(optimizer)
 
     def __evaluator(self, num_leaves, min_split_gain, min_child_weight, min_child_samples, subsample, colsample_bytree,
                     reg_alpha, reg_lambda):
@@ -104,17 +101,25 @@ class BayesOptLGB(object):
             n_jobs=-1
         )
         params = self.__params_sk.copy()
-        # params['metric'] = self.metric
 
-        cv_rst = lgb.cv(params, self.data, num_boost_round=3000, nfold=5, early_stopping_rounds=100,
-                        metrics=self.metric, verbose_eval=None, show_stdv=False)
+        _ = lgb.cv(params,
+                   self.data,
+                   num_boost_round=3000,
+                   nfold=5,
+                   early_stopping_rounds=100,
+                   metrics=self.metric,
+                   show_stdv=False)['%s-mean' % self.metric]
 
-        _ = cv_rst['%s-mean' % self.metric]
-        self.__iteration.setdefault('best_iteration', []).append(len(_))
+        self._iter_ls.append(len(_))
         return _[-1]
 
-    def __get_params(self):
-        for _, (i, p, _) in self.params_opt.iterrows():
+    def __get_params(self, optimizer):
+        self.params_opt_df = (
+            pd.concat([pd.DataFrame({'iter': self._iter_ls}), pd.DataFrame(optimizer.res)], 1)
+                .sort_values('target', ascending=False)
+                .reset_index(drop=True)[:self.topk])
+
+        for _, (i, p, _) in self.params_opt_df.iterrows():
             params_sk = {**p, **{'n_estimators': i}, **self.__params_sk}
             params_sk['num_leaves'] = int(params_sk['num_leaves'])
             params_sk['min_child_samples'] = int(params_sk['min_child_samples'])
