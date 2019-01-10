@@ -47,10 +47,10 @@ def feval(multiclass=None, is_bigger_better=True, model='lgb'):
     return wrapper
 
 
-def limit_memory(res_mem="120G"):
+def limit_memory(res_mem=120):
     rsrc = resource.RLIMIT_AS
     # res_mem=os.environ["RESOURCE_MEM"]
-    memlimit = float(res_mem[:-1]) * 1024 ** 3
+    memlimit = res_mem * 1024 ** 3
     resource.setrlimit(rsrc, (memlimit, memlimit))
-    soft, hard = resource.getrlimit(rsrc)
-    print("memory limit as:", res_mem, soft, hard)
+    # soft, hard = resource.getrlimit(rsrc)
+    print("memory limit as: %s G" % res_mem)

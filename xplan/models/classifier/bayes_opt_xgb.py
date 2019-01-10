@@ -31,7 +31,7 @@ class BayesOptXGB(object):
         self._iter_ls = []
 
         if self.fix_params:
-            print('\033[94m%s\033[0m\n' % self.fix_params)
+            print('Fixed Params: \033[94m%s\033[0m\n' % self.fix_params)
 
     @property
     def best_model(self):
@@ -115,7 +115,8 @@ class BayesOptXGB(object):
                 .reset_index(drop=True)[:self.topk])
 
         for _, (i, p, _) in self.params_opt_df.iterrows():
-            params_sk = {**p, **{'n_estimators': i}, **self.__params_sk}
+            params_sk = {**self.__params_sk, **p, **{'n_estimators': i}}
+
             params_sk['max_depth'] = int(params_sk['max_depth'])
             params_sk = {k: float('%.3f' % v) if isinstance(v, float) else v for k, v in params_sk.items()}
             self.params_ls_sk.append(params_sk)

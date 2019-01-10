@@ -16,14 +16,8 @@ from bayes_opt.event import Events
 
 
 class BayesOptLGB(object):
-    """
-    opt_lgb = BayesOptLGB(X, y, categorical_feature=cats)
-    opt_lgb.run(3)
-    opt_lgb.best_model
-    """
-
     def __init__(self, X, y, topk=10, categorical_feature='auto', metric='auc', fix_params={'min_child_weight': 0.001}):
-        self.data = lgb.Dataset(X, y, categorical_feature=categorical_feature, free_raw_data=False, silent=True)
+        self.data = lgb.Dataset(X, y, categorical_feature=categorical_feature, silent=True)
         self.topk = topk
         self.metric = metric
         self.fix_params = fix_params
@@ -36,7 +30,7 @@ class BayesOptLGB(object):
         self._iter_ls = []
 
         if self.fix_params:
-            print('\033[94m%s\033[0m\n' % self.fix_params)
+            print('Fixed Params: \033[94m%s\033[0m\n' % self.fix_params)
 
     @property
     def best_model(self):
@@ -48,7 +42,7 @@ class BayesOptLGB(object):
     def run(self, n_iter=5, save_log=False):
 
         BoParams = {
-            'num_leaves': (2 ** 5, 2 ** 16),
+            'num_leaves': (2 ** 4, 2 ** 12),
             'min_split_gain': (0.01, 1),
             'min_child_weight': (0, 0.01),
             'min_child_samples': (8, 32),
@@ -86,7 +80,7 @@ class BayesOptLGB(object):
             boosting_type='gbdt',
             objective='binary',
             max_depth=-1,
-            num_leaves=int(num_leaves),
+            num_leaves=int(num_leaves),  # 太大会内存泄漏
             learning_rate=0.01,
             min_split_gain=min_split_gain,
             min_child_weight=min_child_weight,
@@ -120,7 +114,8 @@ class BayesOptLGB(object):
                 .reset_index(drop=True)[:self.topk])
 
         for _, (i, p, _) in self.params_opt_df.iterrows():
-            params_sk = {**p, **{'n_estimators': i}, **self.__params_sk}
+            params_sk = {**self.__params_sk, **p, **{'n_estimators': i}}
+
             params_sk['num_leaves'] = int(params_sk['num_leaves'])
             params_sk['min_child_samples'] = int(params_sk['min_child_samples'])
             params_sk = {k: float('%.3f' % v) if isinstance(v, float) else v for k, v in params_sk.items()}
