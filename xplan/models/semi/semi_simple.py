@@ -15,7 +15,7 @@ from ..classifier import BayesOptLGB
 
 class SemiSimple(object):
 
-    def __init__(self, subsample=0.05, n_iter=3):
+    def __init__(self, subsample=0.05, n_iter=1):
         self.subsample = subsample
         self.n_iter = n_iter
         _ = "X_train will stack {:.2f} % of X_test".format((1 - (1 - 2 * self.subsample) ** n_iter) * 100)
@@ -24,11 +24,13 @@ class SemiSimple(object):
     def fit(self, X_train, y_train, X_test):
         X_test = np.asarray(X_test)
 
-        for _ in tqdm(range(self.n_iter)):
+        # score = [] # 判断停止
+        for _ in tqdm(range(self.n_iter + 1)):
             ##############可以定义其他模型#################
             # self.clf.fit(X_train, y_train)
             bo = BayesOptLGB(X_train, y_train)
             bo.run()
+            # score.append()
             self.clf = LGBMClassifier(**bo.params_best_sk)
             self.clf.fit(X_train, y_train)
             ############################################
