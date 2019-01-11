@@ -32,7 +32,8 @@ class SemiSimple(object):
         self.mode = mode
         self.opt_seed = opt_seed
 
-        _ = "X_train will stack ≈ {:.2f} % of X_test".format((1 - (1 - 2 * self.subsample) ** n_iter) * 100)
+        _ = "X_train will stack ≈ {:.2f}% of X_test".format(
+            (1 - (1 - subsample - subsample * scale_pos) ** n_iter) * 100)
         Cprint().cprint(_)
 
     def fit(self, X_train, y_train, X_test):
@@ -65,5 +66,6 @@ class SemiSimple(object):
 
             self.X_train = np.row_stack((self.X_train, self.X_test[pseudo_label_idx]))
             self.y_train = np.hstack((self.y_train, pred_))
+
             self.X_test = self.X_test[no_pseudo_label_idx]
         return self.clf
