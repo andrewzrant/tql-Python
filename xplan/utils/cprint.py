@@ -8,13 +8,13 @@ __mtime__ = '19-1-10'
 
 
 class Cprint(object):
-    def __init__(self, p=True):
+    def __init__(self, p=True, usage=False):
         colors = ['green', 'yellow', 'black', 'cyan', 'blue', 'red', 'white', 'purple']
         self.p = p
         self.fc = dict(zip(colors, range(40, 97)))
         self.bc = dict(zip(colors, range(90, 97)))
-
-        print("Colors: \033[94m%s\033[0m\n" % colors)
+        if usage:
+            print("Colors: \033[94m%s\033[0m\n" % colors)
 
     def cprint(self, s='Hello World !', bg='blue', fg='', mode=1):
         """
