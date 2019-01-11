@@ -11,15 +11,13 @@ from ...pipe import tqdm
 from concurrent.futures import ProcessPoolExecutor
 from sklearn.base import BaseEstimator, TransformerMixin
 
+
 class CountEncoder(BaseEstimator, TransformerMixin):
 
     def __init__(self, normalize=False, dropna=False):
         self.dropna = dropna
         self.normalize = normalize
         self.counter_ls = []
-
-    def __repr__(self):
-        return '<CountEncoder>'
 
     def fit(self, df):
         self.w = df.shape[1]

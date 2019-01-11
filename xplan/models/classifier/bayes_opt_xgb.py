@@ -95,13 +95,13 @@ class BayesOptXGB(object):
         params['eta'] = params.pop('learning_rate')
         params['alpha'] = params.pop('reg_alpha')
         params['lambda'] = params.pop('reg_lambda')
+        params['eval_metric'] = self.metric
 
         _ = xgb.cv(params,
                    self.data,
                    num_boost_round=3600,
                    nfold=5,
                    early_stopping_rounds=100,
-                   metrics=self.metric,
                    stratified=True,
                    show_stdv=False,
                    as_pandas=False)['test-%s-mean' % self.metric]

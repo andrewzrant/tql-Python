@@ -96,13 +96,13 @@ class BayesOptLGB(object):
         )
         params = self.__params_sk.copy()
         params['verbosity'] = 0
+        params['metric'] = self.metric
 
         _ = lgb.cv(params,
                    self.data,
                    num_boost_round=3000,
                    nfold=5,
                    early_stopping_rounds=100,
-                   metrics=self.metric,
                    show_stdv=False)['%s-mean' % self.metric]
 
         self._iter_ls.append(len(_))
