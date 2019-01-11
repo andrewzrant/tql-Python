@@ -17,11 +17,13 @@ from bayes_opt.event import Events
 
 
 class BayesOptXGB(object):
-    def __init__(self, X, y, topk=10, missing=None, metric='auc', fix_params={}):
+    def __init__(self, X, y, topk=10, missing=None, metric='auc', fix_params={}, opt_seed=None):
         self.data = xgb.DMatrix(X, y, missing=missing)
         self.topk = topk
         self.metric = metric
         self.fix_params = fix_params  # 固定不需要调节的参数
+        self.opt_seed = opt_seed
+
         self.params_ls = []
         self.params_ls_sk = []
         self.params_best = {}
@@ -51,7 +53,7 @@ class BayesOptXGB(object):
             'reg_alpha': (0, 1),
             'reg_lambda': (0, 1),
         }
-        optimizer = BayesianOptimization(self.__evaluator, BoParams)
+        optimizer = BayesianOptimization(self.__evaluator, BoParams, self.opt_seed)
         if save_log:
             logger = JSONLogger(path="./opt_xgb_logs.json")
             optimizer.subscribe(Events.OPTMIZATION_STEP, logger)
