@@ -42,7 +42,7 @@ class BayesOptLGB(object):
     def run(self, n_iter=5, save_log=False):
 
         BoParams = {
-            'num_leaves': (2 ** 4, 2 ** 12),
+            'num_leaves': (2 ** 4, 2 ** 10),
             'min_split_gain': (0.01, 1),
             'min_child_weight': (0, 0.01),
             'min_child_samples': (8, 32),

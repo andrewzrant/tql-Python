@@ -41,7 +41,7 @@ class BaselineLGB(object):
             boosting_type='gbdt',
             objective=objective,
             max_depth=-1,
-            num_leaves=2 ** 7 - 1,
+            num_leaves=2 ** 6 - 1,
             learning_rate=learning_rate,
 
             min_split_gain=0.0,  # 描述分裂的最小 gain, 控制树的有用的分裂
