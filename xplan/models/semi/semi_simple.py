@@ -30,7 +30,9 @@ class SemiSimple(object):
             bo = BayesOptLGB(X_train, y_train)
             bo.run()
             self.clf = LGBMClassifier(**bo.params_best_sk)
+            self.clf.fit(X_train, y_train)
             ############################################
+
             pred = (
                 pd.Series(self.clf.predict_proba(X_test)[:, 1])
                     .mask(lambda x: x < x.quantile(self.subsample), 0)
