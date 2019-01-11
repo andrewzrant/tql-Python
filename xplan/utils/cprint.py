@@ -5,7 +5,6 @@ __title__ = 'cprint'
 __author__ = 'JieYuan'
 __mtime__ = '19-1-10'
 """
-from pprint import pprint
 
 
 class Cprint(object):
@@ -40,7 +39,7 @@ class Cprint(object):
         else:
             _ = '\033[%s;%sm%s\033[0m' % (mode, self.bc[bg], s)
         if self.p:
-            pprint(_)
+            print(_)
         else:
             return _
 
