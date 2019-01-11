@@ -17,7 +17,8 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import *
 from sklearn.preprocessing import *
 from sklearn.linear_model import *
-from sklearn.ensemble import *
+from sklearn.ensemble import ExtraTreesClassifier, RandomForestClassifier, AdaBoostClassifier, \
+    GradientBoostingClassifier, IsolationForest
 from sklearn.metrics import *
 
 import warnings

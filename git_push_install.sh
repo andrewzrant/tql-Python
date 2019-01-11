@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
-while getopts ":m:b:c:" opt
+while getopts ":a:b:c:" opt
 do
     case $opt in
-        m)
-        m="$OPTARG"
-        echo m
+        a)
+        echo "参数b的值$OPTARG"
         ;;
         b)
         echo "参数b的值$OPTARG"
@@ -20,6 +19,6 @@ done
 
 git pull
 git add *
-git commit -m m
+git commit -m 'update'
 git push
 pip uninstall x-plan -y && pip install git+https://github.com/Jie-Yuan/X-plan.git -U --user

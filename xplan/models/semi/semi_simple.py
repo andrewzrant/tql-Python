@@ -15,16 +15,15 @@ from ..classifier import BayesOptLGB
 
 class SemiSimple(object):
 
-    def __init__(self, clf, subsample=0.05):
-        self.clf = clf
+    def __init__(self, subsample=0.05, n_iter=3):
         self.subsample = subsample
-
-    def fit(self, X_train, y_train, X_test, n_iter=3):
+        self.n_iter = n_iter
         _ = "X_train will stack %.2f% of X_test" % ((1 - (1 - 2 * self.subsample) ** n_iter) * 100)
         Cprint().cprint(_)
 
+    def fit(self, X_train, y_train, X_test):
         X_test = np.asarray(X_test)
-        for _ in tqdm(range(n_iter)):
+        for _ in tqdm(range(self.n_iter)):
             ##############可以定义其他模型#################
             # self.clf.fit(X_train, y_train)
             bo = BayesOptLGB(X_train, y_train)
