@@ -1,4 +1,4 @@
-```
+```https://www.kaggle.com/arthurtok/introduction-to-ensembling-stacking-in-python
 # Class to extend the Sklearn classifier
 class SklearnHelper(object):
     def __init__(self, clf, seed=0, params=None):
