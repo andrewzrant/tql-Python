@@ -9,9 +9,9 @@ import pandas as pd
 from ...pipe import tqdm
 
 from concurrent.futures import ProcessPoolExecutor
+from sklearn.base import BaseEstimator, TransformerMixin
 
-
-class CountEncoder(object):
+class CountEncoder(BaseEstimator, TransformerMixin):
 
     def __init__(self, normalize=False, dropna=False):
         self.dropna = dropna

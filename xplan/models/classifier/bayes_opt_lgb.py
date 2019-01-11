@@ -95,6 +95,7 @@ class BayesOptLGB(object):
             n_jobs=-1
         )
         params = self.__params_sk.copy()
+        params['verbosity'] = 0
 
         _ = lgb.cv(params,
                    self.data,
