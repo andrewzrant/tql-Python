@@ -29,7 +29,7 @@ from sklearn.model_selection import StratifiedKFold
 from tqdm import tqdm
 
 
-class Stacking(object):
+class Stacker(object):
     """二分类"""
 
     def __init__(self, clf, cv=3, seed=None):
