@@ -35,22 +35,30 @@ class Stacking(object):
     def __init__(self, clf, cv=3, seed=None):
         self._clf = clf
         self.seed = seed  # 不同模型的种子（是否必要？）
-        self.skf = StratifiedKFold(n_splits=cv, shuffle=True, random_state=666)
         self.cv = cv
-        self.clfs = None
+        self.clfs = []
         self.clf_by_all = None
 
     def fit(self, X, y):
+        flods = StratifiedKFold(n_splits=self.cv, shuffle=True, random_state=666).split(X, y)
         _fit = partial(self._fit_and_score, clf=self._clf, X=X, y=y)
+
         with ProcessPoolExecutor(self.cv) as pool:
-            res = np.array(list(pool.map(_fit, tqdm(self.skf.split(X, y), "Fitting"))))
-        self.clfs = res[:, 1].tolist()
-        
-        pred = np.row_stack(res[:, 0])
-        meta_data = pred[np.argsort(pred[:, 0])][:, -1]  # 按照X原顺序排序并去掉索引
-        scores = res[:, 2].tolist()
+            _ = pool.map(_fit, tqdm(flods, self._clf.__repr__().split('(')[0]))
+
+        preds = []
+        scores = []
+        for clf, pred, score in _:
+            self.clfs.append(clf)
+            preds.append(pred)
+            scores.append(score)
         print('Score CV : %.4f +/- %.4f' % (np.mean(scores), np.std(scores)))
-        print('Score OOF : %.4f' % roc_auc_score(y, meta_data))
+
+        preds = np.row_stack(preds)
+        oof = preds[np.argsort(preds[:, 0])][:, -1] # 按照X原顺序排序并去掉索引
+        print('Score OOF : %.4f' % roc_auc_score(y, oof))
+
+        del scores, preds, oof
 
     def _fit_and_score(self, iterable, clf, X, y):
         train_index, test_index = iterable
@@ -61,10 +69,9 @@ class Stacking(object):
         test_pred = np.column_stack((test_index, clf.predict_proba(X_test)))
         score = roc_auc_score(y_test, test_pred[:, -1])
         ###############################################
-        return test_pred, clf, score
+        return clf, test_pred, score
 
     def predict_meta_features(self, X):
         _ = np.column_stack([clf.predict_proba(X)[:, -1] for clf in self.clfs]).mean(1)
         return _
-
 ```
