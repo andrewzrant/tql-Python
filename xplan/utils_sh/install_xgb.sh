@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
+# git@v9.git.n.xiaomi.com:yuanjie/xgboost.git
 git clone --recursive https://github.com/dmlc/xgboost; cd xgboost
 mkdir build; cd build
 cmake .. -DUSE_CUDA=ON
 make -j4
 cd ../python-package
-python setup.py instal
+python setup.py install

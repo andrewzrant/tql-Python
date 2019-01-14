@@ -8,13 +8,17 @@ __mtime__ = '19-1-14'
 import time
 from contextlib import contextmanager
 
+from cprint import Cprint
+
+cprint = Cprint().cprint
+
 @contextmanager
 def timer(task_name="timer"):
     # a timer cm from https://www.kaggle.com/lopuhin/mercari-golf-0-3875-cv-in-75-loc-1900-s
-    print(">>>> {} started".format(task_name))
+    cprint(">>> {} started".format(task_name))
     t0 = time.time()
     yield
-    print(">>>> {} done in {:.0f} seconds".format(task_name, time.time() - t0))
+    cprint(">>> {} done in {:.0f} seconds".format(task_name, time.time() - t0))
 
 
 if __name__ == '__main__':

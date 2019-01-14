@@ -33,6 +33,7 @@ else:
 
 
 # 序列化
+# df.to_hdf('./data.h5', 'w', complib='blosc', complevel=8)
 def read(fname='./tmp.txt', mode='r'):
     with open(fname, mode) as f:
         for l in f:

@@ -3,3 +3,4 @@ wrapt
 keras
 jieba
 bayesian-optimization
+tables
