@@ -87,6 +87,9 @@ xtuple, xlist, xset = xx(tuple), xx(list), xx(set)
 xjoin = xx(lambda string, sep=' ': sep.join(string))
 xcut = xx(lambda string, cut_all=False: jieba.cut(string, cut_all=cut_all))
 
+# list transform
+xgroup_by_step = xx(lambda ls, step=3: [ls[idx: idx + step] for idx in range(0, len(ls), step)])
+
 
 # dict
 @xx

@@ -15,6 +15,8 @@ from .download_file import DownloadFile
 base_dir = os.path.dirname(os.path.realpath('__file__'))
 get_module_path = lambda path, file: os.path.normpath(os.path.join(os.getcwd(), os.path.dirname(file), path))
 
+group_by_step = lambda ls, step=3: [ls[idx: idx + step] for idx in range(0, len(ls), step)]
+
 
 def get_weight(y):
     class_weight = dict(enumerate(len(y) / (2 * np.bincount(y))))

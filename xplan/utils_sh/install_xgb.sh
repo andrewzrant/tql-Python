@@ -4,4 +4,4 @@ mkdir build; cd build
 cmake .. -DUSE_CUDA=ON
 make -j4
 cd ../python-package
-python setup.py install
+python setup.py instal

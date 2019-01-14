@@ -8,7 +8,6 @@ __mtime__ = '18-12-14'
 
 import functools
 
-
 class xx:
     """I am very like a linux pipe"""
 
