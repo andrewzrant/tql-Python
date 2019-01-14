@@ -4,4 +4,4 @@ mkdir build ; cd build
 cmake ..
 make -j4
 cd ../python-package
-python setup.py
+python setup.py install
