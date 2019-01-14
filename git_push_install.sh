@@ -16,6 +16,6 @@ done
 
 git pull
 git add *
-git commit -m $m
+git commit -m '$m'
 git push
 pip uninstall x-plan -y && pip install git+https://github.com/Jie-Yuan/X-plan.git -U --user
