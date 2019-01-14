@@ -14,7 +14,6 @@ do
     esac
 done
 
-
 git pull
 git add *
 git commit -m m
