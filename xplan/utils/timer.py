@@ -8,7 +8,7 @@ __mtime__ = '19-1-14'
 import time
 from contextlib import contextmanager
 
-from cprint import Cprint
+from .cprint import Cprint
 
 cprint = Cprint().cprint
 
