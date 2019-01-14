@@ -3,7 +3,7 @@ while getopts ":m:b:c:" opt
 do
     case $opt in
         m)
-        m=$OPTARG;;
+        update_info=$OPTARG;;
         b)
         echo "参数b的值$OPTARG";;
         c)
@@ -16,8 +16,8 @@ done
 
 git pull
 git add *
-git commit -m "$m"
+git commit -m "$update_info"
 git push
 pip uninstall x-plan -y && pip install git+https://github.com/Jie-Yuan/X-plan.git -U --user
 
-##exit 0
+exit 0
