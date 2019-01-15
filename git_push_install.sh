@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-while getopts ":m:b:c:" opt
+while getopts ":m:b:c:" opts
 do
-    case $opt in
+    case $opts in
         m)
         update_info=$OPTARG;;
         b)
@@ -18,6 +18,7 @@ git pull
 git add *
 git commit -m "$update_info"
 git push
-pip uninstall x-plan -y && pip install git+https://github.com/Jie-Yuan/X-plan.git -U --user
+pip uninstall x-plan -y \
+&& pip install git+https://github.com/Jie-Yuan/X-plan.git -U -i https://pypi.tuna.tsinghua.edu.cn/simple --user
 
 exit 0
