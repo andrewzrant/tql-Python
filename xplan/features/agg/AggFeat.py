@@ -6,7 +6,7 @@ __author__ = 'JieYuan'
 __mtime__ = '19-1-15'
 """
 from concurrent.futures import ProcessPoolExecutor
-
+from ...pipe import tqdm
 import pandas as pd
 from .funcs import Funcs
 
@@ -23,7 +23,7 @@ class AggFeat(object):
 
     def df_agg(self):
         with ProcessPoolExecutor(5) as pool:
-            for _df in pool.map(self._agg, self.cat_cols):
+            for _df in pool.map(self._agg, tqdm(self.cat_cols, 'agg ...')):
                 self.df = pd.merge(self.df, _df, 'left')
             return self.df
 
