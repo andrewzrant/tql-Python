@@ -18,7 +18,7 @@ from bayes_opt.event import Events
 class BayesOptLGB(object):
     def __init__(self, X, y, topk=10, categorical_feature='auto', metric='auc', fix_params={'min_child_weight': 0.001},
                  opt_seed=None):
-        self.data = lgb.Dataset(X, y, categorical_feature=categorical_feature, silent=True)
+        self.data = lgb.Dataset(X, y, categorical_feature=categorical_feature, silent=True, free_raw_data=False)
         self.topk = topk
         self.metric = metric
         self.fix_params = fix_params
