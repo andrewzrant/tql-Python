@@ -6,3 +6,4 @@ __author__ = 'JieYuan'
 __mtime__ = '19-1-15'
 """
 
+from .AggFeat import AggFeat
