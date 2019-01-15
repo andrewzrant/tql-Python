@@ -19,7 +19,7 @@ class CountEncoder(BaseEstimator, TransformerMixin):
         self.normalize = normalize
         self.counter_ls = []
 
-    def fit(self, df):
+    def fit(self, df: pd.DataFrame):
         self.w = df.shape[1]
         self.counter_ls = list(self._pe(self._fit, tqdm(self._get_series_ls(df), 'Fitting ...'), self.w))
         return self
