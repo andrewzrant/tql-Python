@@ -25,7 +25,7 @@ class AggFeat(object):
         with ProcessPoolExecutor(5) as pool:
             for _df in pool.map(self._agg, tqdm(self.cat_cols, 'agg ...')):
                 self.df = pd.merge(self.df, _df, 'left')
-            return self.df
+            return self.df.fillna(-1)
 
     def _agg(self, cat_cols):
         if isinstance(cat_cols, str):
