@@ -17,11 +17,11 @@ class Funcs(object):
         self.cat = ['mode', 'nunique_perc']
 
     @property
-    def cat_funcs(self):
+    def num_funcs(self):
         return [self.__getattribute__(func_name) for func_name in self.num]
 
     @property
-    def num_funcs(self):
+    def cat_funcs(self):
         return [self.__getattribute__(func_name) for func_name in self.cat]
 
     # cat funcs
