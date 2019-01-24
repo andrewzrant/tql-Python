@@ -16,11 +16,24 @@ from bayes_opt.event import Events
 
 
 class BayesOptLGB(object):
-    def __init__(self, X, y, topk=10, categorical_feature='auto', metric='auc', fix_params={'min_child_weight': 0.001},
+    def __init__(self, X, y, metric='auc', objective='binary', categorical_feature='auto', fix_params={}, topk=10,
                  opt_seed=None):
+        """
+        :param X:
+        :param y:
+        :param metric:
+        :param objective: 'regression' , 'binary' or 'multiclass'
+        :param categorical_feature:
+        :param fix_params:
+        :param topk:
+        :param opt_seed:
+        """
+
         self.data = lgb.Dataset(X, y, categorical_feature=categorical_feature, silent=True, free_raw_data=False)
-        self.topk = topk
         self.metric = metric
+        self.objective = objective
+        self.topk = topk
+
         self.fix_params = fix_params
         self.opt_seed = opt_seed
 
@@ -33,7 +46,7 @@ class BayesOptLGB(object):
         self._iter_ls = []
 
         if self.fix_params:
-            print('Fixed Params: \033[94m%s\033[0m\n' % self.fix_params)
+            print('Fixed Params: \033[94m%s\033[0m\n' % self.fix_params)  # {'min_child_weight': 0.001}
 
     @property
     def best_model(self):
@@ -43,7 +56,6 @@ class BayesOptLGB(object):
             print('\033[94m%s\033[0m\n' % "Please Run !")
 
     def run(self, n_iter=5, save_log=False):
-
         BoParams = {
             'num_leaves': (2 ** 4, 2 ** 10),
             'min_split_gain': (0.01, 1),
@@ -81,7 +93,7 @@ class BayesOptLGB(object):
                     reg_alpha, reg_lambda):
         self.__params_sk = dict(
             boosting_type='gbdt',
-            objective='binary',
+            objective=self.objective,
             max_depth=-1,
             num_leaves=int(num_leaves),  # 太大会内存泄漏
             learning_rate=0.01,
@@ -106,6 +118,7 @@ class BayesOptLGB(object):
                    num_boost_round=3000,
                    nfold=5,
                    early_stopping_rounds=100,
+                   stratified=False if 'reg' in self.objective else True,
                    show_stdv=False)['%s-mean' % self.metric]
 
         self._iter_ls.append(len(_))

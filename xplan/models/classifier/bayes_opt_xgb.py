@@ -17,10 +17,16 @@ from bayes_opt.event import Events
 
 
 class BayesOptXGB(object):
-    def __init__(self, X, y, topk=10, missing=None, metric='auc', fix_params={}, opt_seed=None):
+    def __init__(self, X, y, topk=10, missing=None, metric='auc', objective='binary:logistic', fix_params={},
+                 opt_seed=None):
+        """
+        :param objective: 'binary:logistic', 'multi:softmax', 'reg:linear'
+        """
         self.data = xgb.DMatrix(X, y, missing=missing)
         self.topk = topk
         self.metric = metric
+        self.objective = objective
+
         self.fix_params = fix_params  # 固定不需要调节的参数
         self.opt_seed = opt_seed
 
@@ -79,7 +85,7 @@ class BayesOptXGB(object):
         self.__params_sk = dict(
             silent=True,
             booster='gbtree',
-            objective='binary:logistic',
+            objective=self.objective,
             max_depth=int(max_depth),
             learning_rate=0.01,
             gamma=gamma,  # min_split_gain
@@ -104,8 +110,8 @@ class BayesOptXGB(object):
                    num_boost_round=3600,
                    nfold=5,
                    early_stopping_rounds=100,
-                   stratified=True,
                    show_stdv=False,
+                   stratified=False if 'reg' in self.objective else True,
                    as_pandas=False)['test-%s-mean' % self.metric]
         self._iter_ls.append(len(_))
         return _[-1]

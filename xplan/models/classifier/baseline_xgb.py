@@ -25,7 +25,7 @@ class BaselineXGB(object):
         https://blog.csdn.net/fuqiuai/article/details/79495910
         https://blog.csdn.net/fantacy10000/article/details/84504394
         :param objective:
-            'binary:logistic', 'multi:softmax'
+            'binary:logistic', 'multi:softmax', 'reg:linear'
         :param metrics: string, list of strings or None, optional (default=None)
             binary: 'auc', 'binary_error', 'binary_logloss'
             multiclass: 'multi_error', 'multi_logloss'

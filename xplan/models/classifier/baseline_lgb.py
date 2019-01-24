@@ -31,7 +31,7 @@ class BaselineLGB(object):
         :param scale_pos_weight:
         """
         self.data = lgb.Dataset(X, y, categorical_feature=categorical_feature, free_raw_data=False, weight=None,
-                                init_score=None)  # init_score初始分(例如常值回归的得分)
+                                init_score=None)  # init_score初始分(例如常值/均值/中位数等回归的得分)
         self.objective = objective
         self.metrics = metrics
         self.feval = feval
