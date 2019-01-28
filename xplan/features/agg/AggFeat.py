@@ -18,24 +18,25 @@ class AggFeat(object):
         self.df = df
         self.cat_cols = cat_cols
         self.num_cols = num_cols
-        self.num_funcs = ['count', 'min', 'mean', 'median', 'max', 'sum', 'std', 'var', 'sem',
+        self.num_funcs = ['min', 'mean', 'median', 'max', 'sum', 'std', 'var', 'sem',
                           'skew'] + Funcs().num_funcs
-        self.cat_funcs = ['count', 'nunique', 'max', 'min'] + Funcs().cat_funcs
+        self.cat_funcs = ['nunique', 'max', 'min'] + Funcs().cat_funcs
 
-    def run(self):
-        with ProcessPoolExecutor(5) as pool:
+    def run(self, max_workers=4):
+        with ProcessPoolExecutor(min(max_workers, len(self.cat_cols))) as pool:
             for _df in pool.map(self._agg, tqdm(self.cat_cols, 'agg ...')):
                 self.df = pd.merge(self.df, _df, 'left')
-            return self.df.fillna(-999)
+            return self.df
 
-    def _agg(self, cat_cols):
-        if isinstance(cat_cols, str):
-            cat_cols = [cat_cols]
-        agg_num = self.num_cols
-        agg_cat = list(set(self.cat_cols) - set(cat_cols))
-        gr = self.df.groupby(cat_cols)
-        df = pd.concat((gr[agg_num].agg(self.num_funcs),
-                        gr[agg_cat].agg(self.cat_funcs)), 1)
-        prefix = '&'.join(cat_cols) + '_'
-        df.columns = [prefix + '_'.join(i) for i in df.columns]
+    def _agg(self, key_cols):
+        if isinstance(key_cols, str):
+            key_cols = [key_cols]
+        num_feats = self.num_cols
+        cat_feats = list(set(self.cat_cols) - set(cat_cols))
+
+        gr = self.df.groupby(key_cols)
+        trans_dict = dict(zip(num_feats + cat_feats + key_cols,
+                              [self.num_cols] * len(num_feats) + [self.cat_cols] * len(cat_feats) + ['count']))
+        df = gr.agg(trans_dict)
+        df.columns = ['_'.join(i) for i in df.columns]
         return df.reset_index()

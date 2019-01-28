@@ -12,6 +12,15 @@ import pandas as pd
 from functools import partial
 from concurrent.futures import ProcessPoolExecutor
 
+"""https://www.cnblogs.com/nolonely/p/6435083.html
+1、为什么要做特征选择
+在有限的样本数目下，用大量的特征来设计分类器计算开销太大而且分类性能差。
+2、特征选择的确切含义
+将高维空间的样本通过映射或者是变换的方式转换到低维空间，达到降维的目的，然后通过特征选取删选掉冗余和不相关的特征来进一步降维。
+3、特征选取的原则
+获取尽可能小的特征子集，不显著降低分类精度、不影响类分布以及特征子集应具有稳定适应性强等特点
+"""
+
 
 class FilterFeatures(object):
     """粗筛
@@ -23,6 +32,9 @@ class FilterFeatures(object):
     """
 
     def __init__(self, df: pd.DataFrame, exclude=None):
+        assert isinstance(exclude, list)
+        assert isinstance(df, pd.DataFrame)
+
         self.df = df
         if exclude:
             self.feats = df.columns.difference(exclude)
@@ -65,12 +77,12 @@ class FilterFeatures(object):
         var = df[feat][lambda x: x.between(x.quantile(0.005), x.quantile(0.995))].var()
         return '' if var else feat
 
-    def filter_variance(self, feats=None):
+    def filter_variance(self, feats=None, max_worker=4):
         if feats is None:
             feats = self.feats
 
         _filter_variance = partial(self._filter_variance, df=self.df)
-        with ProcessPoolExecutor(min(5, len(feats))) as pool:
+        with ProcessPoolExecutor(min(max_worker, len(feats))) as pool:
             to_drop = pool.map(_filter_variance, tqdm(feats, 'Filter Variance ...'))
             to_drop = [feat for feat in to_drop if feat]
         print('%d features with 0 variance in 0.5 ~ 99.5 quantile.' % len(to_drop))
