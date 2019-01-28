@@ -32,7 +32,7 @@ class AggFeat(object):
         if isinstance(key_cols, str):
             key_cols = [key_cols]
         num_feats = self.num_cols
-        cat_feats = list(set(self.cat_cols) - set(cat_cols))
+        cat_feats = list(set(self.cat_cols) - set(key_cols))
 
         gr = self.df.groupby(key_cols)
         trans_dict = dict(zip(num_feats + cat_feats + key_cols,
