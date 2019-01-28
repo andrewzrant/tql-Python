@@ -24,11 +24,11 @@ class AggFeat(object):
 
     def run(self, max_workers=4):
         with ProcessPoolExecutor(min(max_workers, len(self.cat_cols))) as pool:
-            for _df in pool.map(self._agg, tqdm(self.cat_cols, 'agg ...')):
+            for _df in pool.map(self._get_agg_feats, tqdm(self.cat_cols, 'agg ...')):
                 self.df = pd.merge(self.df, _df, 'left')
             return self.df
 
-    def _agg(self, key_cols):
+    def _get_agg_feats(self, key_cols):
         if isinstance(key_cols, str):
             key_cols = [key_cols]
         num_feats = self.num_cols
@@ -38,5 +38,5 @@ class AggFeat(object):
         trans_dict = dict(zip(num_feats + cat_feats + key_cols,
                               [self.num_cols] * len(num_feats) + [self.cat_cols] * len(cat_feats) + ['count']))
         df = gr.agg(trans_dict)
-        df.columns = ['_'.join(i) for i in df.columns]
+        df.columns = ['&'.join(key_cols) + '_' + '_'.join(i) for i in df.columns]
         return df.reset_index()
