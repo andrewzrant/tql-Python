@@ -17,7 +17,7 @@ from bayes_opt.event import Events
 
 class BayesOptLGB(object):
     def __init__(self, X, y, metric='auc', objective='binary', categorical_feature='auto', fix_params={}, topk=10,
-                 opt_seed=None):
+                 n_jobs=8, opt_seed=None):
         """
         :param X:
         :param y:
@@ -35,6 +35,7 @@ class BayesOptLGB(object):
         self.topk = topk
 
         self.fix_params = fix_params
+        self.n_jobs = n_jobs
         self.opt_seed = opt_seed
 
         self.params_ls = []
@@ -107,7 +108,7 @@ class BayesOptLGB(object):
             reg_lambda=reg_lambda,
             scale_pos_weight=1,
             random_state=0,
-            n_jobs=-1
+            n_jobs=self.n_jobs
         )
         params = self.__params_sk.copy()
         params['verbosity'] = 0

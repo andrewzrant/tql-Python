@@ -16,7 +16,7 @@ class BaselineLGB(object):
     """
 
     def __init__(self, X, y, learning_rate=0.01, categorical_feature='auto', metrics='auc', feval=None,
-                 objective='binary', scale_pos_weight=1, seed=None):
+                 objective='binary', scale_pos_weight=1, n_jobs=8, seed=None):
         """
         :param objective:
             Default: 'regression' for LGBMRegressor, 'binary' or 'multiclass' for LGBMClassifier, 'lambdarank' for LGBMRanker.
@@ -36,6 +36,7 @@ class BaselineLGB(object):
         self.metrics = metrics
         self.feval = feval
         self.best_iter = None
+
         # sklearn params
         self.params_sk = dict(
             boosting_type='gbdt',
@@ -58,7 +59,7 @@ class BaselineLGB(object):
             scale_pos_weight=scale_pos_weight,
 
             random_state=seed,
-            n_jobs=-1,
+            n_jobs=n_jobs,
             verbosity=0  # < 0: Fatal, = 0: Error (Warning), = 1: Info, > 1: Debug
         )
         self.params = self.params_sk.copy()

@@ -18,7 +18,7 @@ from bayes_opt.event import Events
 
 class BayesOptXGB(object):
     def __init__(self, X, y, topk=10, missing=None, metric='auc', objective='binary:logistic', fix_params={},
-                 opt_seed=None):
+                 n_jobs=8, opt_seed=None):
         """
         :param objective: 'binary:logistic', 'multi:softmax', 'reg:linear'
         """
@@ -29,6 +29,7 @@ class BayesOptXGB(object):
 
         self.fix_params = fix_params  # 固定不需要调节的参数
         self.opt_seed = opt_seed
+        self.n_jobs = n_jobs
 
         self.params_ls = []
         self.params_ls_sk = []
@@ -97,7 +98,7 @@ class BayesOptXGB(object):
             reg_lambda=reg_lambda,
             scale_pos_weight=1,
             random_state=0,
-            n_jobs=-1
+            n_jobs=self.n_jobs
         )
         params = self.__params_sk.copy()
         params['eta'] = params.pop('learning_rate')
