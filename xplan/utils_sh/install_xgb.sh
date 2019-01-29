@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # git@v9.git.n.xiaomi.com:yuanjie/xgboost.git
+pip uninstall xgboost -y
 git clone --recursive https://github.com/dmlc/xgboost; cd xgboost
 mkdir build; cd build
 cmake .. -DUSE_CUDA=ON

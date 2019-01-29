@@ -36,7 +36,7 @@ class AggFeat(object):
 
         gr = self.df.groupby(key_cols)
         trans_dict = dict(zip(num_feats + cat_feats + key_cols,
-                              [self.num_cols] * len(num_feats) + [self.cat_cols] * len(cat_feats) + ['count']))
+                              [self.num_funcs] * len(num_feats) + [self.cat_funcs] * len(cat_feats) + [['count']]))
         df = gr.agg(trans_dict)
         df.columns = ['&'.join(key_cols) + '_' + '_'.join(i) for i in df.columns]
         return df.reset_index()
