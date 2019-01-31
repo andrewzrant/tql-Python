@@ -5,6 +5,9 @@ __title__ = 'opt'
 __author__ = 'JieYuan'
 __mtime__ = '19-1-3'
 """
+
+"""optuna"""
+
 import warnings
 
 warnings.filterwarnings('ignore')
@@ -108,10 +111,11 @@ class BayesOptLGB(object):
             reg_lambda=reg_lambda,
             scale_pos_weight=1,
             random_state=0,
+            verbosity=-1,
             n_jobs=self.n_jobs
         )
         params = self.__params_sk.copy()
-        params['verbosity'] = 0
+        # params['verbosity'] = -1
         params['metric'] = self.metric
 
         _ = lgb.cv(params,

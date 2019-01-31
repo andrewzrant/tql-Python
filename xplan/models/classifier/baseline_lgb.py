@@ -60,7 +60,7 @@ class BaselineLGB(object):
 
             random_state=seed,
             n_jobs=n_jobs,
-            verbosity=0  # < 0: Fatal, = 0: Error (Warning), = 1: Info, > 1: Debug
+            verbosity=-1  # < 0: Fatal, = 0: Error (Warning), = 1: Info, > 1: Debug
         )
         self.params = self.params_sk.copy()
 

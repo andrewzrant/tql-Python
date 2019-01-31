@@ -11,6 +11,7 @@ import wrapt
 import resource
 from .cprint import Cprint
 from .download_file import DownloadFile
+from .sklearn_helper import SklearnHelper
 
 base_dir = os.path.dirname(os.path.realpath('__file__'))
 get_module_path = lambda path, file: os.path.normpath(os.path.join(os.getcwd(), os.path.dirname(file), path))

@@ -26,6 +26,27 @@ from sklearn.linear_model import *
 from sklearn.ensemble import ExtraTreesClassifier, RandomForestClassifier, AdaBoostClassifier, \
     GradientBoostingClassifier, IsolationForest
 from sklearn.metrics import *
+import matplotlib.pyplot as plt
+
+# plt.style.use('ggplot')
+plt.rcParams['font.sans-serif'] = ['Simhei']  # 中文乱码的处理
+plt.rcParams['font.family'] = 'sans-serif'
+plt.rcParams['axes.unicode_minus'] = False  # 负号
+plt.rcParams["text.usetex"] = False
+plt.rcParams["legend.numpoints"] = 1
+plt.rcParams["figure.figsize"] = (12, 6)  # (8, 6)
+plt.rcParams["figure.dpi"] = 128
+plt.rcParams["savefig.dpi"] = plt.rcParams["figure.dpi"]
+plt.rcParams["font.size"] = 10
+plt.rcParams["pdf.fonttype"] = 42
+
+import seaborn as sns
+sns.set(style="darkgrid") # darkgrid, whitegrid, dark, white,和ticks
+# sns.plotting_context()
+# sns.axes_style()
+
+
+
 
 import warnings
 
