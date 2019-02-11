@@ -1,7 +1,11 @@
 <h1 align = "center">:rocket: X-plan :facepunch:</h1>
 
 ---
+> 数据不是创造规律,而是展示那些原本的规律
 
+[Competitions][1]
+
+---
 ## Install
 ```
 pip install x-plan
@@ -46,3 +50,5 @@ Name: iterable, dtype: object
 ```
 - ...
 
+---
+[1]: https://iphysresearch.github.io/DataSciComp/?sub=PF,IT,AC,DM,CV,NLP,RL,SP

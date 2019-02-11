@@ -24,16 +24,17 @@ class OutlierProcessing(object):
 
     def process(self, x: pd.Series):
         _ = x.copy()
-        _.iloc[self.get_outlier_idx(x)] = _.median()
+        _.iloc[self.get_outlier_idx(x)] = _.median()  # 用中位数来修正
         return _
 
     def get_outlier_idx(self, x: pd.Series):
+        """投票"""
         _ = [self.isf(x), self.box_plot(x), self.zscore_median(x)]
         _ = pd.DataFrame(_).sum() > 1
         return np.where(_)[0].tolist()
 
     def isf(self, x):
-        return IsolationForest(behaviour='new', contamination='auto').fit_predict(x.to_frame()) == -1
+        return IsolationForest(behaviour='new', contamination='auto', n_jobs=4).fit_predict(x.to_frame()) == -1
 
     def box_plot(self, x):
         bound_func = lambda a, b: 2.5 * a - 1.5 * b

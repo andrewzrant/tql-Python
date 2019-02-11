@@ -50,7 +50,7 @@ class BaselineLGB(object):
             min_child_samples=20,
 
             subsample=0.8,
-            subsample_freq=8,
+            subsample_freq=3,
             colsample_bytree=0.8,
 
             reg_alpha=0.0,
