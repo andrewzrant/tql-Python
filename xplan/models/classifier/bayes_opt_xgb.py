@@ -115,7 +115,7 @@ class BayesOptXGB(object):
                    stratified=False if 'reg' in self.objective else True,
                    as_pandas=False)['test-%s-mean' % self.metric]
         self._iter_ls.append(len(_))
-        return _[-1]
+        return -_[-1] if 'reg' in self.objective else _[-1]
 
     def __get_params(self, optimizer):
         self.params_opt_df = (

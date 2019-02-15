@@ -39,7 +39,7 @@ class SklearnHelper(object):
 
 class Blending(object):
 
-    def __init__(self, df_train, df_test, target_name):
+    def __init__(self, X, y, X_test):
         """重写SklearnHelper
         class SklearnHelper(object):
             def __init__(self, algo=LGBMClassifier, params={'n_estimators': 3000}):
@@ -64,9 +64,9 @@ class Blending(object):
             def feature_importances_(self):
                 return self.model.feature_importances_
         """
-        self.df_train = df_train
-        self.df_test = df_test
-        self.target_name = target_name
+        self.X = X
+        self.X_test = X_test
+        self.y = y
         self.model = SklearnHelper()  # 重写SklearnHelper
 
     def get_oof(self, f_eval, num_folds=5, stratified=False, feats_exlude=[], plot=False):
@@ -77,43 +77,45 @@ class Blending(object):
         :param feats_exlude:
         :return:
         """
-
-        feats = [f for f in self.df_train.columns if f not in feats_exlude + [self.target_name]]
+        feats = list(filter(lambda feat: feat not in feats_exlude, self.X.columns))
+        X, X_test = self.X[feats], self.X_test[feats]
         # Cross validation model
         if stratified:
-            folds = StratifiedKFold(n_splits=num_folds, shuffle=True, random_state=2019).split()
+            folds = StratifiedKFold(n_splits=num_folds, shuffle=True, random_state=2019)
         else:
             folds = KFold(n_splits=num_folds, shuffle=True, random_state=2019)
 
-        folds = folds.split(self.df_train[feats], self.df_train[self.target_name])
+        folds = folds.split(X, self.y)
 
         # Create arrays and dataframes to store results
-        oof_preds = np.zeros(len(self.df_train))
-        sub_preds = np.zeros(len(self.df_test))
+        oof_preds = np.zeros(len(X))
+        sub_preds = np.zeros(len(X_test))
         self.feature_importance_df = pd.DataFrame()
 
         for n_fold, (train_idx, valid_idx) in enumerate(folds, 1):
-            X_train, y_train = self.df_train[feats].iloc[train_idx], self.df_train[self.target_name].iloc[train_idx]
-            X_valid, y_valid = self.df_train[feats].iloc[valid_idx], self.df_train[self.target_name].iloc[valid_idx]
+            X_train, y_train = X.iloc[train_idx], self.y.iloc[train_idx]
+            X_valid, y_valid = X.iloc[valid_idx], self.y.iloc[valid_idx]
 
             model = self.model.fit(X_train, y_train, X_valid, y_valid)
 
             oof_preds[valid_idx] = model.predict(X_valid)
-            sub_preds += model.predict(self.df_test[feats]) / num_folds
+            sub_preds += model.predict(X_test) / num_folds
 
             fold_importance_df = pd.DataFrame()
             fold_importance_df["feature"] = feats
             fold_importance_df["importance"] = np.log1p(model.feature_importances_)
             fold_importance_df["fold"] = n_fold
-            self.feature_importance_df = pd.concat([self.feature_importance_df, fold_importance_df], axis=0)
+            self.feature_importance_df = pd.concat([self.feature_importance_df, fold_importance_df], 0)
             print('Fold %s: Metric: %.6f\n' % (n_fold, f_eval(y_valid, oof_preds[valid_idx])))
         if plot:
             self.plot_importances(self.feature_importance_df)
+
+        print('Blending Score: %s' % f_eval(self.y, oof_preds))
         return oof_preds, sub_preds
 
-    def plot_importances(self, feature_importance_df, topk=40):
+    def plot_importances(self, topk=40):
         """Display/plot feature importance"""
-        data = (feature_importance_df[["feature", "importance"]]
+        data = (self.feature_importance_df[["feature", "importance"]]
                 .groupby("feature")
                 .mean()
                 .reset_index()
@@ -126,30 +128,31 @@ class Blending(object):
 
 
 if __name__ == '__main__':
-    class SklearnHelper:
-        def __init__(self, algo=LGBMRegressor, params={'n_estimators': 3000}):
-            self.clf = algo(**params)
-
-        def fit(self, X_train, y_train, X_valid, y_valid):
-            self.model = self.clf.fit(X_train, y_train,
-                                      eval_set=[(X_valid, y_valid)],
-                                      eval_metric='l1',
-                                      early_stopping_rounds=100,
-                                      verbose=50)
-            return self.model
-
-        def predict(self, X):
-            try:
-                predict = lambda x: self.clf.__getattribute__('predict_proba')(x, verbose=100)[:, 1]
-            except:
-                predict = self.clf.__getattribute__('preidict')
-            return predict(X)
-
-        @property
-        def feature_importances_(self):
-            return self.model.feature_importances_
-
-
-    blending = Blending(df_train, df_train, '信用分')
-    blending.model = SklearnHelper()
-    blending.get_oof(mean_absolute_error, feats_exlude=['用户编码'], plot=True)
+    pass
+    # class SklearnHelper:
+    #     def __init__(self, algo=LGBMRegressor, params={'n_estimators': 3000}):
+    #         self.clf = algo(**params)
+    #
+    #     def fit(self, X_train, y_train, X_valid, y_valid):
+    #         self.model = self.clf.fit(X_train, y_train,
+    #                                   eval_set=[(X_valid, y_valid)],
+    #                                   eval_metric='l1',
+    #                                   early_stopping_rounds=100,
+    #                                   verbose=50)
+    #         return self.model
+    #
+    #     def predict(self, X):
+    #         try:
+    #             predict = lambda x: self.clf.__getattribute__('predict_proba')(x, verbose=100)[:, 1]
+    #         except:
+    #             predict = self.clf.__getattribute__('preidict')
+    #         return predict(X)
+    #
+    #     @property
+    #     def feature_importances_(self):
+    #         return self.model.feature_importances_
+    #
+    #
+    # blending = Blending(df_train, df_train, '信用分')
+    # blending.model = SklearnHelper()
+    # blending.get_oof(mean_absolute_error, feats_exlude=['用户编码'], plot=True)

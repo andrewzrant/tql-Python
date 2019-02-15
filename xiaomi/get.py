@@ -13,7 +13,7 @@ from retry import retry
 class Get(object):
 
     def __init__(self):
-        self.url_antiporn = "http://dev.web.du.algo.browser.miui.srv/processarticle"
+        self.url_antiporn = "http://web.du.algo.browser.miui.srv/processarticle"
 
     @retry(tries=3, delay=2)
     def score_antiporn(self, title):

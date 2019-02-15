@@ -1,6 +1,8 @@
 `⁰ ¹ ² ³ ⁴ ⁵ ⁶ ⁷ ⁸ ⁹`
 
-
+---
+[ELMO][1]
+---
 ```https://www.kaggle.com/arthurtok/introduction-to-ensembling-stacking-in-python
 # Class to extend the Sklearn classifier
 class SklearnHelper(object):
@@ -21,5 +23,6 @@ class SklearnHelper(object):
         print(self.clf.fit(x,y).feature_importances_)
 ```
 
+[1]: https://blog.csdn.net/sinat_26917383/article/details/81913790
 
 https://github.com/Jie-Yuan/DataMining/tree/master/0_DA/udfs

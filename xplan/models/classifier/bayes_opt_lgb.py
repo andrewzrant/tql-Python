@@ -61,7 +61,7 @@ class BayesOptLGB(object):
 
     def run(self, n_iter=5, save_log=False):
         BoParams = {
-            'num_leaves': (2 ** 4, 2 ** 10),
+            'num_leaves': (2 ** 4, 2 ** 8),
             'min_split_gain': (0.01, 1),
             'min_child_weight': (0, 0.01),
             'min_child_samples': (8, 32),
@@ -127,7 +127,7 @@ class BayesOptLGB(object):
                    show_stdv=False)['%s-mean' % self.metric]
 
         self._iter_ls.append(len(_))
-        return _[-1]
+        return -_[-1] if 'reg' in self.objective else _[-1]
 
     def __get_params(self, optimizer):
         self.params_opt_df = (

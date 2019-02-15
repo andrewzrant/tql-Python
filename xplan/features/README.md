@@ -20,3 +20,14 @@ Stacking：接下来会详细介绍。
 Base Model 之间的相关性要尽可能的小。这就是为什么非 Tree-based Model 往往表现不是最好但还是要将它们包括在 Ensemble 里面的原因。Ensemble 的 Diversity 越大，最终 Model 的 Bias 就越低。
 Base Model 之间的性能表现不能差距太大。这其实是一个 Trade-off，在实际中很有可能表现相近的 Model 只有寥寥几个而且它们之间相关性还不低。但是实践告诉我们即使在这种情况下 Ensemble 还是能大幅提高成绩。
 ```
+
+
+---
+- 特征选择
+https://www.kaggle.com/tilii7/boruta-feature-elimination
+
+https://www.kaggle.com/ogrellier/feature-selection-with-null-importances
+
+
+
+---
