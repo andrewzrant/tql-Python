@@ -96,6 +96,7 @@ class BayesOptLGB(object):
     def __evaluator(self, num_leaves, min_split_gain, min_child_weight, min_child_samples, subsample, colsample_bytree,
                     reg_alpha, reg_lambda):
         self.__params_sk = dict(
+            metric=self.metric,
             boosting_type='gbdt',
             objective=self.objective,
             max_depth=-1,

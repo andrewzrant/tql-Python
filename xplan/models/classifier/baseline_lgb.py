@@ -39,7 +39,7 @@ class BaselineLGB(object):
 
         # sklearn params
         self.params_sk = dict(
-            metrics=self.metrics,
+            metric=self.metrics,
             boosting_type='gbdt',
             objective=objective,
             max_depth=-1,
