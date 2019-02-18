@@ -6,4 +6,3 @@ __author__ = 'JieYuan'
 __mtime__ = '19-1-10'
 """
 
-from .CountEncoder import CountEncoder

@@ -46,14 +46,14 @@ class BaselineLGB(object):
             num_leaves=33,
             learning_rate=learning_rate,
 
-            min_split_gain=0.0,  # 描述分裂的最小 gain, 控制树的有用的分裂
             min_child_weight=0.001,  # 决定最小叶子节点样本权重和, 孩子节点中最小的样本权重和, 避免过拟合, 如果一个叶子节点的样本权重和小于min_child_weight则拆分过程结束
-            min_child_samples=20,
+            min_child_samples=20,  # 一个叶子上数据的最小数量. 可以用来处理过拟合
 
             subsample=0.8,
             subsample_freq=3,
             colsample_bytree=0.8,
 
+            min_split_gain=0.0,  # 描述分裂的最小 gain, 控制树的有用的分裂
             reg_alpha=0.0,
             reg_lambda=0.0,
 

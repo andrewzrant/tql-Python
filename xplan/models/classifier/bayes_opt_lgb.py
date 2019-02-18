@@ -6,7 +6,11 @@ __author__ = 'JieYuan'
 __mtime__ = '19-1-3'
 """
 
-"""optuna"""
+"""optuna
+/https://www.cnblogs.com/gczr/p/7156270.html
+
+https://github.com/bamine/Kaggle-stuff/blob/master/otto/hyperopt_xgboost.py#L39
+"""
 
 import warnings
 
