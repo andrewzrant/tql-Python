@@ -13,6 +13,14 @@ association_rules(apriori(df))
 https://www.kesci.com/home/project/5be7e948954d6e0010632ef2
 ```
 
+```
+# 基于tf-idf特征，使用xgboost
+clf = xgb.XGBClassifier(max_depth=7, n_estimators=200, colsample_bytree=0.8, 
+                        subsample=0.8, nthread=10, learning_rate=0.1)
+clf.fit(xtrain_tfv.tocsc(), ytrain)
+predictions = clf.predict_proba(xvalid_tfv.tocsc())
+```
+
 [1]: https://blog.csdn.net/sinat_26917383/article/details/81913790
 
 https://github.com/Jie-Yuan/DataMining/tree/master/0_DA/udfs
