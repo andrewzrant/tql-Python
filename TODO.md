@@ -6,6 +6,9 @@
 ```
 top10_sellers = data.pivot_table(values='Purchase',index=['Product_ID'], aggfunc='count').reset_index().sort_values(by = 'Purchase',ascending=False).head(10)
 
+from mlxtend.frequent_patterns import apriori, association_rules
+df = pd.DataFrame([[1, 1], [1, 0]], columns=['a', 'b'])
+association_rules(apriori(df))
 ```
 
 [1]: https://blog.csdn.net/sinat_26917383/article/details/81913790
