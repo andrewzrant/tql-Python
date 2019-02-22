@@ -31,3 +31,14 @@ def tfidf_extractor(corpus, ngram_range=(1, 1)):
     features = vectorizer.fit_transform(corpus)
     return vectorizer, features
 ```
+
+```
+    from sklearn.naive_bayes import MultinomialNB
+    from sklearn.linear_model import SGDClassifier
+    from sklearn.linear_model import LogisticRegression
+    mnb = MultinomialNB()
+    svm = SGDClassifier(loss='hinge', n_iter=100)
+    lr = LogisticRegression()
+
+
+```
