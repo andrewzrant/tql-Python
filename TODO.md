@@ -27,3 +27,4 @@ predictions = clf.predict_proba(xvalid_tfv.tocsc())
 [1]: https://blog.csdn.net/sinat_26917383/article/details/81913790
 
 https://github.com/Jie-Yuan/DataMining/tree/master/0_DA/udfs
+https://www.kaggle.com/c/quora-insincere-questions-classification/discussion/79824
