@@ -47,6 +47,8 @@ the number of unique words
 the number of characters
 the number of upper characters
 Bag of characters: Implemented by CountVectorizer(ngram_range=(1, 1), min_df=1e-4, token_pattern=r'\w+',analyzer='char')
+
+https://blog.csdn.net/IT_bigstone/article/details/80739807
 ```
 
 [1]: https://blog.csdn.net/sinat_26917383/article/details/81913790
