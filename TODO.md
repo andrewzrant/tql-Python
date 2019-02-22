@@ -24,6 +24,11 @@ predictions = clf.predict_proba(xvalid_tfv.tocsc())
 
 ```
 
+```
+Runtime tricks
+We aimed at combining as many models as possible. To do this, we needed to improve runtime and the most important thing to achieve this was the following. We do not pad sequences to the same length based on the whole data, but just on a batch level. That means we conduct padding and truncation on the data generator level for each batch separately, so that length of the sentences in a batch can vary in size. Additionally, we further improved this by not truncating based on the length of the longest sequence in the batch, but based on the 95% percentile of lengths within the sequence. This improved runtime heavily and kept accuracy quite robust on single model level, and improved it by being able to average more models.
+```
+
 [1]: https://blog.csdn.net/sinat_26917383/article/details/81913790
 
 https://github.com/Jie-Yuan/DataMining/tree/master/0_DA/udfs
