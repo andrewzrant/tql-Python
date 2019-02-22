@@ -19,6 +19,9 @@ clf = xgb.XGBClassifier(max_depth=7, n_estimators=200, colsample_bytree=0.8,
                         subsample=0.8, nthread=10, learning_rate=0.1)
 clf.fit(xtrain_tfv.tocsc(), ytrain)
 predictions = clf.predict_proba(xvalid_tfv.tocsc())
+
+    CHAR_DICT = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 .!?:,\'%-\(\)/$|&;[]"'
+
 ```
 
 [1]: https://blog.csdn.net/sinat_26917383/article/details/81913790
