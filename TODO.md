@@ -30,6 +30,14 @@ We aimed at combining as many models as possible. To do this, we needed to impro
 
 
  length of the text, number of capital letters, number of exclamation/question/punctuation marks, number of special symbols, number of smileys, number of words, number of unique words and few derivatives.
+ 
+ Statistical features
+the number of words
+the number of unique words
+the number of characters
+the number of upper characters
+Bag of characters: Implemented by CountVectorizer(ngram_range=(1, 1), min_df=1e-4, token_pattern=r'\w+',analyzer='char')
+
 ```
 
 [1]: https://blog.csdn.net/sinat_26917383/article/details/81913790
