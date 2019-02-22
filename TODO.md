@@ -3,24 +3,9 @@
 ---
 [ELMO][1]
 ---
-```https://www.kaggle.com/arthurtok/introduction-to-ensembling-stacking-in-python
-# Class to extend the Sklearn classifier
-class SklearnHelper(object):
-    def __init__(self, clf, seed=0, params=None):
-        params['random_state'] = seed
-        self.clf = clf(**params)
+```
+top10_sellers = data.pivot_table(values='Purchase',index=['Product_ID'], aggfunc='count').reset_index().sort_values(by = 'Purchase',ascending=False).head(10)
 
-    def train(self, x_train, y_train):
-        self.clf.fit(x_train, y_train)
-
-    def predict(self, x):
-        return self.clf.predict(x)
-    
-    def fit(self,x,y):
-        return self.clf.fit(x,y)
-    
-    def feature_importances(self,x,y):
-        print(self.clf.fit(x,y).feature_importances_)
 ```
 
 [1]: https://blog.csdn.net/sinat_26917383/article/details/81913790
