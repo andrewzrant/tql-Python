@@ -42,3 +42,8 @@ def tfidf_extractor(corpus, ngram_range=(1, 1)):
 
 
 ```
+
+
+
+# 翻译
+https://www.cnblogs.com/fanyang1/p/9414088.html
