@@ -73,31 +73,26 @@ class BaselineLGB(object):
     def run(self, return_model=False, nfold=5, early_stopping_rounds=100, verbose_eval=50):
 
         print("LGB CV ...\n")
-        try:
-            cv_rst = lgb.cv(
-                self.params,
-                self.data,
-                metrics=self.metrics,
-                feval=self.feval,
-                nfold=nfold,
-                num_boost_round=2500,
-                stratified=False if 'reg' in self.objective else True,
-                early_stopping_rounds=early_stopping_rounds,
-                verbose_eval=verbose_eval,
-            )
-        except TypeError:
-            print("Please: self.lgb_data = lgb.Dataset(X, y, weight=None, init_score=None)")
+        cv_rst = lgb.cv(
+            self.params,
+            self.data,
+            metrics=self.metrics,
+            feval=self.feval,
+            nfold=nfold,
+            num_boost_round=9999,
+            stratified=False if 'reg' in self.objective else True,
+            early_stopping_rounds=early_stopping_rounds,
+            verbose_eval=verbose_eval,
+        )
 
         if isinstance(self.metrics, str):
             _ = cv_rst['%s-mean' % self.metrics]
             self.best_iter = len(_)
-            print('\nBest Iter: %s' % self.best_iter)
-            print('Best Score: %s ' % _[-1])
         else:
             _ = cv_rst['%s-mean' % self.metrics[0]]
             self.best_iter = len(_)
-            print('\nBest Iter: %s' % self.best_iter)
-            print('Best Score: %s ' % _[-1])
+        print('\nBest Iter: %s' % self.best_iter)
+        print('Best Score: %s ' % _[-1])
 
         self.params_sk['n_estimators'] = self.best_iter
 

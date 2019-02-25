@@ -16,7 +16,7 @@ class VecFeats(object):
         self.cat_feats = cat_feats
         self.vectorizer = vectorizer
 
-    def get_train_data(self):
+    def get_vectors(self):
         return self.vectorizer.fit_transform(self.corpus)
 
     @property
