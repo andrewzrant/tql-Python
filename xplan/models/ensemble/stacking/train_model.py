@@ -138,9 +138,9 @@ def train_model(X, X_test, y, params, folds, model_type='lgb', plot_feature_impo
 
             best_features = feature_importance.loc[feature_importance.feature.isin(cols)]
 
-            plt.figure(figsize=(16, 12));
-            sns.barplot(x="importance", y="feature", data=best_features.sort_values(by="importance", ascending=False));
-            plt.title('LGB Features (avg over folds)');
+            plt.figure(figsize=(16, 12))
+            sns.barplot(x="importance", y="feature", data=best_features.sort_values(by="importance", ascending=False))
+            plt.title('LGB Features (avg over folds)')
 
             return oof, prediction, feature_importance
         return oof, prediction, scores

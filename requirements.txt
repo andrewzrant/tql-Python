@@ -7,3 +7,6 @@ tables
 eli5
 shap
 seaborn
+catboost
+lightgbm
+xgboost
