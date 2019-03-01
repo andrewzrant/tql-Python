@@ -13,7 +13,7 @@ from ...utils import Cprint
 from ..classifier import BayesOptLGB
 
 
-class SemiSimple(object):
+class SimpleSemi(object):
 
     def __init__(self, subsample=0.05, n_iter=1, scale_pos=1, mode=None, opt_seed=None):
         """

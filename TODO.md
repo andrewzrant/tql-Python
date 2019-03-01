@@ -53,5 +53,8 @@ https://blog.csdn.net/IT_bigstone/article/details/80739807
 
 [1]: https://blog.csdn.net/sinat_26917383/article/details/81913790
 
+
+# 翻译
+`https://www.cnblogs.com/fanyang1/p/9414088.html`
 https://github.com/Jie-Yuan/DataMining/tree/master/0_DA/udfs
 https://www.kaggle.com/c/quora-insincere-questions-classification/discussion/79824

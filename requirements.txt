@@ -4,3 +4,6 @@ keras
 jieba
 bayesian-optimization
 tables
+eli5
+shap
+seaborn

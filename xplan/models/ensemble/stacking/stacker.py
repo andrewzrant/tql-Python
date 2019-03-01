@@ -12,73 +12,24 @@ from lightgbm import LGBMClassifier, LGBMRegressor
 from sklearn.model_selection import StratifiedKFold, KFold
 import matplotlib.pyplot as plt
 import seaborn as sns
-
-
-class SklearnHelper(object):
-    def __init__(self):
-        pass
-
-    def fit(self, X_train, y_train, X_valid, y_valid):
-        self.clf = LGBMClassifier(n_estimators=3000)
-        self.clf.fit(X_train, y_train,
-                     eval_set=[(X_valid, y_valid)],
-                     eval_metric='auc',
-                     early_stopping_rounds=100,
-                     verbose=50)
-        return self.clf
-
-    def predict(self, X):
-        try:
-            predict = lambda x: self.clf.__getattribute__('predict_proba')(x, verbose=100)[:, 1]
-        except:
-            predict = self.clf.__getattribute__('preidict')
-        return predict(X)
-
-    @property
-    def feature_importances_(self):
-        return self.clf.feature_importances_
+from sklearn.metrics import roc_auc_score
 
 
 class Stacker(object):
 
-    def __init__(self, X, y, X_test):
-        """重写SklearnHelper
-        class NewSK(SklearnHelper):
-            def fit(self, X_train, y_train, X_valid, y_valid):
-                b = BayesOptLGB(X_train, y_train, 'l1', 'regression')
-                b.run(False)
-                self.clf = LGBMRegressor(**b.params_best_sk)
-                self.clf.fit(X_train, y_train,
-                             eval_set=[(X_valid, y_valid)],
-                             eval_metric='l1',
-                             early_stopping_rounds=100,
-                             verbose=50)
-                return self.clf
-
-            def fit(self, X_train, y_train, X_valid, y_valid):
-                self.clf = LGBMRegressor(**p)
-                self.clf.fit(X_train, y_train,
-                             eval_set=[(X_valid, y_valid)],
-                             eval_metric='l1',
-                             early_stopping_rounds=100,
-                             verbose=100)
-                return self.clf
-            blending = Blending(X, y, X_test)
-            blending.model = NewSK()
-            blending.get_oof(f_eval)
-        """
+    def __init__(self, X, y, X_test, params_sk=None):
         self.X = X
         self.X_test = X_test
         self.y = y
-        self.model = SklearnHelper()  # 重写SklearnHelper
+        self.params_sk = params_sk
 
-    def get_oof(self, f_eval, num_folds=5, stratified=False, feats_exlude=[], plot=False):
+    def get_oof(self, f_eval=roc_auc_score, num_folds=5, stratified=False, feats_exlude=[], plot=False):
         """
         :param f_eval: f_eval(y_true, y_pred)
         :param num_folds:
         :param stratified:
         :param feats_exlude:
-        :return:
+        :return: oof_preds, sub_preds
         """
         feats = list(filter(lambda feat: feat not in feats_exlude, self.X.columns))
         X, X_test = self.X[feats], self.X_test[feats]
@@ -99,21 +50,20 @@ class Stacker(object):
             X_train, y_train = X.iloc[train_idx], self.y.iloc[train_idx]
             X_valid, y_valid = X.iloc[valid_idx], self.y.iloc[valid_idx]
 
-            model = self.model.fit(X_train, y_train, X_valid, y_valid)
+            clf = self._fit(X_train, y_train, X_valid, y_valid)
 
-            oof_preds[valid_idx] = model.predict(X_valid)
-            sub_preds += model.predict(X_test) / num_folds
+            oof_preds[valid_idx] = clf.predict_proba(X_valid)[:, 1]
+            sub_preds += clf.predict_proba(X_test)[:, 1] / num_folds
 
             fold_importance_df = pd.DataFrame()
             fold_importance_df["feature"] = feats
-            fold_importance_df["importance"] = np.log1p(model.feature_importances_)
+            fold_importance_df["importance"] = np.log1p(clf.feature_importances_)
             fold_importance_df["fold"] = n_fold
             self.feature_importance_df = pd.concat([self.feature_importance_df, fold_importance_df], 0)
-            print('Fold %s: Metric: %.6f\n' % (n_fold, f_eval(y_valid, oof_preds[valid_idx])))
         if plot:
             self.plot_importances(self.feature_importance_df)
 
-        print('Blending Score: %s' % f_eval(self.y, oof_preds))
+        print('Bagging Score: %s' % f_eval(self.y, oof_preds))
         return oof_preds, sub_preds
 
     def plot_importances(self, topk=40):
@@ -128,3 +78,31 @@ class Stacker(object):
         plt.title('LightGBM Features (avg over folds)')
         plt.tight_layout()
         plt.savefig('lgbm_importances.png')
+
+    def _fit(self, X_train, y_train, X_valid, y_valid):
+        if self.params_sk is None:
+            self.params_sk = {'boosting_type': 'gbdt',
+                              'colsample_bytree': 0.8,
+                              'learning_rate': 0.03,
+                              'max_depth': -1,
+                              'metric': 'auc',
+                              'min_child_samples': 20,
+                              'min_child_weight': 0.001,
+                              'min_split_gain': 0.0,
+                              'n_estimators': 30000,
+                              'importance_type': 'gain',
+                              'n_jobs': 16,
+                              'num_leaves': 33,
+                              'objective': 'binary',
+                              'random_state': 2019,
+                              'reg_alpha': 0.0,
+                              'reg_lambda': 0.0,
+                              'scale_pos_weight': 1,
+                              'subsample': 0.8,
+                              'subsample_freq': 3,
+                              'verbosity': -1}
+
+        self.clf = LGBMClassifier(**self.params_sk)
+        eval_set = [(X_train, y_train), (X_valid, y_valid)]
+        self.clf.fit(X_train, y_train, eval_set=eval_set, eval_metric='auc', early_stopping_rounds=100, verbose=100)
+        return self.clf
