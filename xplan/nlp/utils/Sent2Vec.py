@@ -2,7 +2,7 @@ import numpy as np
 from tqdm import tqdm
 
 
-class Doc2Vec(object):
+class Sent2Vec(object):
 
     def __init__(self, fname):
         self.embeddings = {}
