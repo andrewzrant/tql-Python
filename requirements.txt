@@ -8,4 +8,4 @@ eli5
 shap
 seaborn
 catboost
-xgboost
+lightgbm
