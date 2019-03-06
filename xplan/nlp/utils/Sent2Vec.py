@@ -1,6 +1,12 @@
 import numpy as np
 from tqdm import tqdm
 
+"""
+1. 加和/平均
+2. Concatenated p-mean Word Embeddings: https://blog.csdn.net/triplemeng/article/details/81298100
+3. InferSent: https://github.com/facebookresearch/InferSent
+"""
+
 
 class Sent2Vec(object):
 

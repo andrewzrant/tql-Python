@@ -9,3 +9,5 @@ shap
 seaborn
 catboost
 lightgbm
+vibora
+sanic

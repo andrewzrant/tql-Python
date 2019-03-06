@@ -6,3 +6,4 @@ __author__ = 'JieYuan'
 __mtime__ = '19-1-30'
 """
 
+from mlxtend.classifier import EnsembleVoteClassifier

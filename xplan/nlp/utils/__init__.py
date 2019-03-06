@@ -1,7 +1,9 @@
 # encoding: utf-8
 from .Sent2Vec import Sent2Vec
-from .bow import BOW
+from .Sequence import Sequence
+from .WordVec2BOW import WordVec2BOW
 from collections import Counter
+
 
 ##########################################################################
 # Ngram iteration
