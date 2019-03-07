@@ -206,6 +206,7 @@ class OOF(object):
 
         self.oof_preds = oof_preds
         self.test_preds = sub_preds
+
         if oof2csv:
             pd.Series(oof_preds.tolist() + sub_preds.tolist(), name='oof').to_csv(oof2csv + time.ctime(), index=False)
 
