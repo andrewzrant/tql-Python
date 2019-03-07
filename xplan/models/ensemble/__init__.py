@@ -51,7 +51,8 @@ class OOF(object):
         self.model_type = self.clf.__repr__()
         # self.clf_agrs = self.getfullargspec(self.clf.fit).args if hasattr(self.clf, 'fit') else None
 
-    def fit(self, X, y, X_test, feval=None, cat_feats=None, exclude_columns=None, epochs=16, batch_size=128):
+    def fit(self, X, y, X_test, feval=None, cat_feats=None, exclude_columns=None, epochs=16, batch_size=128,
+            oof2csv=None):
         """
         # TODO: Rank 融合
         :param X:
@@ -205,6 +206,9 @@ class OOF(object):
 
         self.oof_preds = oof_preds
         self.test_preds = sub_preds
+        if oof2csv:
+            pd.Series(oof_preds.tolist() + sub_preds.tolist(), name='oof').to_csv(oof2csv + time.ctime(), index=False)
+
         return oof_preds, sub_preds
 
     def plot_importances(self, df, topk=64):
@@ -217,7 +221,7 @@ class OOF(object):
                 .sort_values("importance", 0, False))[:topk]
 
         plt.figure(figsize=(12, int(topk / 4)))
-        sns.barplot(x="importance", y="feature", data=data)
+        sns.barplot(x="importance", y="feature", data=data.assign(feature=data.feature.astype(str)))
         plt.title('LightGBM Features (avg over folds)')
         plt.tight_layout()
         plt.savefig('lgbm_importances.png')
