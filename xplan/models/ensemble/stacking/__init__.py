@@ -6,4 +6,3 @@ __author__ = 'JieYuan'
 __mtime__ = '19-1-11'
 """
 
-from .stacker import Stacker

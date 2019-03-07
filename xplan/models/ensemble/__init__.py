@@ -9,16 +9,27 @@ __mtime__ = '19-1-2'
 import time
 import numpy as np
 import pandas as pd
-from lightgbm import LGBMClassifier
-from sklearn.model_selection import StratifiedKFold, RepeatedStratifiedKFold
 import matplotlib.pyplot as plt
 import seaborn as sns
-from sklearn.metrics import roc_auc_score
+
+from sklearn.model_selection import StratifiedKFold, RepeatedStratifiedKFold
+from sklearn.metrics import roc_auc_score, mean_squared_error
+
+from lightgbm import LGBMClassifier
+from xgboost import XGBClassifier
+from catboost import CatBoostClassifier
+from statsmodels.api import GLM, families
 
 
 class OOF(object):
     """Out of flod prediction
-    TODO: 目前仅支持二分类问题,未来将支持回归问题
+    # TODO 支持回归
+
+    lightGBM一个一个地建立节点; XGboost一层一层地建立节点
+    https://blog.csdn.net/friyal/article/details/82758532
+    Catboost总是使用完全二叉树。它的节点是镜像的(对称树)。Catboost称对称树有利于避免overfit，增加可靠性，并且能大大加速预测等等。
+        计算某个category出现的频率，加上超参数，生成新的numerical features
+    # https://blog.csdn.net/linxid/article/details/80723811
     """
     _params = {'metric': 'auc',
                'learning_rate': 0.01,
@@ -29,22 +40,34 @@ class OOF(object):
                'scale_pos_weight': 1,  ##
                'random_state': 2019,
                'verbosity': -1}
+    lgb = LGBMClassifier(n_jobs=16, **_params)
+    xgb = XGBClassifier()
+    cat = CatBoostClassifier(n_estimators=20000, learning_rate=0.05, loss_function='Logloss', eval_metric='AUC',
+                             random_state=2019)
 
     def __init__(self, clf=None, folds=None):
-        self.clf = clf if clf else LGBMClassifier(**self._params)
+        self.clf = clf if clf else self.lgb
         self.folds = folds if folds else StratifiedKFold(5, True, 2019)  # 支持 RepeatedStratifiedKFold
-
-        self.model_type = self.clf.__repr__().split('(')[0]
+        self.model_type = self.clf.__repr__()
         # self.clf_agrs = self.getfullargspec(self.clf.fit).args if hasattr(self.clf, 'fit') else None
 
-    def fit(self, X, y, X_test, exclude_columns=None):
+    def fit(self, X, y, X_test, feval=None, cat_feats=None, exclude_columns=None, epochs=16, batch_size=128):
         """
-        :param f_eval: f_eval(y_true, y_pred)
-        :param num_folds:
-        :param stratified:
+        # TODO: Rank 融合
+        :param X:
+        :param y:
+        :param X_test:
+        :param feval: roc_auc_score(y_true, y_score)
+        :param cat_feats: 类别特征索引
         :param exclude_columns:
-        :return: oof_preds, sub_preds
+        仅针对 nn
+        :param epochs:
+        :param batch_size:
+        :return:
         """
+        # oof评估函数
+        feval = feval if feval else roc_auc_score
+
         # 移除不需要的特征
         if exclude_columns:
             feats = X.columns.difference(exclude_columns)
@@ -65,7 +88,8 @@ class OOF(object):
         self.feature_importance_df = pd.DataFrame()
 
         for n_fold, (train_idx, valid_idx) in enumerate(self.folds.split(X, y), 1):
-            print("\033[94m Fold %s Started At %s \033[0m\n" % (n_fold, time.ctime()))
+            print("\n\033[94mFold %s started at %s\033[0m" % (n_fold, time.ctime()))
+
             X_train, y_train = X.iloc[train_idx], y.iloc[train_idx]
             X_valid, y_valid = X.iloc[valid_idx], y.iloc[valid_idx]
 
@@ -73,44 +97,108 @@ class OOF(object):
                 print("该算法无fit方法")
                 break
             else:
-                if self.model_type == 'LGBMClassifier':
+                if 'LGBMClassifier' in self.model_type:
                     eval_set = [(X_train, y_train), (X_valid, y_valid)]
+                    self.clf.fit(X_train, y_train,
+                                 eval_set=eval_set,
+                                 categorical_feature=cat_feats if cat_feats else 'auto',
+                                 eval_metric='auc',
+                                 early_stopping_rounds=100,
+                                 verbose=100)
+                elif 'LGBMRegressor' in self.model_type:
+                    eval_set = [(X_train, y_train), (X_valid, y_valid)]
+                    self.clf.fit(X_train, y_train,
+                                 eval_set=eval_set,
+                                 categorical_feature=cat_feats if cat_feats else 'auto',
+                                 eval_metric='l2',
+                                 early_stopping_rounds=100,
+                                 verbose=100)
 
-                    self.clf.fit(X_train, y_train,
-                                 eval_set=eval_set,
-                                 categorical_feature='auto',  # TODO: 类别型的支持
-                                 eval_metric='auc',
-                                 early_stopping_rounds=100,
-                                 verbose=100)
-                elif self.model_type == 'XGBClassifier':
+                elif 'XGBClassifier' in self.model_type:
                     eval_set = [(X_train, y_train), (X_valid, y_valid)]
                     self.clf.fit(X_train, y_train,
                                  eval_set=eval_set,
                                  eval_metric='auc',
                                  early_stopping_rounds=100,
                                  verbose=100)
-                elif self.model_type == 'CatBoostClassifier':
-                    # CatBoostClassifier(iterations=20000, learning_rate=0.05, loss_function='Logloss',  eval_metric='AUC', **params)
+                elif 'XGBRegressor' in self.model_type:
+                    eval_set = [(X_train, y_train), (X_valid, y_valid)]
                     self.clf.fit(X_train, y_train,
                                  eval_set=eval_set,
-                                 cat_features=[],  # Categ columns indices # TODO: 类别型的支持
-                                 use_best_model=True,
+                                 eval_metric='rmse',
                                  early_stopping_rounds=100,
-                                 verbose=100)  # verbose_eval?
+                                 verbose=100)
+
+                elif 'CatBoostClassifier' in self.model_type:
+                    eval_set = [(X_train, y_train), (X_valid, y_valid)]
+                    self.clf.fit(X_train, y_train,
+                                 eval_set=eval_set,
+                                 cat_features=cat_feats,
+                                 use_best_model=True,
+                                 plot=True,
+                                 early_stopping_rounds=100,
+                                 verbose=100)
+                elif 'CatBoostRegressor' in self.model_type:
+                    eval_set = [(X_train, y_train), (X_valid, y_valid)]
+                    self.clf.fit(X_train, y_train,
+                                 eval_set=eval_set,
+                                 cat_features=cat_feats,
+                                 use_best_model=True,
+                                 plot=True,
+                                 early_stopping_rounds=100,
+                                 verbose=0)
+
+                elif 'RGFClassifier' in self.model_type:
+                    pass
+                elif 'RGFRegressor' in self.model_type:
+                    pass
+
+                # https://www.cnblogs.com/flyu6/p/7691106.html
+                elif 'KerasClassifier' in self.model_type:
+                    eval_set = [(X_train, y_train), (X_valid, y_valid)]
+                    self.clf.fit(X_train, y_train,
+                                 epochs=epochs,
+                                 batch_size=batch_size,
+                                 validation_data=eval_set)
+                elif 'KerasRegressor' in self.model_type:
+                    eval_set = [(X_train, y_train), (X_valid, y_valid)]
+                    self.clf.fit(X_train, y_train,
+                                 epochs=epochs,
+                                 batch_size=batch_size,
+                                 validation_data=eval_set)
+
+                elif self.model_type == 'GLM':
+                    # TODO: 其他模型的支持
+                    self.clf = GLM(y_train, X_train, family=families.Binomial())
+                    self.clf = self.clf.fit().predict(X)
                 else:
+                    # sklearn 原生模型
                     self.clf.fit(X, y)
 
-                oof_preds[valid_idx] = self.clf.predict_proba(X_valid)[:, 1]
-                sub_preds += self.clf.predict_proba(X_test)[:, 1] / num_folds
+                # 计算并保存 preds
+                # TODO: 多分类需要修改
+                if hasattr(self.clf, 'predict_proba'):
+                    oof_preds[valid_idx] = self.clf.predict_proba(X_valid)[:, 1]
+                    sub_preds += self.clf.predict_proba(X_test)[:, 1] / num_folds
+                else:
+                    oof_preds[valid_idx] = self.clf.predict(X_valid)
+                    sub_preds += self.clf.predict(X_test) / num_folds
 
-                if hasattr(self.clf, 'feature_importances_'):
-                    fold_importance_df = pd.DataFrame()
-                    fold_importance_df["feature"] = feats
-                    fold_importance_df["importance"] = self.clf.feature_importances_
-                    fold_importance_df["fold"] = n_fold
-                    self.feature_importance_df = pd.concat([self.feature_importance_df, fold_importance_df], 0)
+            if hasattr(self.clf, 'feature_importances_'):
+                fold_importance_df = pd.DataFrame()
+                fold_importance_df["feature"] = feats
+                fold_importance_df["importance"] = self.clf.feature_importances_
+                fold_importance_df["fold"] = n_fold
+                self.feature_importance_df = pd.concat([self.feature_importance_df, fold_importance_df], 0)
 
-        print('OOF AUC: %s' % roc_auc_score(y, oof_preds))
+        try:
+            score = feval(y, oof_preds)
+            score_name = feval.__repr__().split()[1]
+        except Exception as e:
+            score = score_name = None
+            print('Error feval:', e)
+
+        print("\n\033[94mOOF %s: %s end at %s\n\033[0m" % (score_name, score, time.ctime()))
 
         if hasattr(self.clf, 'feature_importances_'):
             self.plot_importances(self.feature_importance_df)
@@ -119,14 +207,16 @@ class OOF(object):
         self.test_preds = sub_preds
         return oof_preds, sub_preds
 
-    def plot_importances(self, topk=40):
+    def plot_importances(self, df, topk=64):
         """Display/plot feature importance"""
-        data = (self.feature_importance_df[["feature", "importance"]]
+        assert "feature" in df.columns and "importance" in df.columns, '无["feature", "importance"]'
+        data = (df[["feature", "importance"]]
                 .groupby("feature")
                 .mean()
                 .reset_index()
                 .sort_values("importance", 0, False))[:topk]
-        plt.figure(figsize=(8, 16))
+
+        plt.figure(figsize=(12, int(topk / 4)))
         sns.barplot(x="importance", y="feature", data=data)
         plt.title('LightGBM Features (avg over folds)')
         plt.tight_layout()
