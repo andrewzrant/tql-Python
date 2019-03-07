@@ -16,8 +16,8 @@ tfidf_mat = tfidf.fit_transform(data.review)
 X = tfidf_mat[:6328]
 X_test = tfidf_mat[6328:]
 
-X1 = SelectKBest(chi2, 1000).fit_transform(X, y)
-X2 = SelectKBest(mutual_info_classif, 1000).fit_transform(X, y)
+X1 = SelectKBest(chi2, 1000).fit_transform(X, y) # 0.791
+X2 = SelectKBest(mutual_info_classif, 1000).fit_transform(X, y) # 0.787
 
 b = BaselineLGB(X1, y)
 b.run()
