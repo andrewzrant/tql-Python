@@ -66,16 +66,22 @@ class OOF(object):
         :param batch_size:
         :return:
         """
+        # 判断输入数据是否是数据框
+        is_df = isinstance(X, pd.DataFrame)
+
         # oof评估函数
         feval = feval if feval else roc_auc_score
 
         # 移除不需要的特征
-        if exclude_columns:
-            feats = X.columns.difference(exclude_columns)
-        else:
-            feats = X.columns
+        if is_df:
+            if exclude_columns:
+                feats = X.columns.difference(exclude_columns)
+            else:
+                feats = X.columns
 
-        X, X_test = X[feats], X_test[feats]
+            X, X_test = X[feats], X_test[feats]
+        else:
+            feats = range(X.shape[1])
 
         if hasattr(self.folds, 'n_splits'):
             num_folds = self.folds.n_splits
@@ -84,15 +90,19 @@ class OOF(object):
 
         # Cross validation model
         # Create arrays and dataframes to store results
-        oof_preds = np.zeros(len(X))
-        sub_preds = np.zeros(len(X_test))
+        oof_preds = np.zeros(X.shape[0])
+        sub_preds = np.zeros(X_test.shape[0])
         self.feature_importance_df = pd.DataFrame()
 
         for n_fold, (train_idx, valid_idx) in enumerate(self.folds.split(X, y), 1):
             print("\n\033[94mFold %s started at %s\033[0m" % (n_fold, time.ctime()))
 
-            X_train, y_train = X.iloc[train_idx], y.iloc[train_idx]
-            X_valid, y_valid = X.iloc[valid_idx], y.iloc[valid_idx]
+            if is_df:
+                X_train, y_train = X.iloc[train_idx], y.iloc[train_idx]
+                X_valid, y_valid = X.iloc[valid_idx], y.iloc[valid_idx]
+            else:
+                X_train, y_train = X[train_idx], y[train_idx]
+                X_valid, y_valid = X[valid_idx], y[valid_idx]
 
             if not hasattr(self.clf, 'fit'):
                 print("该算法无fit方法")
@@ -215,6 +225,7 @@ class OOF(object):
     def plot_importances(self, df, topk=64):
         """Display/plot feature importance"""
         assert "feature" in df.columns and "importance" in df.columns, '无["feature", "importance"]'
+
         data = (df[["feature", "importance"]]
                 .groupby("feature")
                 .mean()
@@ -222,7 +233,7 @@ class OOF(object):
                 .sort_values("importance", 0, False))[:topk]
 
         plt.figure(figsize=(12, int(topk / 4)))
-        sns.barplot(x="importance", y="feature", data=data.assign(feature=data.feature.astype(str)))
+        sns.barplot(x="importance", y="feature", data=data.assign(feature='col_' + data.feature.astype(str)))
         plt.title('LightGBM Features (avg over folds)')
         plt.tight_layout()
         plt.savefig('lgbm_importances.png')
