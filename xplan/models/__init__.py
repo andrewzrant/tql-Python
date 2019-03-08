@@ -99,7 +99,7 @@ class OOF(object):
         sub_preds = np.zeros(X_test.shape[0])
         self.feature_importance_df = pd.DataFrame()
 
-        idxs = np.array(self.folds.split(X, y))
+        idxs = np.array(list(self.folds.split(X, y)))
         valid_idxs = idxs[:, 1]
 
         for n_fold, (train_idx, valid_idx) in enumerate(folds, 1):
