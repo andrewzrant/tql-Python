@@ -215,25 +215,24 @@ class OOF(object):
             cv_scores = list(map(lambda idx: feval(y[idx], oof_preds[idx]), valid_idxs))
         except Exception as e:
             score = 0
+            cv_scores = []
             print('Error feval:', e)
-        finally:
 
-            print("\n\033[94mFitting %s: %s ended at %s\n\033[0m" % (score, time.ctime()))
-            print("\n\033[94mOOF %s: %s\n\033[0m" % (score_name, score))
-            print("\n\033[94mCV %s: %s+/-%s\n\033[0m" % (score_name, np.mean(cv_scores), np.std(cv_scores)))
-
-        if hasattr(self.clf, 'feature_importances_'):
-            self.plot_importances(self.feature_importance_df)
-
-        self.oof_preds = oof_preds
-        self.test_preds = sub_preds
-        self.cv_scores = cv_scores
+        print("\n\033[94mFitting: %s ended at %s\n\033[0m" % (score, time.ctime()))
+        print("OOF %s: %s" % (score_name, score))
+        print("CV %s: %s+/-%s" % (score_name, np.mean(cv_scores), np.std(cv_scores)))
+        print(cv_scores)
 
         if isinstance(oof2csv, str):
             pd.Series(oof_preds.tolist() + sub_preds.tolist(), name='oof') \
                 .to_csv('OOF %s %s' % (time.ctime(), oof2csv), index=False)
 
-        return oof_preds, sub_preds
+        if hasattr(self.clf, 'feature_importances_'):
+            self.plot_importances(self.feature_importance_df)
+
+        # 留下需要的结果
+        self.oof_preds = oof_preds
+        self.test_preds = sub_preds
 
     def plot_importances(self, df, topk=64):
         """Display/plot feature importance"""
