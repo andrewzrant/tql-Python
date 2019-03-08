@@ -87,6 +87,12 @@ class OOF(object):
         else:
             num_folds = self.folds.cvargs['n_splits']
 
+        # Score
+        if hasattr(feval, '__repr__'):
+            score_name = feval.__repr__().split()[1]
+        else:
+            score_name = None
+        cv_scores = []
         # Cross validation model
         # Create arrays and dataframes to store results
         oof_preds = np.zeros(X.shape[0])
@@ -194,6 +200,15 @@ class OOF(object):
                     oof_preds[valid_idx] = self.clf.predict(X_valid)
                     sub_preds += self.clf.predict(X_test) / num_folds
 
+            try:
+                score = feval(y, oof_preds[valid_idx])
+            except Exception as e:
+                score = 0
+                print('Error feval:', e)
+            finally:
+                cv_scores.append(score)
+                print("%s %s" % (score_name, score))
+
             if hasattr(self.clf, 'feature_importances_'):
                 fold_importance_df = pd.DataFrame()
                 fold_importance_df["feature"] = feats
@@ -203,12 +218,13 @@ class OOF(object):
 
         try:
             score = feval(y, oof_preds)
-            score_name = feval.__repr__().split()[1]
         except Exception as e:
-            score = score_name = None
+            score = 0
             print('Error feval:', e)
-
-        print("\n\033[94mOOF %s: %s end at %s\n\033[0m" % (score_name, score, time.ctime()))
+        finally:
+            print("\n\033[94mFitting %s: %s ended at %s\n\033[0m" % (score, time.ctime()))
+            print("\n\033[94mOOF %s: %s end at %s\n\033[0m" % (score_name, score))
+            print("\n\033[94mCV %s: %s +/- %s end at %s\n\033[0m" % (score_name, np.mean(cv_scores), np.std(cv_scores)))
 
         if hasattr(self.clf, 'feature_importances_'):
             self.plot_importances(self.feature_importance_df)
