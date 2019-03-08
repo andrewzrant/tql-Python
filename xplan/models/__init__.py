@@ -225,7 +225,7 @@ class OOF(object):
 
         if oof2csv:
             pd.Series(oof_preds.tolist() + sub_preds.tolist(), name='oof') \
-                .to_csv('OOF %s %.4f' % (time.ctime(), oof_preds), index=False)
+                .to_csv('OOF %s %.4f' % (time.ctime(), score), index=False)
 
         if hasattr(self.clf, 'feature_importances_'):
             self.plot_importances(self.feature_importance_df)
