@@ -7,18 +7,17 @@ __mtime__ = '19-1-2'
 """
 
 import time
+
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 import seaborn as sns
-
-from sklearn.model_selection import StratifiedKFold, RepeatedStratifiedKFold
-from sklearn.metrics import roc_auc_score, mean_squared_error
-
-from lightgbm import LGBMClassifier
-from xgboost import XGBClassifier
 from catboost import CatBoostClassifier
+from lightgbm import LGBMClassifier
+from sklearn.metrics import roc_auc_score
+from sklearn.model_selection import StratifiedKFold
 from statsmodels.api import GLM, families
+from xgboost import XGBClassifier
 
 
 class OOF(object):
@@ -217,8 +216,9 @@ class OOF(object):
         self.oof_preds = oof_preds
         self.test_preds = sub_preds
 
-        if oof2csv:
-            pd.Series(oof_preds.tolist() + sub_preds.tolist(), name='oof').to_csv(oof2csv + time.ctime(), index=False)
+        if isinstance(oof2csv, str):
+            pd.Series(oof_preds.tolist() + sub_preds.tolist(), name='oof') \
+                .to_csv('OOF %s %s' % (time.ctime(), oof2csv), index=False)
 
         return oof_preds, sub_preds
 
