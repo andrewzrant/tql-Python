@@ -220,12 +220,12 @@ class OOF(object):
 
         print("\n\033[94mFitting: %s ended at %s\033[0m" % (score, time.ctime()))
         print("%s OOF : %s" % (score_name, score))
-        print("%s  CV : %s +/- %s" % (score_name, np.mean(cv_scores), np.std(cv_scores)))
+        print("%s CV  : %s +/- %s" % (score_name, np.mean(cv_scores), np.std(cv_scores)))
         print(cv_scores)
 
         if oof2csv:
             pd.Series(oof_preds.tolist() + sub_preds.tolist(), name='oof') \
-                .to_csv('OOF %s %.4f' % (time.ctime(), score), index=False)
+                .to_csv('OOF %s %.4f.csv' % (time.ctime(), score), index=False)
 
         if hasattr(self.clf, 'feature_importances_'):
             self.plot_importances(self.feature_importance_df)
