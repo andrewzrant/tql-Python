@@ -201,7 +201,7 @@ class OOF(object):
                     sub_preds += self.clf.predict(X_test) / num_folds
 
             try:
-                score = feval(y, oof_preds[valid_idx])
+                score = feval(y_valid, oof_preds[valid_idx])
             except Exception as e:
                 score = 0
                 print('Error feval:', e)
