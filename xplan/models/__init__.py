@@ -223,8 +223,8 @@ class OOF(object):
             print('Error feval:', e)
         finally:
             print("\n\033[94mFitting %s: %s ended at %s\n\033[0m" % (score, time.ctime()))
-            print("\n\033[94mOOF %s: %s end at %s\n\033[0m" % (score_name, score))
-            print("\n\033[94mCV %s: %s +/- %s end at %s\n\033[0m" % (score_name, np.mean(cv_scores), np.std(cv_scores)))
+            print("\n\033[94mOOF %s: %s\n\033[0m" % (score_name, score))
+            print("\n\033[94mCV %s: %s+/-%s\n\033[0m" % (score_name, np.mean(cv_scores), np.std(cv_scores)))
 
         if hasattr(self.clf, 'feature_importances_'):
             self.plot_importances(self.feature_importance_df)
