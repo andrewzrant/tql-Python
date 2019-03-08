@@ -218,9 +218,9 @@ class OOF(object):
             cv_scores = []
             print('Error feval:', e)
 
-        print("\n\033[94mFitting: %s ended at %s\n\033[0m" % (score, time.ctime()))
+        print("\n\033[94mFitting: %s ended at %s\033[0m" % (score, time.ctime()))
         print("OOF %s: %s" % (score_name, score))
-        print("CV %s: %s+/-%s" % (score_name, np.mean(cv_scores), np.std(cv_scores)))
+        print(" CV %s: %s+/-%s" % (score_name, np.mean(cv_scores), np.std(cv_scores)))
         print(cv_scores)
 
         if isinstance(oof2csv, str):
