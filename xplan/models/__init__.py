@@ -102,7 +102,7 @@ class OOF(object):
         idxs = np.array(list(self.folds.split(X, y)))
         valid_idxs = idxs[:, 1]
 
-        for n_fold, (train_idx, valid_idx) in enumerate(folds, 1):
+        for n_fold, (train_idx, valid_idx) in enumerate(idxs, 1):
             print("\n\033[94mFold %s started at %s\033[0m" % (n_fold, time.ctime()))
 
             if is_df:
@@ -227,6 +227,7 @@ class OOF(object):
 
         self.oof_preds = oof_preds
         self.test_preds = sub_preds
+        self.cv_scores = cv_scores
 
         if isinstance(oof2csv, str):
             pd.Series(oof_preds.tolist() + sub_preds.tolist(), name='oof') \
