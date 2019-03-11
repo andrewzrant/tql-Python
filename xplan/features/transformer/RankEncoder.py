@@ -21,7 +21,7 @@ class RankEncoder(BaseEstimator, TransformerMixin):
         return self
 
     def transform(self, series: pd.Series):
-        return series.replace(self.ranker)
+        return series.map(self.ranker)
 
 
 if __name__ == '__main__':
