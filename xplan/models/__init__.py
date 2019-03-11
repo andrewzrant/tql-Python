@@ -96,7 +96,7 @@ class OOF(object):
         # Cross validation model
         # Create arrays and dataframes to store results
         oof_preds = np.zeros(X.shape[0])
-        sub_preds = np.zeros(X_test.shape[0])
+        sub_preds = np.zeros(X_test.shape)
         self.feature_importance_df = pd.DataFrame()
 
         for n_fold, (train_idx, valid_idx) in enumerate(self.folds.split(X, y), 1):
@@ -195,10 +195,10 @@ class OOF(object):
                 # TODO: 多分类需要修改
                 if hasattr(self.clf, 'predict_proba'):
                     oof_preds[valid_idx] = self.clf.predict_proba(X_valid)[:, 1]
-                    sub_preds += self.clf.predict_proba(X_test)[:, 1] / num_folds
+                    sub_preds[:, n_fold - 1] = self.clf.predict_proba(X_test)[:, 1]
                 else:
                     oof_preds[valid_idx] = self.clf.predict(X_valid)
-                    sub_preds += self.clf.predict(X_test) / num_folds
+                    sub_preds[:, n_fold - 1] = self.clf.predict(X_test)
 
             if hasattr(self.clf, 'feature_importances_'):
                 fold_importance_df = pd.DataFrame()
@@ -207,24 +207,29 @@ class OOF(object):
                 fold_importance_df["fold"] = n_fold
                 self.feature_importance_df = pd.concat([self.feature_importance_df, fold_importance_df], 0)
 
+        # 输出需要的结果
+        self.oof_preds = oof_preds
+        self.oof_preds_rank = pd.Series(oof_preds).rank() / oof_preds.shape[0]
+        self.sub_preds = sub_preds.mean(1)
+        self.sub_preds_rank = pd.DataFrame(sub_preds).rank().mean(1) / sub_preds.shape[0]
+
         try:
-            score = feval(y, oof_preds)
+            score = feval(y, self.oof_preds)
+            score_rank = feval(y, self.oof_preds_rank)
         except Exception as e:
-            score = 0
+            score = score_rank = 0
             print('Error feval:', e)
 
         print("\n\033[94mCV Score %s: %s ended at %s\033[0m" % (score_name, score, time.ctime()))
+        print("\n\033[94mCV Score Rank %s: %s ended at %s\033[0m" % (score_name, score_rank, time.ctime()))
 
+        # 保存的普通平均的得分
         if oof2csv:
-            pd.Series(oof_preds.tolist() + sub_preds.tolist(), name='oof') \
+            pd.Series(self.oof_preds.tolist() + self.sub_preds.tolist(), name='oof') \
                 .to_csv('OOF %s %.4f.csv' % (time.ctime(), score), index=False)
 
         if hasattr(self.clf, 'feature_importances_'):
             self.plot_importances(self.feature_importance_df)
-
-        # 留下需要的结果
-        self.oof_preds = oof_preds
-        self.test_preds = sub_preds
 
     def plot_importances(self, df, topk=64):
         """Display/plot feature importance"""

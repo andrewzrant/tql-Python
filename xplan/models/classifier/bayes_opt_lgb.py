@@ -7,6 +7,8 @@ __mtime__ = '19-1-3'
 """
 
 """optuna
+https://www.kaggle.com/canonwu/save-intermediate-results-for-stacking/comments
+
 /https://www.cnblogs.com/gczr/p/7156270.html
 
 https://github.com/bamine/Kaggle-stuff/blob/master/otto/hyperopt_xgboost.py#L39

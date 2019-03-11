@@ -6,14 +6,16 @@ __author__ = 'JieYuan'
 __mtime__ = '19-1-3'
 """
 import numpy as np
-from sklearn.preprocessing import StandardScaler
-from sklearn.cluster import KMeans, DBSCAN, MeanShift, AgglomerativeClustering, SpectralClustering
+from sklearn.cluster import AgglomerativeClustering, DBSCAN, KMeans, MeanShift
 from sklearn.mixture import GaussianMixture
+from sklearn.preprocessing import StandardScaler
 
 """
 SpectralClustering
 import hdbscan 待补充 
 """
+
+
 class BaselineCluster(object):
     """
     bc = BaselineCluster(X, y)
