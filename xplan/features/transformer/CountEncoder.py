@@ -29,8 +29,8 @@ class CountEncoder(BaseEstimator, TransformerMixin):
         _ = self._pe(self._transform, tqdm(zip(self.counter_ls, self._get_series_ls(df)), 'Transforming ...'), self.w)
         return pd.concat(_, 1)
 
-    def fit_transform(self, df):
-        return self.fit(df).transform(df)
+    # def fit_transform(self, df):
+    #     return self.fit(df).transform(df)
 
     def _fit(self, s: pd.Series):
         _ = (s.value_counts(normalize=self.normalize, dropna=self.dropna)

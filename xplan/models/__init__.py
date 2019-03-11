@@ -209,19 +209,16 @@ class OOF(object):
 
         # 输出需要的结果
         self.oof_preds = oof_preds
-        self.oof_preds_rank = pd.Series(oof_preds).rank() / oof_preds.shape[0]
         self.sub_preds = sub_preds.mean(1)
         self.sub_preds_rank = pd.DataFrame(sub_preds).rank().mean(1) / sub_preds.shape[0]
 
         try:
             score = feval(y, self.oof_preds)
-            score_rank = feval(y, self.oof_preds_rank)
         except Exception as e:
-            score = score_rank = 0
+            score = 0
             print('Error feval:', e)
 
         print("\n\033[94mCV Score %s: %s ended at %s\033[0m" % (score_name, score, time.ctime()))
-        print("\n\033[94mCV Score Rank %s: %s ended at %s\033[0m" % (score_name, score_rank, time.ctime()))
 
         # 保存的普通平均的得分
         if oof2csv:
@@ -241,7 +238,7 @@ class OOF(object):
                 .reset_index()
                 .sort_values("importance", 0, False))[:topk]
 
-        plt.figure(figsize=(12, int(topk / 4)))
+        plt.figure(figsize=(12, topk // 4))
         sns.barplot(x="importance", y="feature", data=data.assign(feature='col_' + data.feature.astype(str)))
         plt.title('LightGBM Features (avg over folds)')
         plt.tight_layout()

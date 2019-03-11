@@ -5,18 +5,8 @@ __title__ = 'iter'
 __author__ = 'JieYuan'
 __mtime__ = '18-12-14'
 """
+
 from .utils.xx import xx
-
-import json
-import pickle
-import jieba
-import numpy as np
-import pandas as pd
-
-from functools import reduce
-from pprint import pprint
-from collections import Counter, OrderedDict
-from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
 from .utils_eda import DataFrameSummary
 from .utils import Cprint
 
@@ -31,13 +21,67 @@ except:
 else:
     from tqdm import tqdm_notebook as tqdm
 
+#########################################################################
+import warnings
+
+warnings.filterwarnings("ignore")
+import re
+import jieba
+import json
+import pickle
+import numpy as np
+import pandas as pd
+from pathlib import Path
+from datetime import datetime
+from pprint import pprint
+from functools import reduce
+from collections import Counter, OrderedDict
+from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
+
+from sklearn.pipeline import make_pipeline
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.model_selection import *
+from sklearn.preprocessing import *
+from sklearn.linear_model import *
+from sklearn.ensemble import *
+from sklearn.metrics import *
+
+# pd.set_option('display.max_rows', 1024)
+# pd.set_option('display.max_columns', 128)
+# pd.set_option('max_colwidth', 128)  # 列宽
+# pd.set_option('expand_frame_repr', False)  # 允许换行显示
+
+
+import matplotlib.pyplot as plt
+
+# plt.style.use('ggplot')
+plt.rcParams['font.sans-serif'] = ['Simhei']  # 中文乱码的处理
+plt.rcParams['font.family'] = 'sans-serif'
+plt.rcParams['axes.unicode_minus'] = False  # 负号
+plt.rcParams["text.usetex"] = False
+plt.rcParams["legend.numpoints"] = 1
+plt.rcParams["figure.figsize"] = (12, 6)  # (8, 6)
+plt.rcParams["figure.dpi"] = 128
+plt.rcParams["savefig.dpi"] = plt.rcParams["figure.dpi"]
+plt.rcParams["font.size"] = 10
+plt.rcParams["pdf.fonttype"] = 42
+
+import seaborn as sns
+
+sns.set(style="darkgrid")  # darkgrid, whitegrid, dark, white,和ticks
+
+
+# sns.plotting_context()
+# sns.axes_style()
+#########################################################################
+TfidfVectorizer
 
 # 序列化
 # df.to_hdf('./data.h5', 'w', complib='blosc', complevel=8)
-def read(fname='./tmp.txt', mode='r'):
+def reader(fname='./tmp.txt', sep=',', mode='r'):
     with open(fname, mode) as f:
         for l in f:
-            yield l
+            yield l.strip().split(sep)
 
 
 @xx

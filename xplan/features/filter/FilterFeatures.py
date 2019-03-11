@@ -5,11 +5,11 @@ __title__ = 'FilterFeatures'
 __author__ = 'JieYuan'
 __mtime__ = '19-1-24'
 """
-from ... import tqdm
 from ...utils.timer import timer
 
 import pandas as pd
 from functools import partial
+from tqdm import tqdm
 from concurrent.futures import ProcessPoolExecutor
 
 """https://www.cnblogs.com/nolonely/p/6435083.html
