@@ -51,7 +51,7 @@ class OOF(object):
         # self.clf_agrs = self.getfullargspec(self.clf.fit).args if hasattr(self.clf, 'fit') else None
 
     def fit(self, X, y, X_test, feval=None, cat_feats=None, exclude_columns=None, epochs=16, batch_size=128,
-            oof2csv=None):
+            oof2csv=False):
         """
         # TODO: Rank 融合
         :param X:
@@ -99,10 +99,7 @@ class OOF(object):
         sub_preds = np.zeros(X_test.shape[0])
         self.feature_importance_df = pd.DataFrame()
 
-        idxs = np.array(list(self.folds.split(X, y)))
-        valid_idxs = idxs[:, 1]
-
-        for n_fold, (train_idx, valid_idx) in enumerate(idxs, 1):
+        for n_fold, (train_idx, valid_idx) in enumerate(self.folds.split(X, y), 1):
             print("\n\033[94mFold %s started at %s\033[0m" % (n_fold, time.ctime()))
 
             if is_df:
@@ -212,16 +209,11 @@ class OOF(object):
 
         try:
             score = feval(y, oof_preds)
-            cv_scores = list(map(lambda idx: feval(y[idx], oof_preds[idx]), valid_idxs))
         except Exception as e:
             score = 0
-            cv_scores = []
             print('Error feval:', e)
 
-        print("\n\033[94mFitting: %s ended at %s\033[0m" % (score, time.ctime()))
-        print("%s OOF : %s" % (score_name, score))
-        print("%s CV  : %s +/- %s" % (score_name, np.mean(cv_scores), np.std(cv_scores)))
-        print(cv_scores)
+        print("\n\033[94mCV Score %s: %s ended at %s\033[0m" % (score_name, score, time.ctime()))
 
         if oof2csv:
             pd.Series(oof_preds.tolist() + sub_preds.tolist(), name='oof') \
