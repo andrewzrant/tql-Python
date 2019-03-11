@@ -2,7 +2,7 @@
 
 ---
 > 数据不是创造规律,而是展示那些原本的规律
-
+https://www.kaggle.com/c/elo-merchant-category-recommendation/discussion/82055#479196
 [Competitions][1]
 
 ---
