@@ -8,6 +8,7 @@ lightgbm
 catboost
 rgf_python
 bayesian-optimization
+statsmodels
 
 tables
 eli5

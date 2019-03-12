@@ -13,7 +13,7 @@ with open("README.md", encoding='utf-8') as f:
 
 
 def get_requirements():
-    _ = 'requirements.txt'
+    _ = './requirements.txt'
     if os.path.isfile(_):
         with open(_, encoding='utf-8') as f:
             return f.read().split()
