@@ -43,7 +43,7 @@ class BaselineLGB(object):
             boosting_type='gbdt',
             objective=objective,
             max_depth=-1,
-            num_leaves=33,
+            num_leaves=17,
             learning_rate=learning_rate,
 
             min_child_weight=0.001,  # 决定最小叶子节点样本权重和, 孩子节点中最小的样本权重和, 避免过拟合, 如果一个叶子节点的样本权重和小于min_child_weight则拆分过程结束

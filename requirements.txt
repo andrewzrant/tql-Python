@@ -14,3 +14,5 @@ tables
 eli5
 shap
 seaborn
+
+jovian

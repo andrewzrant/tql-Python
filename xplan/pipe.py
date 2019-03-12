@@ -70,11 +70,11 @@ import seaborn as sns
 
 sns.set(style="darkgrid")  # darkgrid, whitegrid, dark, white,和ticks
 
-
 # sns.plotting_context()
 # sns.axes_style()
 #########################################################################
 TfidfVectorizer
+
 
 # 序列化
 # df.to_hdf('./data.h5', 'w', complib='blosc', complevel=8)
@@ -176,3 +176,11 @@ def xThreadPoolExecutor(iterable, func, max_workers=5):
 def xProcessPoolExecutor(iterable, func, max_workers=5):
     with ProcessPoolExecutor(max_workers) as pool:
         return pool.map(func, iterable)
+
+
+import jovian
+
+
+def commit():
+    print("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlkZW50aXR5Ijp7InVzZXJuYW1lIjoiSmllLVl1YW4iLCJpZCI6Njd9LCJ0eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTUyOTY1NTkzLCJpYXQiOjE1NTIzNjA3OTMsIm5iZiI6MTU1MjM2MDc5MywianRpIjoiNjM1ZTg2MjQtYjA1ZC00NGJmLTljYjAtOGVjOGRmM2ExNmJkIn0.5jglhEGGs12ITl-DWWaFL-BVPhCzaDEeMKIJvEI-bbA")
+    jovian.commit(env_type='pip')
