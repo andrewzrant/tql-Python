@@ -8,14 +8,14 @@ __mtime__ = '18-12-14'
 import os
 from setuptools import find_packages, setup
 
-with open("README.md", encoding='utf-8') as f:
+with open("README.md", encoding='utf8') as f:
     long_description = f.read()
 
 
 def get_requirements():
     _ = './requirements.txt'
     if os.path.isfile(_):
-        with open(_) as f:
+        with open(_, encoding='utf8') as f:
             return f.read().split()
 
 
