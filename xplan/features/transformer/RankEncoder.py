@@ -5,11 +5,10 @@ __title__ = 'rank_encoder'
 __author__ = 'JieYuan'
 __mtime__ = '19-3-11'
 """
+from collections import OrderedDict
+
 import pandas as pd
 from sklearn.base import BaseEstimator, TransformerMixin
-from tqdm import tqdm
-
-tqdm.pandas()
 
 
 class RankEncoder(BaseEstimator, TransformerMixin):
@@ -20,7 +19,7 @@ class RankEncoder(BaseEstimator, TransformerMixin):
     def fit(self, series: pd.Series):
         _ = series.value_counts(True)[:(self.topn if self.topn else 10000)]
         print("Coverage: %.2f %%" % (_.sum() * 100))
-        self.ranker = (_.rank(method='first') - 1).to_dict()
+        self.ranker = (_.rank(method='first') - 1).to_dict(OrderedDict)
         return self
 
     def transform(self, series: pd.Series):
