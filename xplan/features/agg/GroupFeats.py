@@ -5,24 +5,24 @@ __title__ = 'AggFeat'
 __author__ = 'JieYuan'
 __mtime__ = '19-1-15'
 """
-from ... import tqdm
+from .Funcs import Funcs
+from tqdm import tqdm
 from concurrent.futures import ProcessPoolExecutor
 
 import pandas as pd
-from .Funcs import Funcs
 
 
-class AggFeat(object):
+class GroupFeats(object):
 
     def __init__(self, df, cat_cols, num_cols):
-        self.df = df
+        self.df = df.copy()
         self.cat_cols = cat_cols
         self.num_cols = num_cols
         self.num_funcs = ['min', 'mean', 'median', 'max', 'sum', 'std', 'var', 'sem',
                           'skew'] + Funcs().num_funcs
         self.cat_funcs = ['nunique', 'max', 'min'] + Funcs().cat_funcs
 
-    def run(self, max_workers=4):
+    def transform(self, max_workers=4):
         with ProcessPoolExecutor(min(max_workers, len(self.cat_cols))) as pool:
             for _df in pool.map(self._get_agg_feats, tqdm(self.cat_cols, 'agg ...')):
                 self.df = pd.merge(self.df, _df, 'left')

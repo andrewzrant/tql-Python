@@ -24,7 +24,7 @@ def timestamp2str(timestamp, format='%Y-%m-%d %H:%M:%S'):
     ts = ts.map(timestamp2str)
 
     # 时间字符串 转 时间
-    ts = pd.to_datetime(ts, errors='coerce', infer_datetime_format=True)
+    ts = ts.astype('datetime64[ns]') # 慢一些 pd.to_datetime(ts, errors='coerce', infer_datetime_format=True)
 
     # 时间 转 时间戳
     ts.map(lambda x: x.timestamp())

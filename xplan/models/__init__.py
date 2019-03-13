@@ -19,6 +19,11 @@ from sklearn.model_selection import StratifiedKFold
 from statsmodels.api import GLM, families
 from xgboost import XGBClassifier
 
+"""
+# TODO: cats
+https://lightgbm.readthedocs.io/en/latest/Advanced-Topics.html
+"""
+
 
 class OOF(object):
     """Out of flod prediction
@@ -44,10 +49,13 @@ class OOF(object):
     cat = CatBoostClassifier(n_estimators=20000, learning_rate=0.05, loss_function='Logloss', eval_metric='AUC',
                              random_state=2019)
 
-    def __init__(self, clf=None, folds=None):
+    def __init__(self, clf=None, folds=None, early_stopping_rounds=300, verbose=100):
         self.clf = clf if clf else self.lgb
         self.folds = folds if folds else StratifiedKFold(5, True, 2019)  # 支持 RepeatedStratifiedKFold
         self.model_type = self.clf.__repr__()
+
+        self.early_stopping_rounds = early_stopping_rounds
+        self.verbose = verbose
         # self.clf_agrs = self.getfullargspec(self.clf.fit).args if hasattr(self.clf, 'fit') else None
 
     def fit(self, X, y, X_test, feval=None, cat_feats=None, exclude_columns=None, epochs=16, batch_size=128,
@@ -119,31 +127,31 @@ class OOF(object):
                                  eval_set=eval_set,
                                  categorical_feature=cat_feats if cat_feats else 'auto',
                                  eval_metric='auc',
-                                 early_stopping_rounds=300,
-                                 verbose=100)
+                                 early_stopping_rounds=self.early_stopping_rounds,
+                                 verbose=self.verbose)
                 elif 'LGBMRegressor' in self.model_type:
                     eval_set = [(X_train, y_train), (X_valid, y_valid)]
                     self.clf.fit(X_train, y_train,
                                  eval_set=eval_set,
                                  categorical_feature=cat_feats if cat_feats else 'auto',
                                  eval_metric='l2',
-                                 early_stopping_rounds=300,
-                                 verbose=100)
+                                 early_stopping_rounds=self.early_stopping_rounds,
+                                 verbose=self.verbose)
 
                 elif 'XGBClassifier' in self.model_type:
                     eval_set = [(X_train, y_train), (X_valid, y_valid)]
                     self.clf.fit(X_train, y_train,
                                  eval_set=eval_set,
                                  eval_metric='auc',
-                                 early_stopping_rounds=300,
-                                 verbose=100)
+                                 early_stopping_rounds=self.early_stopping_rounds,
+                                 verbose=self.verbose)
                 elif 'XGBRegressor' in self.model_type:
                     eval_set = [(X_train, y_train), (X_valid, y_valid)]
                     self.clf.fit(X_train, y_train,
                                  eval_set=eval_set,
                                  eval_metric='rmse',
-                                 early_stopping_rounds=300,
-                                 verbose=100)
+                                 early_stopping_rounds=self.early_stopping_rounds,
+                                 verbose=self.verbose)
 
                 elif 'CatBoostClassifier' in self.model_type:
                     eval_set = [(X_train, y_train), (X_valid, y_valid)]
@@ -152,8 +160,8 @@ class OOF(object):
                                  cat_features=cat_feats,
                                  use_best_model=True,
                                  plot=True,
-                                 early_stopping_rounds=300,
-                                 verbose=100)
+                                 early_stopping_rounds=self.early_stopping_rounds,
+                                 verbose=self.verbose)
                 elif 'CatBoostRegressor' in self.model_type:
                     eval_set = [(X_train, y_train), (X_valid, y_valid)]
                     self.clf.fit(X_train, y_train,
@@ -161,8 +169,8 @@ class OOF(object):
                                  cat_features=cat_feats,
                                  use_best_model=True,
                                  plot=True,
-                                 early_stopping_rounds=300,
-                                 verbose=0)
+                                 early_stopping_rounds=self.early_stopping_rounds,
+                                 verbose=self.verbose)
 
                 elif 'RGFClassifier' in self.model_type:
                     pass

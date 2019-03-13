@@ -20,6 +20,7 @@ class RankEncoder(BaseEstimator, TransformerMixin):
         _ = series.value_counts(True)[:(self.topn if self.topn else 10000)]
         print("Coverage: %.2f %%" % (_.sum() * 100))
         self.ranker = (_.rank(method='first') - 1).to_dict(OrderedDict)
+        print(self.ranker)
         return self
 
     def transform(self, series: pd.Series):

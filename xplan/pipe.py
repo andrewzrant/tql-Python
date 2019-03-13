@@ -25,26 +25,16 @@ else:
 import warnings
 
 warnings.filterwarnings("ignore")
-import re
 import jieba
 import json
 import pickle
 import numpy as np
 import pandas as pd
-from pathlib import Path
-from datetime import datetime
-from pprint import pprint
 from functools import reduce
 from collections import Counter, OrderedDict
 from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
 
-from sklearn.pipeline import make_pipeline
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.model_selection import *
-from sklearn.preprocessing import *
-from sklearn.linear_model import *
-from sklearn.ensemble import *
-from sklearn.metrics import *
 
 # pd.set_option('display.max_rows', 1024)
 # pd.set_option('display.max_columns', 128)
@@ -181,8 +171,8 @@ def xProcessPoolExecutor(iterable, func, max_workers=5):
 import jovian
 
 
-def jupyter_commit():
+def jupyter_commit(filename=None):
     print(
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlkZW50aXR5Ijp7InVzZXJuYW1lIjoiSmllLVl1YW4iLCJpZCI6Njd9LCJ0eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTUyOTY1NTkzLCJpYXQiOjE1NTIzNjA3OTMsIm5iZiI6MTU1MjM2MDc5MywianRpIjoiNjM1ZTg2MjQtYjA1ZC00NGJmLTljYjAtOGVjOGRmM2ExNmJkIn0.5jglhEGGs12ITl-DWWaFL-BVPhCzaDEeMKIJvEI-bbA")
     print('\n')
-    jovian.commit(env_type='pip')
+    jovian.commit(filename=filename, env_type='pip')

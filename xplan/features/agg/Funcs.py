@@ -6,14 +6,13 @@ __author__ = 'JieYuan'
 __mtime__ = '19-1-15'
 """
 import numpy as np
-import pandas as pd
 
 
 class Funcs(object):
     """x: pd.Series"""
 
     def __init__(self):
-        self.num = ['q1', 'q3', 'iqr', 'kurt', 'cv', 'p2p', 'count_nonzero']
+        self.num = ['q1', 'q3', 'iqr', 'kurt', 'cv', 'p2p']
         self.cat = ['mode', 'nunique_perc']
 
     @property
@@ -48,7 +47,7 @@ class Funcs(object):
         return x.kurt()
 
     def cv(self, x):
-        return x.std() / (x.mean() + 10 ** -8)  # 变异系数
+        return x.std() / (x.mean() + 1e-8)  # 变异系数
 
     def count_nonzero(self, x):
         return np.count_nonzero(x)
