@@ -8,7 +8,11 @@ __mtime__ = '18-12-17'
 import os
 import numpy as np
 import wrapt
-import resource
+
+from .limit_memory import limit_memory
+from .multi_read_csv import multi_read_csv
+
+from .cprint import Cprint
 
 base_dir = os.path.dirname(os.path.realpath('__file__'))
 get_module_path = lambda path, file: os.path.normpath(os.path.join(os.getcwd(), os.path.dirname(file), path))
@@ -45,12 +49,3 @@ def feval(multiclass=None, is_bigger_better=True, model='lgb'):
             return wrapped.__name__, wrapped(y_pred, y_true)
 
     return wrapper
-
-
-def limit_memory(res_mem=120):
-    rsrc = resource.RLIMIT_AS
-    # res_mem=os.environ["RESOURCE_MEM"]
-    memlimit = res_mem * 1024 ** 3
-    resource.setrlimit(rsrc, (memlimit, memlimit))
-    # soft, hard = resource.getrlimit(rsrc)
-    print("memory limit as: %s G" % res_mem)
