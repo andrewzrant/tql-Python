@@ -5,12 +5,11 @@ __author__ = 'JieYuan'
 __mtime__ = '2018/7/27'
 """
 import time
-import datetime
-import pandas as pd
+import numpy as np
 
 
 # t = pd.datetime.now().timestamp()
-# pd.datetime.today().timestamp()
+# pd.datetime.today().timestamp() # 时间戳相差8*3600
 # pd.read_csv(parse_dates)
 
 
@@ -30,3 +29,17 @@ def timestamp2str(timestamp, format='%Y-%m-%d %H:%M:%S'):
     ts.map(lambda x: x.timestamp())
     """
     return time.strftime(format, time.localtime(timestamp))
+
+
+def exponential_decay(t, delta=24 * 7, start=1, end=0):
+    """
+    "拟合随时间指数衰减的过程"
+    https://blog.csdn.net/xiaokang06/article/details/78076925
+    https://blog.csdn.net/zhufenghao/article/details/80879260
+
+    """
+    alpha = np.log(start / (end + 1e-8)) / delta
+    t0 = - np.log(start) / alpha
+
+    decay = np.exp(-alpha * (t + t0))
+    return decay

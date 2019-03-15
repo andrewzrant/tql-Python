@@ -7,8 +7,8 @@ __mtime__ = '18-12-14'
 """
 
 from .utils.xx import xx
-from .utils_eda import DataFrameSummary
-from .utils import Cprint
+from .utils.eda import DataFrameSummary
+from .utils.cprint import Cprint
 
 try:
     from IPython import get_ipython
