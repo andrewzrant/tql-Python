@@ -8,7 +8,7 @@ __mtime__ = '18-12-14'
 
 from .utils.xx import xx
 from .utils.eda import DataFrameSummary
-from .utils.cprint import Cprint
+from .utils import cprint
 
 try:
     from IPython import get_ipython
@@ -112,7 +112,7 @@ xmin_index = xx(lambda x: min(range(len(x)), key=x.__getitem__))  # 列表中最
 xmost_freq = xx(lambda x: max(set(x), key=x.count))  # 查找列表中频率最高的值, key作用于set(x), 可类推出其他用法
 
 # print
-xprint = xx(lambda obj, bg='blue': Cprint().cprint(obj, bg))
+xprint = xx(lambda obj, bg='blue': cprint(obj, bg))
 xtqdm = xx(lambda iterable, desc=None: tqdm(iterable, desc))
 
 # base types

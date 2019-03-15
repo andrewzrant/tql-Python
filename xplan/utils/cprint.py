@@ -8,15 +8,12 @@ __mtime__ = '19-1-10'
 
 
 class Cprint(object):
-    def __init__(self, p=True, usage=False):
+    def __init__(self):
         colors = ['green', 'yellow', 'black', 'cyan', 'blue', 'red', 'white', 'purple']
-        self.p = p
         self.fc = dict(zip(colors, range(40, 97)))
         self.bc = dict(zip(colors, range(90, 97)))
-        if usage:
-            print("Colors: \033[94m%s\033[0m\n" % colors)
 
-    def cprint(self, s='Hello World !', bg='blue', fg='', mode=1):
+    def cstring(self, s='Hello World !', bg='blue', fg='', mode=1):
         """
         :param s: string
         :param fg/bg: foreground/background
@@ -34,15 +31,19 @@ class Cprint(object):
             https://www.cnblogs.com/hellojesson/p/5961570.html
         :return:
         """
+
         if fg:
-            _ = '\033[%s;%s;%sm%s\033[0m' % (mode, self.fc[fg], self.bc[bg], s)
+            string = '\033[%s;%s;%sm%s\033[0m' % (mode, self.fc[fg], self.bc[bg], s)
         else:
-            _ = '\033[%s;%sm%s\033[0m' % (mode, self.bc[bg], s)
-        if self.p:
-            print(_)
-        else:
-            return _
+            string = '\033[%s;%sm%s\033[0m' % (mode, self.bc[bg], s)
+        return string
+
+    def cprint(self, s='Hello World !', bg='blue', fg='', mode=1):
+        print(self.cstring(s, bg, fg, mode))
 
 
+c = Cprint()
+cprint = c.cprint
+cstring = c.cstring
 if __name__ == '__main__':
     Cprint().cprint()

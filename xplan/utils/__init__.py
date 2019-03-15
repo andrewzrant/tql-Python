@@ -11,8 +11,7 @@ import wrapt
 
 from .limit_memory import limit_memory
 from .multi_read_csv import multi_read_csv
-
-from .cprint import Cprint
+from .cprint import cstring, cprint
 
 base_dir = os.path.dirname(os.path.realpath('__file__'))
 get_module_path = lambda path, file: os.path.normpath(os.path.join(os.getcwd(), os.path.dirname(file), path))
