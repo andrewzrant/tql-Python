@@ -87,13 +87,15 @@ class OOF(object):
                 feats = X.columns
 
             X, X_test = X[feats], X_test[feats]
+        elif isinstance(X, pd.Series):
+            feats = [0]
         else:
             feats = range(X.shape[1])
 
-        if hasattr(self.folds, 'n_splits'):
-            num_folds = self.folds.n_splits
-        else:
-            num_folds = self.folds.cvargs['n_splits']
+        # if hasattr(self.folds, 'n_splits'):
+        #     num_folds = self.folds.n_splits
+        # else:
+        #     num_folds = self.folds.cvargs['n_splits']
 
         # Score
         if hasattr(feval, '__repr__'):
