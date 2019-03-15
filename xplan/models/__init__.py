@@ -88,7 +88,7 @@ class OOF(object):
 
             X, X_test = X[feats], X_test[feats]
         elif isinstance(X, pd.Series):
-            feats = [0]
+            pass
         else:
             feats = range(X.shape[1])
 
