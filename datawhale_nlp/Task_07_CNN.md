@@ -41,7 +41,7 @@ TextCNN模型原理参考：https://www.cnblogs.com/bymo/p/9675654.html
 
 ### TextCNN模型：
 
-![img](https://github.com/addecy/nlp-/blob/master/task7/img/textcnn.pngg)
+![img](../pic/textcnn.png)
 
 第一层：将词以词向量来进行表达。或者自定义个embedding同时加入到网络中训练
 
