@@ -1,11 +1,15 @@
 # [RNN][1]
 # [图解RNN][2]
 # [RCNN-tf][3]
+# [RNN示例项目从开发到部署][4]
+# [四个用于Keras的很棒的操作][5]
 
 ---
 [1]: https://x-algo.cn/index.php/2017/01/13/1609/
 [2]: https://www.atyun.com/30234.html
 [3]: https://github.com/roomylee/rcnn-text-classification
+[4]: https://www.atyun.com/32461.html
+[5]: https://www.atyun.com/32563.html
 - RCNN
 ```python
 import gensim
