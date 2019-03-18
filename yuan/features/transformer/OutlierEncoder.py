@@ -9,7 +9,7 @@ import pandas as pd
 from sklearn.ensemble import IsolationForest
 
 
-class OutlierProcessing(object):
+class OutlierEncoder(object):
     """如何判定和处理异常值，需要结合实际。
     若数据服从正太分布，在3σ原则下，异常值被定义为一组测定值中与平均值的偏差超过3倍标准差的值，
     因为在正态分布的假设下，距离平均值3σ之外的值出现的概率小于0.003
@@ -19,13 +19,17 @@ class OutlierProcessing(object):
     4.不处理
     """
 
-    def __init__(self):
-        pass
+    def __init__(self, mode='isf'):
+        """
+        :param mode: 'isf', 'box_plot', 'zscore_median'
+        """
+        self.mode = mode
 
-    def process(self, x: pd.Series):
-        _ = x.copy()
-        _.iloc[self.get_outlier_idx(x)] = _.median()  # 用中位数来修正
-        return _
+    def transform(self, x: pd.Series, return_bool=True):
+        if return_bool:
+            return self.__getattribute__(self.mode)(x)
+        else:
+            return self.__getattribute__(self.mode)(x).astype(int)
 
     def get_outlier_idx(self, x: pd.Series):
         """投票"""
@@ -34,7 +38,7 @@ class OutlierProcessing(object):
         return np.where(_)[0].tolist()
 
     def isf(self, x):
-        return IsolationForest(behaviour='new', contamination='auto', n_jobs=4).fit_predict(x.to_frame()) == -1
+        return IsolationForest(behaviour='new', contamination='auto', n_jobs=-1).fit_predict(x.to_frame()) == -1
 
     def box_plot(self, x):
         bound_func = lambda a, b: 2.5 * a - 1.5 * b
@@ -58,6 +62,6 @@ if __name__ == '__main__':
     s = pd.Series([-10, 1, 2, 3, 4, 5, 100])
     print(s)
 
-    outlier = OutlierProcessing()
+    outlier = OutlierEncoder('zscore_median')
     print(outlier.get_outlier_idx(s))
-    print(outlier.process(s))
+    print(outlier.transform(s))

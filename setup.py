@@ -20,10 +20,10 @@ def get_requirements():
 
 
 setup(
-    name='x-plan',
-    version='0.0.1',
-    url='https://github.com/Jie-Yuan',
-    keywords=["X-plan", "nlp", 'utils'],
+    name='Yuan',
+    version='1.0.0',
+    url='https://github.com/Jie-Yuan/Yuan',
+    keywords=["tool wheel", "yuanjie", 'utils', '轮子'],
     description=('description'),
     long_description=long_description,
     long_description_content_type="text/markdown",
