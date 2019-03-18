@@ -7,7 +7,7 @@ __mtime__ = '18-12-14'
 """
 
 from .utils.xx import xx
-from .utils.eda import DataFrameSummary
+from .eda import DataFrameSummary
 from .utils import cprint
 
 try:

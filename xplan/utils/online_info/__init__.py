@@ -33,3 +33,9 @@ def result_scaling(x=0.37, rate_train_true=0.37, rate_test_true=0.165):
     scale_pos_weight = a / b  # 利用scale_pos_weight缩放结果
     print("Xgb/Lgb scale_pos_weight: %s" % scale_pos_weight)
     return a * x / (a * x + b * (1 - x))
+
+
+def get_weight(y):
+    class_weight = dict(enumerate(len(y) / (2 * np.bincount(y))))
+    sample_weight = [class_weight[i] for i in y]
+    return class_weight, sample_weight
