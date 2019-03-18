@@ -156,9 +156,8 @@ def optimize_rfc(data, targets):
 if __name__ == "__main__":
     data, targets = get_data()
 
-    # print(Colours.yellow("--- Optimizing SVM ---"))
-    # optimize_svc(data, targets)
-    #
-    # print(Colours.green("--- Optimizing Random Forest ---"))
-    # optimize_rfc(data, targets)
-    optimize_svc_oof(data, targets)
+    print(Colours.yellow("--- Optimizing SVM ---"))
+    optimize_svc(data, targets)
+
+    print(Colours.green("--- Optimizing Random Forest ---"))
+    optimize_rfc(data, targets)
