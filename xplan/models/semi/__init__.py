@@ -6,4 +6,4 @@ __author__ = 'JieYuan'
 __mtime__ = '19-1-11'
 """
 
-from .semi_simple import SemiSimple
+from .SimpleSemi import SimpleSemi
