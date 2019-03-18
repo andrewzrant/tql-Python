@@ -59,7 +59,7 @@ class OOF(object):
         # self.estimator_agrs = self.getfullargspec(self.estimator.fit).args if hasattr(self.estimator, 'fit') else None
 
     def fit(self, X, y, X_test, feval=None, cat_feats=None, exclude_columns=None, epochs=16, batch_size=128,
-            oof2csv=False):
+            oof2csv=False, is_plot=True):
         """
         # TODO: Rank 融合
         :param X: 保证索引唯一
@@ -196,7 +196,7 @@ class OOF(object):
                     oof_preds[valid_idx] = self.estimator.predict(X_valid)
                     sub_preds[:, n_fold - 1] = self.estimator.predict(X_test)
 
-            if hasattr(self.estimator, 'feature_importances_'):
+            if is_plot and hasattr(self.estimator, 'feature_importances_'):
                 fold_importance_df = pd.DataFrame()
                 fold_importance_df["feature"] = X.columns
                 fold_importance_df["importance"] = self.estimator.feature_importances_
