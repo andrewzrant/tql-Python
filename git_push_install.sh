@@ -19,6 +19,6 @@ git add *
 git commit -m "$update_info"
 git push
 pip uninstall x-plan -y \
-&& pip install git+https://github.com/Jie-Yuan/X-plan.git -U -i https://pypi.tuna.tsinghua.edu.cn/simple
+&& pip install git+https://github.com/Jie-Yuan/Yuan.git -U -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 exit 0

@@ -21,6 +21,7 @@ except:
 else:
     from tqdm import tqdm_notebook as tqdm
 #########################################################################
+from sklearn.datasets import make_classification
 from sklearn.model_selection import cross_val_score
 from sklearn.ensemble import *
 from sklearn.linear_model import *

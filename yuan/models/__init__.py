@@ -101,8 +101,8 @@ class OOF(object):
         for n_fold, (train_idx, valid_idx) in enumerate(self.folds.split(X, y), 1):
             print("\n\033[94mFold %s started at %s\033[0m" % (n_fold, time.ctime()))
 
-            X_train, y_train = X.iloc[train_idx], y.iloc[train_idx]
-            X_valid, y_valid = X.iloc[valid_idx], y.iloc[valid_idx]
+            X_train, y_train = X.iloc[train_idx], y[train_idx]
+            X_valid, y_valid = X.iloc[valid_idx], y[valid_idx]
 
             if not hasattr(self.estimator, 'fit'):
                 print("该算法无fit方法")
@@ -198,7 +198,7 @@ class OOF(object):
 
             if hasattr(self.estimator, 'feature_importances_'):
                 fold_importance_df = pd.DataFrame()
-                fold_importance_df["feature"] = feats
+                fold_importance_df["feature"] = X.columns
                 fold_importance_df["importance"] = self.estimator.feature_importances_
                 fold_importance_df["fold"] = n_fold
                 self.feature_importance_df = pd.concat([self.feature_importance_df, fold_importance_df], 0)
