@@ -50,7 +50,7 @@ class OOF(object):
                              random_state=2019)
 
     def __init__(self, estimator=None, folds=None, early_stopping_rounds=300, verbose=100):
-        self.estimator = estimator if estimator else self.lgb
+        self.estimator = self.lgb if estimator is None else estimator
         self.folds = folds if folds else StratifiedKFold(5, True, 2019)  # 支持 RepeatedStratifiedKFold
         self.model_type = self.estimator.__repr__()
 
@@ -184,8 +184,8 @@ class OOF(object):
                     self.estimator = self.estimator.fit().predict(X)
                 else:
                     # sklearn 原生模型
-                    print('Fitting ...')
-                    self.estimator.fit(X, y)
+                    print('Sklearn Fitting ...')
+                    self.estimator.fit(X_train, y_train)
 
                 # 计算并保存 preds
                 # TODO: 多分类需要修改
