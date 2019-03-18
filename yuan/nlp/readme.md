@@ -1,3 +1,19 @@
+# 词向量
+
+## Word2Vec
+- [skip-gram][1]: 1个学生(周围词) `VS` K个老师(中心词)
+- cbow: 1个老师 VS K个学生
+
+---
+[1]: https://www.cnblogs.com/june0507/p/9412989.html
+
+
+
+
+
+
+
+
 ```
 def remove_special_characters(text):
     tokens = tokenize_text(text)

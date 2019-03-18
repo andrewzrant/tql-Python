@@ -20,7 +20,10 @@ except:
 
 else:
     from tqdm import tqdm_notebook as tqdm
-
+#########################################################################
+from sklearn.model_selection import cross_val_score
+from sklearn.ensemble import *
+from sklearn.linear_model import *
 #########################################################################
 import warnings
 
