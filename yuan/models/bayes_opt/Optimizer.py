@@ -10,7 +10,6 @@ from bayes_opt import BayesianOptimization
 from sklearn import clone
 import numpy as np
 from functools import partial
-from collections import OrderedDict
 
 
 class Optimizer(object):
@@ -21,8 +20,8 @@ class Optimizer(object):
          is not technically necessary, it greatly improves the performance
          of the optimizer.
         """
-        self.estimator = estimator
-        self.pbounds = OrderedDict(pbounds)
+        self.estimator = estimator  # sk
+        self.pbounds = pbounds
         self.params_type = self._get_params_type(self.pbounds)
         self.scaled_pbounds, self.scaled_params = self._scaler(self.pbounds)
 
@@ -48,7 +47,7 @@ class Optimizer(object):
         estimator = clone(self.estimator)
         estimator.set_params(**params)
 
-        cv_score = cross_val_score(estimator, X, y, scoring='roc_auc', cv=5).mean()
+        cv_score = cross_val_score(estimator, X, y, scoring='roc_auc', n_jobs=-1, cv=5).mean()
         return cv_score
 
     def _get_params_type(self, pbounds):
