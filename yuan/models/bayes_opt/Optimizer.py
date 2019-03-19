@@ -47,7 +47,7 @@ class Optimizer(object):
         estimator = clone(self.estimator)
         estimator.set_params(**params)
 
-        cv_score = cross_val_score(estimator, X, y, scoring='roc_auc', n_jobs=-1, cv=5).mean()
+        cv_score = cross_val_score(estimator, X, y, scoring='roc_auc', cv=5).mean()
         return cv_score
 
     def _get_params_type(self, pbounds):
