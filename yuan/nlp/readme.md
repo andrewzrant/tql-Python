@@ -1,8 +1,8 @@
 # 词向量
 
 ## Word2Vec
-- [skip-gram][1]: 1个学生(周围词) `VS` K个老师(中心词)
-- cbow: 1个老师 VS K个学生
+- [skip-gram][1]: 1个学生(中心词) `汇报 =>` K个老师(周围词)
+- cbow: K个学生(周围词) `汇报 =>` 1个老师(中心词)
 
 ---
 [1]: https://www.cnblogs.com/june0507/p/9412989.html
