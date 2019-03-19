@@ -10,6 +10,7 @@ from bayes_opt import BayesianOptimization
 from sklearn import clone
 import numpy as np
 from functools import partial
+from pprint import pprint
 
 
 class Optimizer(object):
@@ -24,6 +25,8 @@ class Optimizer(object):
         self.pbounds = pbounds
         self.params_type = self._get_params_type(self.pbounds)
         self.scaled_pbounds, self.scaled_params = self._scaler(self.pbounds)
+
+        pprint(self.scaled_pbounds)
 
     def fit(self, X, y, n_iter=5, seed=2019):
 
