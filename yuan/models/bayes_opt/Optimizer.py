@@ -11,11 +11,12 @@ from sklearn import clone
 import numpy as np
 from functools import partial
 from pprint import pprint
+from .. import OOF
 
 
 class Optimizer(object):
 
-    def __init__(self, estimator, pbounds: dict):
+    def __init__(self, estimator=None, pbounds: dict = None):
         """缩小区间长度（边界）
          Notice how we transform between regular and log scale. While this
          is not technically necessary, it greatly improves the performance
@@ -28,9 +29,9 @@ class Optimizer(object):
 
         pprint(self.scaled_pbounds)
 
-    def fit(self, X, y, n_iter=5, seed=2019):
+    def fit(self, X, y, n_iter=5, oof=True, feval=None, seed=2019):
 
-        _objective = partial(self.objective, X=X, y=y)
+        _objective = partial(self.objective, X=X, y=y, oof=oof, feval=feval)
         self.optimizer = BayesianOptimization(
             f=_objective,
             pbounds=self.scaled_pbounds,
@@ -44,13 +45,17 @@ class Optimizer(object):
         result['params'] = self._scaler_reverse(result['params'])
         return result
 
-    def objective(self, X, y, **params):
+    def objective(self, X, y, oof=True, feval=None, **params):
         """cv_score: 核心函数"""
         params = self._scaler_reverse(params)
         estimator = clone(self.estimator)
         estimator.set_params(**params)
-
-        cv_score = cross_val_score(estimator, X, y, scoring='roc_auc', cv=5).mean()
+        if oof:
+            oof = OOF(estimator)
+            oof.fit(X, y, X[:1000], feval)
+            cv_score = oof.score
+        else:
+            cv_score = cross_val_score(estimator, X, y, scoring='roc_auc', cv=5).mean()  # TODO 分数自定义
         return cv_score
 
     def _get_params_type(self, pbounds):
