@@ -221,8 +221,9 @@ class OOF(object):
             pd.Series(self.oof_preds.tolist() + self.sub_preds.tolist(), name='oof') \
                 .to_csv('OOF %s %.4f.csv' % (time.ctime(), self.score), index=False)
 
-        if hasattr(self.estimator, 'feature_importances_'):
-            self.plot_importances(self.feature_importance_df)
+        # 是否输出特征重要性
+        if plot:
+            self.plot_importances(self.feature_importance_df, len(X.columns))
 
     def plot_importances(self, df, topk=64):
         """Display/plot feature importance"""
