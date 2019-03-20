@@ -29,7 +29,7 @@ class Optimizer(object):
 
         pprint(self.scaled_pbounds)
 
-    def fit(self, X, y, n_iter=5, oof=True, feval=None, seed=2019):
+    def fit(self, X, y, n_iter=5, feval=None, oof=True, seed=2019):
 
         _objective = partial(self.objective, X=X, y=y, oof=oof, feval=feval)
         self.optimizer = BayesianOptimization(
@@ -51,7 +51,7 @@ class Optimizer(object):
         estimator = clone(self.estimator)
         estimator.set_params(**params)
         if oof:
-            oof = OOF(estimator)
+            oof = OOF(estimator, verbose=0)
             oof.fit(X, y, X[:1000], feval)
             cv_score = oof.score
         else:
