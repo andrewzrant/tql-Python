@@ -13,6 +13,8 @@ from functools import partial
 from pprint import pprint
 from .. import OOF
 
+from sklearn.model_selection import StratifiedKFold, KFold
+
 
 class Optimizer(object):
 
@@ -29,9 +31,9 @@ class Optimizer(object):
 
         pprint(self.scaled_pbounds)
 
-    def fit(self, X, y, n_iter=5, feval=None, oof=True, seed=2019):
+    def fit(self, X, y, n_iter=5, feval=None, folds=StratifiedKFold(5, True, 666), oof=True, seed=2019):
 
-        _objective = partial(self.objective, X=X, y=y, oof=oof, feval=feval)
+        _objective = partial(self.objective, X=X, y=y, oof=oof, feval=feval, folds=folds)
         self.optimizer = BayesianOptimization(
             f=_objective,
             pbounds=self.scaled_pbounds,
@@ -43,15 +45,16 @@ class Optimizer(object):
         self.optimizer.maximize(n_iter=n_iter)  # self.optimizer.maximize() 可以接着上一次优化继续下一轮优化
         result = self.optimizer.max.copy()
         result['params'] = self._scaler_reverse(result['params'])
+        self.best_params = result['params']
         return result
 
-    def objective(self, X, y, oof=True, feval=None, **params):
+    def objective(self, X, y, oof=True, feval=None, folds=None, **params):
         """cv_score: 核心函数"""
         params = self._scaler_reverse(params)
         estimator = clone(self.estimator)
         estimator.set_params(**params)
         if oof:
-            oof = OOF(estimator, verbose=1000)
+            oof = OOF(estimator, folds, verbose=1000)
             oof.fit(X, y, X[:1000], feval)
             cv_score = oof.score
         else:
