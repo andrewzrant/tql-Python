@@ -51,7 +51,7 @@ class Optimizer(object):
         estimator = clone(self.estimator)
         estimator.set_params(**params)
         if oof:
-            oof = OOF(estimator, verbose=0)
+            oof = OOF(estimator, verbose=1000)
             oof.fit(X, y, X[:1000], feval)
             cv_score = oof.score
         else:
