@@ -201,7 +201,7 @@ class OOF(object):
                 fold_importance_df["feature"] = X.columns
                 fold_importance_df["importance"] = self.estimator.feature_importances_
                 fold_importance_df["fold"] = n_fold
-                self.feature_importance_df = pd.concat([self.feature_importance_df, fold_importance_df], 0)
+                self.feature_importance_df = fold_importance_df.append(self.feature_importance_df)
 
         # 输出需要的结果
         self.oof_preds = oof_preds
@@ -223,6 +223,7 @@ class OOF(object):
 
         # 是否输出特征重要性
         if plot:
+            self.feature_importance_df.sort_values(['fold', 'importance'], 0, False, inplace=True)
             self.plot_importances(self.feature_importance_df, len(X.columns))
 
     def plot_importances(self, df, topk=64):
@@ -235,6 +236,7 @@ class OOF(object):
                 .reset_index()
                 .sort_values("importance", 0, False))[:topk]
 
+        self.feature_importance_df_agg = data
         plt.figure(figsize=(12, topk // 4))
         sns.barplot(x="importance", y="feature", data=data.assign(feature='col_' + data.feature.astype(str)))
         plt.title('Features (avg over folds)')

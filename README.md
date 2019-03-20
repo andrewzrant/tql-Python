@@ -8,10 +8,10 @@ https://www.kaggle.com/c/elo-merchant-category-recommendation/discussion/82055#4
 ---
 ## Install
 ```
-pip install x-plan
+pip install Yuan
 ```
 ## Usage
-#### `from xplan.pipe import *`
+#### `from yuan.pipe import *`
 ```python
 @X
 def xfunc1(x):
