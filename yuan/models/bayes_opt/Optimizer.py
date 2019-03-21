@@ -5,12 +5,11 @@ __title__ = 'Optimizer'
 __author__ = 'JieYuan'
 __mtime__ = '19-3-18'
 """
-from sklearn.svm import SVC
 from sklearn.model_selection import cross_val_score
 from bayes_opt import BayesianOptimization
-from bayes_opt.util import Colours
 from sklearn import clone
 import numpy as np
+from pprint import pprint
 
 
 class Optimizer(object):
@@ -28,7 +27,7 @@ class Optimizer(object):
          of the optimizer.
         """
         self.scaled_pbounds, self.scaled_params = self._scaler(self.pbounds)
-        print("Scaled pbounds: %s" % self.scaled_pbounds)
+        pprint("Scaled pbounds: %s" % self.scaled_pbounds)
 
     def maximize(self, n_iter=5, opt_seed=2019):
         self.optimizer = BayesianOptimization(
@@ -62,7 +61,7 @@ class Optimizer(object):
     def _scaler(self, pbounds):
         scaled_params = []
         for k, v in pbounds.items():
-            if not -1 < np.log10(np.ptp(v)) < 1:  # update pbounds
+            if not -1 <= np.log10(np.ptp(v)) <= 1:  # update pbounds
                 scaled_params.append(k)
                 pbounds[k] = np.log10(v[0] if v[0] else 1e-6), np.log10(v[1])
 
