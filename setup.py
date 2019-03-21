@@ -5,8 +5,12 @@ __title__ = 'setup.py'
 __author__ = 'JieYuan'
 __mtime__ = '18-12-14'
 """
+import re
 import os
 from setuptools import find_packages, setup
+
+with open('yuan/__init__.py', encoding='utf8') as f:
+    version = re.search(r'__version__ = \'(.*?)\'', f.read()).group(1)
 
 with open("README.md", encoding='utf-8') as f:
     long_description = f.read()
@@ -21,7 +25,7 @@ def get_requirements():
 
 setup(
     name='Yuan',
-    version='1.0.0',
+    version=version,
     url='https://github.com/Jie-Yuan/Yuan',
     keywords=["tool wheel", "yuanjie", 'utils', '轮子'],
     description=('description'),

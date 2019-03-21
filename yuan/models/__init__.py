@@ -50,7 +50,7 @@ class OOF(object):
                              random_state=2019)
 
     def __init__(self, estimator=None, folds=None, early_stopping_rounds=300, verbose=100):
-        self.estimator = self.lgb if estimator is None else estimator
+        self.estimator = self.lgb if estimator is None else estimator  # 指定lgb: metric xgb: eval_metric
         self.folds = folds if folds else StratifiedKFold(5, True, 2019)  # 支持 RepeatedStratifiedKFold
         self.model_type = self.estimator.__repr__()
 
@@ -92,10 +92,16 @@ class OOF(object):
         else:
             score_name = None
 
+        # cv num
+        if hasattr(self.folds, 'n_splits'):
+            num_cv = self.folds.n_splits
+        else:
+            num_cv = self.folds.cvargs['n_splits']
+
         # Cross validation model
         # Create arrays and dataframes to store results
         oof_preds = np.zeros(X.shape[0])
-        sub_preds = np.zeros(X_test.shape)
+        sub_preds = np.zeros((X_test.shape[0], num_cv))
         self.feature_importance_df = pd.DataFrame()
 
         for n_fold, (train_idx, valid_idx) in enumerate(self.folds.split(X, y), 1):
@@ -121,7 +127,7 @@ class OOF(object):
                     self.estimator.fit(X_train, y_train,
                                        eval_set=eval_set,
                                        categorical_feature=cat_feats if cat_feats else 'auto',
-                                       eval_metric='l2',
+                                       # eval_metric='l2',
                                        early_stopping_rounds=self.early_stopping_rounds,
                                        verbose=self.verbose)
 
@@ -136,7 +142,7 @@ class OOF(object):
                     eval_set = [(X_train, y_train), (X_valid, y_valid)]
                     self.estimator.fit(X_train, y_train,
                                        eval_set=eval_set,
-                                       eval_metric='rmse',
+                                       # eval_metric='rmse',
                                        early_stopping_rounds=self.early_stopping_rounds,
                                        verbose=self.verbose)
 
@@ -201,12 +207,12 @@ class OOF(object):
                 fold_importance_df["feature"] = X.columns
                 fold_importance_df["importance"] = self.estimator.feature_importances_
                 fold_importance_df["fold"] = n_fold
-                self.feature_importance_df = pd.concat([self.feature_importance_df, fold_importance_df], 0)
+                self.feature_importance_df = fold_importance_df.append(self.feature_importance_df)
 
         # 输出需要的结果
         self.oof_preds = oof_preds
         self.sub_preds = sub_preds.mean(1)
-        # self.sub_preds_rank = pd.DataFrame(sub_preds).rank().mean(1) / sub_preds.shape[0]
+        self.sub_preds_rank = pd.DataFrame(sub_preds).rank().mean(1) / sub_preds.shape[0]  # auc work
 
         try:
             self.score = feval(y, self.oof_preds)
@@ -221,8 +227,10 @@ class OOF(object):
             pd.Series(self.oof_preds.tolist() + self.sub_preds.tolist(), name='oof') \
                 .to_csv('OOF %s %.4f.csv' % (time.ctime(), self.score), index=False)
 
-        if hasattr(self.estimator, 'feature_importances_'):
-            self.plot_importances(self.feature_importance_df)
+        # 是否输出特征重要性
+        if plot:
+            self.feature_importance_df.sort_values(['fold', 'importance'], 0, False, inplace=True)
+            self.plot_importances(self.feature_importance_df, len(X.columns))
 
     def plot_importances(self, df, topk=64):
         """Display/plot feature importance"""
@@ -234,6 +242,7 @@ class OOF(object):
                 .reset_index()
                 .sort_values("importance", 0, False))[:topk]
 
+        self.feature_importance_df_agg = data
         plt.figure(figsize=(12, topk // 4))
         sns.barplot(x="importance", y="feature", data=data.assign(feature='col_' + data.feature.astype(str)))
         plt.title('Features (avg over folds)')
