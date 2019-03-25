@@ -15,7 +15,7 @@ import seaborn as sns
 from catboost import CatBoostClassifier
 from lightgbm import LGBMClassifier
 from sklearn.metrics import roc_auc_score
-from sklearn.model_selection import StratifiedKFold
+from sklearn.model_selection import StratifiedKFold, RepeatedStratifiedKFold
 from statsmodels.api import GLM, families
 from xgboost import XGBClassifier
 
@@ -77,6 +77,9 @@ class OOF(object):
         if not isinstance(X, pd.DataFrame):
             X = pd.DataFrame(X)
             X_test = pd.DataFrame(X)
+        else:
+            X.reset_index(drop=True, inplace=True)
+            X_test.reset_index(drop=True, inplace=True)
 
         # oof评估函数
         feval = feval if feval else roc_auc_score
@@ -96,7 +99,7 @@ class OOF(object):
         if hasattr(self.folds, 'n_splits'):
             num_cv = self.folds.n_splits
         else:
-            num_cv = self.folds.cvargs['n_splits']
+            num_cv = self.folds.cvargs['n_splits'] * self.folds.n_repeats
 
         # Cross validation model
         # Create arrays and dataframes to store results
@@ -123,6 +126,7 @@ class OOF(object):
                                        early_stopping_rounds=self.early_stopping_rounds,
                                        verbose=self.verbose)
                 elif 'LGBMRegressor' in self.model_type:
+                    # reg_objs = ['regression_l1', 'regression_l2', 'huber', 'fair', 'poisson', 'quantile', 'mape', 'gamma', 'tweedie']
                     eval_set = [(X_train, y_train), (X_valid, y_valid)]
                     self.estimator.fit(X_train, y_train,
                                        eval_set=eval_set,

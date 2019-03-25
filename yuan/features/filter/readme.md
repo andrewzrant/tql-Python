@@ -10,9 +10,10 @@
 
 
 
+> pip install sklearn-genetic
 
+https://www.tensorflow.org/guide/keras
 
-
-
+https://www.tensorflow.org/guide/feature_columns#categorical_identity_column
 
 https://www.kaggle.com/c/home-credit-default-risk/discussion/64510

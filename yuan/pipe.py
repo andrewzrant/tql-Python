@@ -21,15 +21,15 @@ except:
 else:
     from tqdm import tqdm_notebook as tqdm
 #########################################################################
+import re
+import requests
 from sklearn.datasets import make_classification
 from sklearn.model_selection import cross_val_score
 from sklearn.ensemble import *
 from sklearn.linear_model import *
 from sklearn.model_selection import StratifiedKFold, KFold
 #########################################################################
-import warnings
 
-warnings.filterwarnings("ignore")
 import jieba
 import json
 import pickle
@@ -40,7 +40,9 @@ from collections import Counter, OrderedDict
 from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
 
 from sklearn.feature_extraction.text import TfidfVectorizer
+import warnings
 
+warnings.filterwarnings("ignore")
 # pd.set_option('display.max_rows', 1024)
 # pd.set_option('display.max_columns', 128)
 # pd.set_option('max_colwidth', 128)  # 列宽

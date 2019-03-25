@@ -9,3 +9,4 @@ __mtime__ = '19-1-10'
 from .CountEncoder import CountEncoder
 from .RankEncoder import RankEncoder
 from .OutlierEncoder import OutlierEncoder
+from .DataAugment import DataAugment
