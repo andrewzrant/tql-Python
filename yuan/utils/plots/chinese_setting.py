@@ -13,11 +13,15 @@ from pathlib import Path
 from matplotlib.font_manager import _rebuild
 
 
-def chinese_setting():
+def chinese_setting(url=None):
+    """
+    :param url: SimHei字体下载链接
+    :return:
+    """
     print('开始设置中文...')
     matplotlibrc_path = Path(matplotlib.matplotlib_fname())
     ttf_path = matplotlibrc_path.parent.__str__() + '/fonts/ttf'
-    ttf_url = 'https://raw.githubusercontent.com/Jie-Yuan/Jie-Yuan.github.io/master/SimHei.ttf'
+    ttf_url = 'https://raw.githubusercontent.com/Jie-Yuan/Jie-Yuan.github.io/master/SimHei.ttf' if url is None else url
     print('下载字体...')
     os.system("cd %s && wget %s" % (ttf_path, ttf_url))
 
@@ -33,6 +37,7 @@ def chinese_setting():
 
 
 if __name__ == '__main__':
+    chinese_setting()
     fig, ax = plt.subplots()
     ax.plot([1, 2, 3], label='中文测试')
     ax.legend()
