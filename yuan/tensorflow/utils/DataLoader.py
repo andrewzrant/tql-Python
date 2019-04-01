@@ -17,7 +17,9 @@ class DataLoader(object):
         self.batch_size = batch_size
 
     def train_input_fn(self):
-        """An input function for training"""
+        """An input function for training
+        https://www.tensorflow.org/alpha/tutorials/estimators/boosted_trees
+        """
         inputs = (self.X, self.y)
 
         # Convert the inputs to a Dataset.

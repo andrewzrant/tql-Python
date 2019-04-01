@@ -31,6 +31,7 @@ tf.feature_column.crossed_column(['latitude_bucket_fc', 'longitude_bucket_fc'], 
 
 # 指标列和嵌入列
 # tf.feature_column.indicator_column()  # one-hot
+# tf.feature_column.embedding_column(categorical_column=categorical_column, dimension=embedding_dimensions)
 
 
 # if __name__ == '__main__':
