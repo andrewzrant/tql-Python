@@ -23,9 +23,9 @@ def chinese_setting():
     setting1 = 'font.family: sans-serif'
     setting2 = 'font.sans-serif: SimHei, Bitstream Vera Sans, Lucida Grande, Verdana, Geneva, Lucid, Arial, Helvetica, Avant Garde, sans-serif'
     setting3 = 'axes.unicode_minus: False'
-    os.system('echo %s >> %s' % (setting1, matplotlibrc_path))
-    os.system('echo %s >> %s' % (setting2, matplotlibrc_path))
-    os.system('echo %s >> %s' % (setting3, matplotlibrc_path))
+    os.system('echo %s > %s' % (setting1, matplotlibrc_path))  # >>
+    os.system('echo %s > %s' % (setting2, matplotlibrc_path))
+    os.system('echo %s > %s' % (setting3, matplotlibrc_path))
     _rebuild()
     print('请重启kernel测试...')
 
