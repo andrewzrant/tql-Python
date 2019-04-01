@@ -27,7 +27,10 @@ def chinese_setting():
     os.system('echo %s >> %s' % (setting2, matplotlibrc_path))
     os.system('echo %s >> %s' % (setting3, matplotlibrc_path))
     _rebuild()
+    print('请重启kernel测试...')
 
+
+if __name__ == '__main__':
     fig, ax = plt.subplots()
     ax.plot([1, 2, 3], label='中文测试')
     ax.legend()

@@ -6,4 +6,4 @@ __author__ = 'JieYuan'
 __mtime__ = '18-12-14'
 """
 
-__version__ = '1.0.1'
+__version__ = '1.0.3'
