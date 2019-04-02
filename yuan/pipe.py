@@ -175,11 +175,3 @@ def xProcessPoolExecutor(iterable, func, max_workers=5):
         return pool.map(func, iterable)
 
 
-import jovian
-
-
-def jupyter_commit(filename=None):
-    print(
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlkZW50aXR5Ijp7InVzZXJuYW1lIjoiSmllLVl1YW4iLCJpZCI6Njd9LCJ0eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTUyOTY1NTkzLCJpYXQiOjE1NTIzNjA3OTMsIm5iZiI6MTU1MjM2MDc5MywianRpIjoiNjM1ZTg2MjQtYjA1ZC00NGJmLTljYjAtOGVjOGRmM2ExNmJkIn0.5jglhEGGs12ITl-DWWaFL-BVPhCzaDEeMKIJvEI-bbA")
-    print('\n')
-    jovian.commit(filename=filename, env_type='pip')

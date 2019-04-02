@@ -23,7 +23,7 @@ def chinese_setting(url=None):
     ttf_path = matplotlibrc_path.parent.__str__() + '/fonts/ttf'
     ttf_url = 'https://raw.githubusercontent.com/Jie-Yuan/Jie-Yuan.github.io/master/SimHei.ttf' if url is None else url
     print('下载字体...')
-    os.system("cd %s && wget %s" % (ttf_path, ttf_url))
+    os.popen("cd %s && wget %s" % (ttf_path, ttf_url))
 
     print('设置字体...')
     setting1 = 'font.family: sans-serif'
