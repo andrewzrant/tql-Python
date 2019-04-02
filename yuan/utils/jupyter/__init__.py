@@ -9,7 +9,7 @@ __mtime__ = '2019/4/2'
 import jovian
 
 
-def jupyter_commit(notebook_id=None, nb_filename=None):
+def commit(notebook_id=None, nb_filename=None):
     """
     sh： jovian clone notebook_id
     :param nb_filename:
