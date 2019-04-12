@@ -19,8 +19,8 @@ https://shimo.im/docs/1nwJjnFqLT4gG6ax
 ### Install
 ```python
 # Python 3.7
-pip3 install https://download.pytorch.org/whl/cu100/torch-1.0.1.post2-cp37-cp37m-linux_x86_64.whl
-pip3 install torchvision
+pip install https://download.pytorch.org/whl/cu100/torch-1.0.1.post2-cp37-cp37m-linux_x86_64.whl
+pip install torchvision
 ```
 
 ### Example

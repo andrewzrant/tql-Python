@@ -74,6 +74,9 @@ class OOF(object):
         :return:
         """
         # 判断输入数据转数据框
+        if isinstance(y, pd.Series):
+            y.reset_index(drop=True, inplace=True)
+
         if not isinstance(X, pd.DataFrame):
             X = pd.DataFrame(X)
             X_test = pd.DataFrame(X)
@@ -228,7 +231,7 @@ class OOF(object):
 
         # 保存的普通平均的得分
         if oof2csv:
-            pd.Series(self.oof_preds.tolist() + self.sub_preds.tolist(), name='oof') \
+            pd.Series(np.append(self.oof_preds, self.sub_preds), name='oof') \
                 .to_csv('OOF %s %.4f.csv' % (time.ctime(), self.score), index=False)
 
         # 是否输出特征重要性

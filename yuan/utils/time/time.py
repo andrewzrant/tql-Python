@@ -7,9 +7,15 @@ __mtime__ = '2018/7/27'
 import time
 import numpy as np
 
+# 获取当前时区
+s = time.strftime('%Z', time.localtime())
+print(s)  # CST
 
-# t = pd.datetime.now().timestamp()
-# pd.datetime.today().timestamp() # 时间戳相差8*3600
+
+# from pytz import timezone
+#
+# cst_tz = timezone('Asia/Shanghai') # dateutil.tz.tzstr('Asia/Shanghai')
+# pd.datetime.now().timestamp() # pd.datetime.now(cst_tz).timestamp()# 时间戳相差8*3600
 # pd.read_csv(parse_dates)
 
 
@@ -20,13 +26,16 @@ def timestamp2str(timestamp, format='%Y-%m-%d %H:%M:%S'):
     ts = pd.Series([t]*10, name='t')
 
     # 时间戳 转 时间字符串
-    ts = ts.map(timestamp2str)
+    ts = ts.map(timestamp2str) # 会有时区问题
+    import pendulum
+    pendulum.from_timestamp(1551843001.0, 'Asia/Shanghai')
 
     # 时间字符串 转 时间
     ts = ts.astype('datetime64[ns]') # 慢一些 pd.to_datetime(ts, errors='coerce', infer_datetime_format=True)
 
     # 时间 转 时间戳
     ts.map(lambda x: x.timestamp())
+
     """
     return time.strftime(format, time.localtime(timestamp))
 
