@@ -8,7 +8,7 @@ __mtime__ = '2019-04-22'
 import pandas as pd
 
 
-from ..pipe import cprint
+from ..utils import cprint
 
 class SimpleEDA(object):
     """
