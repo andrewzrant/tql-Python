@@ -23,7 +23,7 @@ class SimpleEDA(object):
 
     def summary(self, desc_rows=10):
         self._na(desc_rows)
-        self._uniquce(desc_rows)
+        self._unique(desc_rows)
 
     def _na(self, desc_rows=10):
         cprint("\n1. 统计缺失率...")
