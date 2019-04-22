@@ -6,3 +6,4 @@ __mtime__ = '18-11-6'
 """
 
 from .DataFrameSummary import DataFrameSummary
+from .SimpleEDA import SimpleEDA
