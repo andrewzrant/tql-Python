@@ -26,13 +26,24 @@ def text_reply(msg):
 
     if isinstance(question, str) and question.startswith('@'):
         if question.startswith('@AI坚持'):
+            _, item, input = question.split()
             if '求夸' in question:
                 answer = '语料未更新'
                 itchat.send(answer, msg['FromUserName'])
-            elif question.split()[-1] == '相似词':
-                answer = model.wv.similar_by_word(question.split()[1])
-                answer = '相似词 Top 10: \n' + '\n'.join(map(str, answer))
+            elif item == '相似词':
+                answer = model.wv.similar_by_word(input)
+                answer = '相似词 Top 10: \n' + '\n'.join(map(lambda x: '%.3f %s' % (x[1], x[0]), answer))
                 itchat.send(answer, msg['FromUserName'])
+
+
+
+
+
+
+
+
+
+
 
             elif question.split()[-1] == '写诗':
                 answer = api.predict({'text': question.split()[1]},

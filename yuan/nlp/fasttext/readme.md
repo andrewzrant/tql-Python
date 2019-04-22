@@ -27,8 +27,9 @@
 ```
 - Load: 加载C++版的FastText模型
 ```python
-from gensim.models import FastText
-model = FastText.load_fasttext_format('./skipgram.model')
+from gensim.models import fasttext
+fasttext.load_facebook_model
+fasttext.load_facebook_vectors
 ```
 
 ---

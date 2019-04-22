@@ -6,7 +6,7 @@ __author__ = 'JieYuan'
 __mtime__ = '19-3-22'
 """
 from .BaiduPost import BaiduPost
-from gensim.models import FastText
-model = FastText.load_fasttext_format('/home/yuanjie/desktop/Corpus/fast_text.model.bin')
+from gensim.models import fasttext
+model = fasttext.load_facebook_model('/home/yuanjie/desktop/南京小米算法共享/WordVectors/comment.skipgram')
 
 

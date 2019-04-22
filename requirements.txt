@@ -1,6 +1,7 @@
 sanic
 tqdm
 wrapt
+emoji
 
 jieba
 keras
