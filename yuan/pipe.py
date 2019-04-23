@@ -54,6 +54,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 sns.set(style="darkgrid")  # darkgrid, whitegrid, dark, white,和ticks
+# sns.plotting_context()
+# sns.axes_style()
 
 # plt.style.use('ggplot')
 plt.rcParams['font.sans-serif'] = ['Simhei']  # 中文乱码的处理
@@ -68,8 +70,7 @@ plt.rcParams["font.size"] = 10
 plt.rcParams["pdf.fonttype"] = 42
 
 
-# sns.plotting_context()
-# sns.axes_style()
+
 #########################################################################
 
 
