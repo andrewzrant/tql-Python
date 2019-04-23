@@ -51,6 +51,9 @@ warnings.filterwarnings("ignore")
 
 
 import matplotlib.pyplot as plt
+import seaborn as sns
+
+sns.set(style="darkgrid")  # darkgrid, whitegrid, dark, white,和ticks
 
 # plt.style.use('ggplot')
 plt.rcParams['font.sans-serif'] = ['Simhei']  # 中文乱码的处理
@@ -63,10 +66,6 @@ plt.rcParams["figure.dpi"] = 128
 plt.rcParams["savefig.dpi"] = plt.rcParams["figure.dpi"]
 plt.rcParams["font.size"] = 10
 plt.rcParams["pdf.fonttype"] = 42
-
-import seaborn as sns
-
-sns.set(style="darkgrid")  # darkgrid, whitegrid, dark, white,和ticks
 
 
 # sns.plotting_context()
