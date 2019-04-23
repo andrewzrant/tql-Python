@@ -58,7 +58,7 @@ plt.rcParams['font.family'] = 'sans-serif'
 plt.rcParams['axes.unicode_minus'] = False  # 负号
 plt.rcParams["text.usetex"] = False
 plt.rcParams["legend.numpoints"] = 1
-plt.rcParams["figure.figsize"] = (12, 6)  # (8, 6)
+plt.rcParams["figure.figsize"] = (18, 9)  # (12, 6)
 plt.rcParams["figure.dpi"] = 128
 plt.rcParams["savefig.dpi"] = plt.rcParams["figure.dpi"]
 plt.rcParams["font.size"] = 10
@@ -68,10 +68,10 @@ import seaborn as sns
 
 sns.set(style="darkgrid")  # darkgrid, whitegrid, dark, white,和ticks
 
+
 # sns.plotting_context()
 # sns.axes_style()
 #########################################################################
-TfidfVectorizer
 
 
 # 序列化
