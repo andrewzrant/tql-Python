@@ -9,13 +9,10 @@ from sklearn.model_selection import cross_val_score
 from bayes_opt import BayesianOptimization
 from sklearn import clone
 import numpy as np
-<<<<<<< HEAD
 from pprint import pprint
-=======
 from functools import partial
 from pprint import pprint
 from .. import OOF
->>>>>>> bea54ef94d88c473975d544a06ec6b645e03f018
 
 from sklearn.model_selection import StratifiedKFold, KFold
 
@@ -32,10 +29,7 @@ class Optimizer(object):
         self.pbounds = pbounds
         self.params_type = self._get_params_type(self.pbounds)
         self.scaled_pbounds, self.scaled_params = self._scaler(self.pbounds)
-<<<<<<< HEAD
         pprint("Scaled pbounds: %s" % self.scaled_pbounds)
-=======
->>>>>>> bea54ef94d88c473975d544a06ec6b645e03f018
 
         pprint(self.scaled_pbounds)
 
@@ -78,13 +72,11 @@ class Optimizer(object):
         return params_type
 
     def _scaler(self, pbounds):
-<<<<<<< HEAD
         scaled_params = []
         for k, v in pbounds.items():
             if not -1 <= np.log10(np.ptp(v)) <= 1:  # update pbounds
                 scaled_params.append(k)
                 pbounds[k] = np.log10(v[0] if v[0] else 1e-6), np.log10(v[1])
-=======
         _pbounds = pbounds.copy()
 
         scaled_params = {'float': [], 'int': [], 'str': []}
@@ -119,7 +111,6 @@ class Optimizer(object):
             params[p] = int(10 ** params[p])
         for p in self.params_type['int']:
             params[p] = int(params[p])
->>>>>>> bea54ef94d88c473975d544a06ec6b645e03f018
 
         for p in self.scaled_params['str']:
             params[p] = self.pbounds[p][int(round(params[p]))]

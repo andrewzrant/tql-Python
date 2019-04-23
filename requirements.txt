@@ -2,6 +2,7 @@ sanic
 tqdm
 wrapt
 emoji
+retry
 
 jieba
 keras

@@ -32,5 +32,5 @@ class SimpleEDA(object):
 
     def _unique(self, desc_rows=10):
         cprint("\n2. 统计类别数...")
-        self.s_unique = self.df.nunique(dropna=False)[lambda x: x < 1024].sort_values(0, False)
+        self.s_unique = self.df.nunique(dropna=False)[lambda x: x < 1024].sort_values()
         print(self.s_unique.head(desc_rows))
