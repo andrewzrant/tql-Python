@@ -9,7 +9,7 @@ import re
 import os
 from setuptools import find_packages, setup
 
-with open('yuan/__init__.py', encoding='utf8') as f:
+with open('iWork/__init__.py', encoding='utf8') as f:
     version = re.search(r'__version__ = \'(.*?)\'', f.read()).group(1)
 
 with open("README.md", encoding='utf-8') as f:
@@ -24,9 +24,9 @@ def get_requirements():
 
 
 setup(
-    name='Yuan',
+    name='iWork',
     version=version,
-    url='https://github.com/Jie-Yuan/Yuan',
+    url='https://github.com/Jie-Yuan/iWork',
     keywords=["tool wheel", "yuanjie", 'utils', '轮子'],
     description=('description'),
     long_description=long_description,
@@ -48,7 +48,7 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python',
         'Programming Language :: Python :: Implementation',
-        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.7',
         'Topic :: Software Development :: Libraries'
     ],
 
