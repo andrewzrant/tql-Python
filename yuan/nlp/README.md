@@ -8,12 +8,6 @@
 [1]: https://www.cnblogs.com/june0507/p/9412989.html
 
 
-
-
-
-
-
-
 ```
 def remove_special_characters(text):
     tokens = tokenize_text(text)

@@ -26,6 +26,7 @@ class OutlierEncoder(object):
         self.mode = mode
 
     def transform(self, x: pd.Series, return_bool=True):
+        """返回异常值的索引或者0/1"""
         if return_bool:
             return self.__getattribute__(self.mode)(x)
         else:

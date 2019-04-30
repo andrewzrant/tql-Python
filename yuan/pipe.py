@@ -54,8 +54,10 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 sns.set(style="darkgrid")  # darkgrid, whitegrid, dark, white,和ticks
+sns.set_context('paper')
 # sns.plotting_context()
 # sns.axes_style()
+
 
 # plt.style.use('ggplot')
 plt.rcParams['font.sans-serif'] = ['Simhei']  # 中文乱码的处理
@@ -127,7 +129,7 @@ xtuple, xlist, xset = xx(tuple), xx(list), xx(set)
 
 # string
 xjoin = xx(lambda string, sep=' ': sep.join(string))
-xcut = xx(lambda string, cut_all=False: jieba.cut(string, cut_all=cut_all))
+xcut = xx(lambda string, cut_all=False: jieba.lcut(string, cut_all=cut_all))
 
 # list transform
 xgroup_by_step = xx(lambda ls, step=3: [ls[idx: idx + step] for idx in range(0, len(ls), step)])

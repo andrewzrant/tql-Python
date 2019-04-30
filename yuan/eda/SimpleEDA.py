@@ -7,8 +7,8 @@ __mtime__ = '2019-04-22'
 """
 import pandas as pd
 
-
 from ..utils import cprint
+
 
 class SimpleEDA(object):
     """
@@ -17,7 +17,7 @@ class SimpleEDA(object):
     """
 
     def __init__(self, df: pd.DataFrame, exclude=None):
-        self.df = df.drop(exclude, 1) if exclude else df
+        self.df = df.drop(exclude, 1, errors='ignore') if exclude else df
 
         # self.df.head().T.add_prefix('row_')
 
@@ -27,7 +27,8 @@ class SimpleEDA(object):
 
     def _na(self, desc_rows=10):
         cprint("\n1. 统计缺失率...")
-        self.s_na = self.df.isnull().sum()[lambda x: x > 0].sort_values(0, False) / self.df.__len__() * 100
+        self.s_na = self.df.isnull().sum()[lambda x: x > 0].sort_values(0, False) \
+                    / self.df.__len__() * 100
         print(self.s_na.head(desc_rows))
 
     def _unique(self, desc_rows=10):
