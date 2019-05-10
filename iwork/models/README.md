@@ -1,6 +1,9 @@
 # TODO
-- eli5
+## 1. 解释黑盒子
 - shap
+- lime：可解释文本
+- eli5：可解释文本
+
 
 https://docs.fast.ai/
 

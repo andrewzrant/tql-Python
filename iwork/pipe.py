@@ -21,7 +21,9 @@ except:
 else:
     from tqdm import tqdm_notebook as tqdm
 #########################################################################
+import os
 import re
+import time
 import requests
 from pathlib import Path
 from sklearn.datasets import make_classification
@@ -41,14 +43,25 @@ from functools import reduce
 from collections import Counter, OrderedDict
 from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
 
+from sklearn.externals import joblib
 from sklearn.feature_extraction.text import TfidfVectorizer
 import warnings
 
 warnings.filterwarnings("ignore")
-pd.set_option('display.max_rows', 1024)
-pd.set_option('display.max_columns', 128)
-pd.set_option('max_colwidth', 128)  # 列宽
-# pd.set_option('expand_frame_repr', False)  # 允许换行显示
+
+
+def pd_set():
+    """
+    pd.set_option('display.max_rows', 1024)
+    pd.set_option('display.max_columns', 128)
+    pd.set_option('max_colwidth', 128)  # 列宽
+    # pd.set_option('expand_frame_repr', False)  # 允许换行显示
+    """
+    pd.set_option('display.max_rows', 1024)
+    pd.set_option('display.max_columns', 128)
+    pd.set_option('max_colwidth', 128)  # 列宽
+    # pd.set_option('expand_frame_repr', False)  # 允许换行显示
+    print('Setting Success!')
 
 
 import matplotlib.pyplot as plt
@@ -56,21 +69,38 @@ import seaborn as sns
 
 sns.set(style="darkgrid")  # darkgrid, whitegrid, dark, white,和ticks
 sns.set_context('paper')
+
+
 # sns.plotting_context()
 # sns.axes_style()
 
 
 # plt.style.use('ggplot')
-plt.rcParams['font.sans-serif'] = ['Simhei']  # 中文乱码的处理
-plt.rcParams['font.family'] = 'sans-serif'
-plt.rcParams['axes.unicode_minus'] = False  # 负号
-plt.rcParams["text.usetex"] = False
-plt.rcParams["legend.numpoints"] = 1
-plt.rcParams["figure.figsize"] = (18, 9)  # (12, 6)
-plt.rcParams["figure.dpi"] = 128
-plt.rcParams["savefig.dpi"] = plt.rcParams["figure.dpi"]
-plt.rcParams["font.size"] = 12
-plt.rcParams["pdf.fonttype"] = 42
+
+def plot_set():
+    """
+    plt.rcParams['font.sans-serif'] = ['Simhei']  # 中文乱码的处理
+    plt.rcParams['font.family'] = 'sans-serif'
+    plt.rcParams['axes.unicode_minus'] = False  # 负号
+    plt.rcParams["text.usetex"] = False
+    plt.rcParams["legend.numpoints"] = 1
+    plt.rcParams["figure.figsize"] = (18, 9)  # (12, 6)
+    plt.rcParams["figure.dpi"] = 128
+    plt.rcParams["savefig.dpi"] = plt.rcParams["figure.dpi"]
+    plt.rcParams["font.size"] = 12
+    plt.rcParams["pdf.fonttype"] = 42
+    """
+    plt.rcParams['font.sans-serif'] = ['Simhei']  # 中文乱码的处理
+    plt.rcParams['font.family'] = 'sans-serif'
+    plt.rcParams['axes.unicode_minus'] = False  # 负号
+    plt.rcParams["text.usetex"] = False
+    plt.rcParams["legend.numpoints"] = 1
+    plt.rcParams["figure.figsize"] = (18, 9)  # (12, 6)
+    plt.rcParams["figure.dpi"] = 128
+    plt.rcParams["savefig.dpi"] = plt.rcParams["figure.dpi"]
+    plt.rcParams["font.size"] = 12
+    plt.rcParams["pdf.fonttype"] = 42
+    print('Setting Success!')
 
 
 #########################################################################
@@ -121,8 +151,18 @@ xmax_index = xx(lambda x: max(range(len(x)), key=x.__getitem__))  # 列表中最
 xmin_index = xx(lambda x: min(range(len(x)), key=x.__getitem__))  # 列表中最小和最大值的索引
 xmost_freq = xx(lambda x: max(set(x), key=x.count))  # 查找列表中频率最高的值, key作用于set(x), 可类推出其他用法
 
+
 # print
-xprint = xx(lambda obj, bg='blue': cprint(obj, bg))
+@xx
+def xprint(obj, mode=None, bg='blue'):
+    if mode:
+        for i in obj:
+            cprint(i)
+            print('\n')
+    else:
+        cprint(obj, bg)
+
+
 xtqdm = xx(lambda iterable, desc=None: tqdm(iterable, desc))
 
 # base types

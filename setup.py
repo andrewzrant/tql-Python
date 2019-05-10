@@ -9,7 +9,10 @@ import re
 import os
 from setuptools import find_packages, setup
 
-with open('iWork/__init__.py', encoding='utf8') as f:
+# 修改name即可
+NAME = 'iWork'
+
+with open(NAME + '/__init__.py', encoding='utf-8') as f:
     version = re.search(r'__version__ = \'(.*?)\'', f.read()).group(1)
 
 with open("README.md", encoding='utf-8') as f:
@@ -24,9 +27,9 @@ def get_requirements():
 
 
 setup(
-    name='iWork',
+    name=NAME,
     version=version,
-    url='https://github.com/Jie-Yuan/iWork',
+    url='https://github.com/Jie-Yuan/' + NAME,
     keywords=["tool wheel", "yuanjie", 'utils', '轮子'],
     description=('description'),
     long_description=long_description,
