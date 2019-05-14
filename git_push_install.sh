@@ -19,6 +19,7 @@ git add *
 git commit -m "$update_info"
 git push
 pip uninstall yuan -y \
-&& pip install git+https://github.com/Jie-Yuan/Yuan.git -U -i https://pypi.tuna.tsinghua.edu.cn/simple
+&& pip install -U -i https://pypi.tuna.tsinghua.edu.cn/simple \
+git+https://github.com/Jie-Yuan/iWork.git
 
 exit 0
