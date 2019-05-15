@@ -21,7 +21,7 @@ class HotSpider(object):
     def df_sites_info(self):
         dfs = []
         for (site, url) in self.df_sites[['site', 'url']].values:
-            print('爬取: ' + site)
+            print('爬取🕷' + site)
             df = pd.read_html(self._request(url).text)[0]
             df.columns = ['rank', 'title', 'hot', 'site']
             df.site = site

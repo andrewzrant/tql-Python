@@ -5,14 +5,14 @@ __title__ = 'word_cloud'
 __author__ = 'JieYuan'
 __mtime__ = '19-3-1'
 """
-
-from pyecharts import charts
 import random
+from pyecharts import charts
+
 
 
 class WordCloud(object):
 
-    def __init__(self, data_pair, shape=None):
+    def __init__(self, data_pair, shape=None, width = '900px', height='500px'):
         """
         wc.render()
         wc.render_notebook()
@@ -20,11 +20,15 @@ class WordCloud(object):
         shapes = ['circle', 'cardioid', 'diamond', 'triangle-forward', 'triangle', 'pentagon', 'star']
         self.data_pair = data_pair
         self.shape = shape if shape else random.choice(shapes)
+        self.width = width
+        self.height = height
 
     @property
     def wc(self):
         wc = charts.WordCloud()
         wc.add("WordCloud", data_pair=self.data_pair, shape=self.shape)
+        wc.width = self.width
+        wc.height = self.height
         return wc
 
 
