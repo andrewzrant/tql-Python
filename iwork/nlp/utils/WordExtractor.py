@@ -10,7 +10,7 @@ from ...pipe import get_module_path
 import jieba.posseg as jp
 
 
-class WordsExtractor(object):
+class WordExtractor(object):
 
     def __init__(self):
         self.stopwords = self.stopwords()
