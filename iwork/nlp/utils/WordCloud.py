@@ -9,17 +9,17 @@ import random
 from pyecharts import charts
 
 
-
 class WordCloud(object):
 
-    def __init__(self, data_pair, shape=None, width = '900px', height='500px'):
-        """
+    def __init__(self, data_pair, shape=None, width='900px', height='500px'):
+        """['circle', 'cardioid', 'diamond', 'triangle-forward', 'triangle', 'pentagon', 'star']
         wc.render()
         wc.render_notebook()
+
         """
-        shapes = ['circle', 'cardioid', 'diamond', 'triangle-forward', 'triangle', 'pentagon', 'star']
+        self._shapes = ['circle', 'cardioid', 'diamond', 'triangle-forward', 'triangle', 'pentagon', 'star']
         self.data_pair = data_pair
-        self.shape = shape if shape else random.choice(shapes)
+        self.shape = shape if shape else random.choice(self._shapes)
         self.width = width
         self.height = height
 
