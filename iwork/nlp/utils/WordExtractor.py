@@ -19,7 +19,7 @@ class WordExtractor(object):
         """
         :flags mode: ['v', 'vn']
         """
-        for p in jp.cut(sent):
+        for p in jp.cut(sent.lower()):
             if p.flag in flags:
                 yield p.word
 
