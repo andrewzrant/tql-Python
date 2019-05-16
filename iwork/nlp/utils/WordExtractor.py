@@ -24,7 +24,7 @@ class WordExtractor(object):
                 yield p.word
 
     def noun(self, sent, flag=False):
-        for p in jp.cut(sent):
+        for p in jp.cut(sent.lower()):
             if 'n' in p.flag and len(p.word) > 1 and p.word not in self.stopwords:
                 yield p if flag else p.word
 
