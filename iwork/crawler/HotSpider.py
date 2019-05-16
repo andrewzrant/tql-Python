@@ -47,12 +47,12 @@ class HotSpider(object):
             dom_tree = HTML(r.text)
             pages = int(dom_tree.xpath('//div/small/text()')[0][:-1]) // 12 + 1
             urls = [url + '?p=%s' % i for i in range(1, pages + 1)]
-            # print('%s: %s\n' % (self.query, pages))
+            print('%s: %s\n' % (self.query, pages))
         else:
             urls = ['https://tophub.today/search?q=' + self.query]
 
         dfs = []
-        for url in tqdm(urls):
+        for url in urls:
             r = self._request(url)
             dom_tree = HTML(r.text)
             urls = dom_tree.xpath('//div/a[starts-with(@href,"/n")]/@href')
