@@ -29,7 +29,7 @@ def xfunc2(x):
 ```
 - `xtqdm`
 
-    ![tqdm](pic/tqdm.png)
+    ![tqdm](Pictures/tqdm.png)
 
 - `xfilter / xmap / xsort / xreduce`
 ```python
