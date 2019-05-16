@@ -40,7 +40,7 @@ class HotSpider(object):
 
     @property
     def df_sites(self):
-        print('抓取 %s ...\n' % self.query)
+        print('抓取 %s ...' % self.query)
         if self.query in self.categories:
             url = 'https://tophub.today/c/' + self.query
             r = self._request(url)
