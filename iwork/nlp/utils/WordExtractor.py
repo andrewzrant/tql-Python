@@ -24,17 +24,10 @@ class WordExtractor(object):
                 yield p.word
 
     def noun(self, sent, flag=False):
-        stopwords = self.stopwords
         for p in jp.cut(sent):
-            if 'n' in p.flag and len(p.word) > 1 and p.word not in stopwords:
+            if 'n' in p.flag and len(p.word) > 1 and p.word not in self.stopwords:
                 yield p if flag else p.word
 
     def stopwords(self):
         with open(get_module_path('./stop_words.txt', __file__)) as f:
             return set(f.read().split())
-
-
-if __name__ == '__main__':
-    we = WordsExtractor()
-    _ = we.noun('我是中国人')
-    print(list(_))
