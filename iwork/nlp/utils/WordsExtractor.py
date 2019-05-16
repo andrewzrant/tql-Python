@@ -12,6 +12,9 @@ import jieba.posseg as jp
 
 class WordsExtractor(object):
 
+    def __init__(self):
+        self.stopwords = self.stopwords()
+
     def words(self, sent, flags=None):
         """
         :flags mode: ['v', 'vn']
@@ -26,7 +29,6 @@ class WordsExtractor(object):
             if 'n' in p.flag and len(p.word) > 1 and p.word not in stopwords:
                 yield p.word
 
-    @property
     def stopwords(self):
         with open(get_module_path('./stop_words.txt', __file__)) as f:
             return set(f.read().split())
