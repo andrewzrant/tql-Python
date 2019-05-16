@@ -23,11 +23,11 @@ class WordsExtractor(object):
             if p.flag in flags:
                 yield p.word
 
-    def noun(self, sent):
+    def noun(self, sent, flag=False):
         stopwords = self.stopwords
         for p in jp.cut(sent):
             if 'n' in p.flag and len(p.word) > 1 and p.word not in stopwords:
-                yield p.word
+                yield p if flag else p.word
 
     def stopwords(self):
         with open(get_module_path('./stop_words.txt', __file__)) as f:
