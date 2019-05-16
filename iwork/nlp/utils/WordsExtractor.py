@@ -5,6 +5,8 @@ __title__ = 'StopWords'
 __author__ = 'JieYuan'
 __mtime__ = '2019-05-16'
 """
+from ...pipe import get_module_path
+
 import jieba.posseg as jp
 
 
@@ -26,7 +28,7 @@ class WordsExtractor(object):
 
     @property
     def stopwords(self):
-        with open('./stop_words.txt') as f:
+        with open(get_module_path('./stop_words.txt', __file__)) as f:
             return set(f.read().split())
 
 
