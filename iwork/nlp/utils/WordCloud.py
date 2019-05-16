@@ -12,7 +12,8 @@ from pyecharts import charts
 class WordCloud(object):
 
     def __init__(self, data_pair, shape=None, width='900px', height='500px'):
-        """['circle', 'cardioid', 'diamond', 'triangle-forward', 'triangle', 'pentagon', 'star']
+        """
+        ['circle', 'cardioid', 'diamond', 'triangle-forward', 'triangle', 'pentagon', 'star']
         wc.render()
         wc.render_notebook()
 

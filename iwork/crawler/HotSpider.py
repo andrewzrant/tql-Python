@@ -5,7 +5,6 @@ __title__ = 'HotSpider'
 __author__ = 'JieYuan'
 __mtime__ = '2019-05-15'
 """
-
 from ..pipe import tqdm
 
 import requests
