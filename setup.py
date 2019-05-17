@@ -9,7 +9,7 @@ import re
 import os
 from setuptools import find_packages, setup
 
-# 修改name即可
+# rename
 NAME = 'iWork'
 
 with open(NAME + '/__init__.py', encoding='utf-8') as f:
