@@ -10,9 +10,10 @@ import os
 from setuptools import find_packages, setup
 
 # rename
-NAME = 'iWork'
+project_name = 'iWork'
+package_name = 'iwork'
 
-with open('./%s/__init__.py' % NAME, encoding='utf-8') as f:
+with open('./%s/__init__.py' % package_name, encoding='utf-8') as f:
     version = re.search(r'__version__ = \'(.*?)\'', f.read()).group(1)
 
 with open("README.md", encoding='utf-8') as f:
@@ -27,7 +28,7 @@ def get_requirements():
 
 
 setup(
-    name=NAME,
+    name=project_name,
     version=version,
     url='https://github.com/Jie-Yuan/' + NAME,
     keywords=["tool wheel", "yuanjie", 'utils'],
