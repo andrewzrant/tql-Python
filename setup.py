@@ -30,7 +30,7 @@ def get_requirements():
 setup(
     name=project_name,
     version=version,
-    url='https://github.com/Jie-Yuan/' + NAME,
+    url='https://github.com/Jie-Yuan/' + project_name,
     keywords=["tool wheel", "yuanjie", 'utils'],
     description=('description'),
     long_description=long_description,
