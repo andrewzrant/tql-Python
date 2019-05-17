@@ -12,10 +12,6 @@ import requests
 def request(url, params=None):
     try:
         # headers：伪装spider
-        headers = {
-            "User-Agent":
-                "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.80 Safari/537.36"
-        }
         headers = {'user-agent': 'Mozilla/5.0'}
         r = requests.get(url, params, headers=headers)
         r.raise_for_status()  # 申请返回的状态码: 200为成功

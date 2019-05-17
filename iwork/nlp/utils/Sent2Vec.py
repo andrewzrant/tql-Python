@@ -10,30 +10,41 @@ from tqdm import tqdm
 
 class Sent2Vec(object):
 
-    def __init__(self, fname):
-        self.embeddings = {}
-        self.word_size = None
-        self._load_wv(fname)
+    def __init__(self, gensim_model=None, fname=None):
+        self.gensim_model = gensim_model
+        self.fname = fname
+        self._load_wv()
 
-    def sent2vec(self, sentence, tokenizer=str.split, mode='sum', normalize=False):
-        words = [w for w in tokenizer(sentence) if w in self.embeddings]
-
+    def vec(self, sentence, tokenizer=str.split, mode='sum', normalize=False):
+        words = []
+        for w in tokenizer(sentence):
+            if isinstance(self.embeddings, dict) and w in self.embeddings:
+                w = self.embeddings[w]
+            else:
+                w = self.embeddings[w]
+            words.append(w)
         if words:
-            if mode == 'sum':
-                _ = np.array([self.embeddings[w] for w in words]).sum(axis=0)
-                return _ / np.sqrt(np.clip((_ ** 2).sum(), 1e-12, None)) if normalize else _
-            elif mode == 'mean':
-                _ = np.array([self.embeddings[w] for w in words]).mean(axis=0)
+            if mode in ('sum', 'mean'):
+                _ = np.array(words)
+                _ = _.__getattribute__(mode)(axis=0)
                 return _ / np.sqrt(np.clip((_ ** 2).sum(), 1e-12, None)) if normalize else _
             else:
                 return np.zeros(self.word_size)
         else:
             return np.zeros(self.word_size)
 
-    def _load_wv(self, fname):
-        with open(fname) as f:
-            for line in tqdm(f, 'Load Vectors ...'):
-                line = line.strip().split()
-                if len(line) > 2:
-                    self.embeddings[line[0]] = np.asarray(line[1:], dtype='float32')
-            self.word_size = len(line[1:])
+    def _load_wv(self):
+        if self.fname is None and self.gensim_model is None:
+            raise Exception('fname and gensim_model can not be both None!')
+
+        if self.gensim_model:
+            self.word_size = self.gensim_model.wv.vector_size
+            self.embeddings = self.gensim_model.wv
+
+        if self.fname:
+            with open(self.fname) as f:
+                for line in tqdm(f, 'Load Vectors ...'):
+                    line = line.strip().split()
+                    if len(line) > 2:
+                        self.embeddings[line[0]] = np.asarray(line[1:], dtype='float32')
+                self.word_size = len(line[1:])

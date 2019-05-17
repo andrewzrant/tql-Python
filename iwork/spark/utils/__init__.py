@@ -1,9 +1,7 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#-*- coding: utf-8 -*-
 """
 __title__ = '__init__.py'
 __author__ = 'JieYuan'
-__mtime__ = '18-12-14'
+__mtime__ = '2019-05-17'
 """
-
-__version__ = '0.0.2'
