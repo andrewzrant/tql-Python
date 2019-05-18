@@ -1,3 +1,11 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""
+__title__ = 'Sent2Vec'
+__author__ = 'JieYuan'
+__mtime__ = '19-3-1'
+"""
+
 import numpy as np
 from tqdm import tqdm
 
