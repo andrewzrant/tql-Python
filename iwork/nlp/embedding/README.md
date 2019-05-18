@@ -15,7 +15,6 @@ model.wv.similarity('何超盈拍孕肚写真', '奚梦瑶疑似怀孕')
 model.wv.n_similarity('何超盈拍孕肚写真' | xcut, '奚梦瑶疑似怀孕' | xcut)
 # 相似词
 model.wv.similar_by_word('怀孕', topn=3)
-model.wv.similar_by_vector
 
 # 一对多向量相似度
 # 一对多词找最相似

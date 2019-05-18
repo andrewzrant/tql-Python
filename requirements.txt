@@ -11,6 +11,9 @@ catboost
 rgf_python
 bayesian-optimization
 statsmodels
+pyspark
+gensim
+nmslib
 
 tables
 eli5

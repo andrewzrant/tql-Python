@@ -14,6 +14,9 @@ from pyspark.sql.types import *
 class SparkInit(object):
 
     def __init__(self):
+        """
+        sc, spark = SparkInit()()
+        """
         self.spark = SparkSession.builder \
             .appName("Yuanjie") \
             .config('log4j.rootCategory', "WARN") \
@@ -21,9 +24,7 @@ class SparkInit(object):
             .getOrCreate()
 
         self.sc = self.spark.sparkContext
-        print(self.spark.version)
+        print('Spark Version: %s' % self.spark.version)
 
     def __call__(self, *args, **kwargs):
         return self.sc, self.spark
-
-sc, spark = SparkInit()()
