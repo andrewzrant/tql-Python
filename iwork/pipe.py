@@ -53,6 +53,7 @@ warnings.filterwarnings("ignore")
 get_module_path = lambda path, file=__file__: \
     os.path.normpath(os.path.join(os.getcwd(), os.path.dirname(file), path))
 
+
 ###################################################################
 
 def pd_set():
@@ -213,11 +214,19 @@ xfilter = xx(lambda iterable, func: filter(func, iterable))
 # multiple
 @xx
 def xThreadPoolExecutor(iterable, func, max_workers=5):
+    """
+    with ThreadPoolExecutor(max_workers) as pool:
+        pool.map(func, iterable)
+    """
     with ThreadPoolExecutor(max_workers) as pool:
         return pool.map(func, iterable)
 
 
 @xx
 def xProcessPoolExecutor(iterable, func, max_workers=5):
+    """
+    with ProcessPoolExecutor(max_workers) as pool:
+        pool.map(func, iterable)
+    """
     with ProcessPoolExecutor(max_workers) as pool:
         return pool.map(func, iterable)

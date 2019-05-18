@@ -5,3 +5,4 @@ __title__ = '__init__.py'
 __author__ = 'JieYuan'
 __mtime__ = '2019-04-30'
 """
+from .hotnews import HotNews

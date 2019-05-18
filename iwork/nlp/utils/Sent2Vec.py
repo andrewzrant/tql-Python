@@ -23,10 +23,11 @@ class Sent2Vec(object):
         self.fname = fname
         self._load_wv()
 
-    def vec(self, sentence, tokenizer=str.split, mode='sum', normalize=False):
+    def vec(self, sentence, tokenizer=str.split, mode='mean', normalize=False):
         words = []
-        for w in tokenizer(sentence):
-            if isinstance(self.embeddings, dict) and w in self.embeddings:
+        flag = isinstance(self.embeddings, dict)
+        for w in tokenizer(sentence.lower()):
+            if flag and w in self.embeddings:
                 w = self.embeddings[w]
             else:
                 w = self.embeddings[w]

@@ -9,7 +9,6 @@ __mtime__ = '2019-05-14'
 import numpy as np
 import nmslib
 
-
 class VecQuery(object):
     """
     index.getDistance
@@ -27,11 +26,11 @@ class VecQuery(object):
         return self.query(*args, **kwargs)
 
     def query(self, data, k=10, num_threads=4):
-        return self.index.knnQueryBatch(data, k, num_threads)
+        _ = self.index.knnQueryBatch(data, k, num_threads)
+        return list(map(self._parse_result, _))
 
     def createIndex(self, words, vectors):
         """
-
         :param words: 务必唯一不重复
         :param vectors:
         :return:
@@ -61,6 +60,9 @@ class VecQuery(object):
         self.index.addDataPointBatch(vectors, ids)
         self.index.createIndex({'post': 2})
 
+    def _parse_result(self, pair):
+        return [(self.id2word[k], 1 - v) for k, v in zip(*pair)]
+
 
 if __name__ == '__main__':
     vq = VecQuery()
@@ -69,5 +71,5 @@ if __name__ == '__main__':
     print(vq.id2word, vq.word2id)
     vq.createIndex(['a', 'c'], [[1, 2], [3, 3]])
 
-    print(vq.query([[1, 2]]))
+    print(vq.query([[1, 2], [1, 2]]))
     print(vq.id2word, vq.word2id)
