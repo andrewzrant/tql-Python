@@ -9,6 +9,7 @@ __mtime__ = '2019-05-14'
 import numpy as np
 import nmslib
 
+
 class VecQuery(object):
     """
     index.getDistance
@@ -18,9 +19,13 @@ class VecQuery(object):
     """
 
     def __init__(self, index=None):
+        """
+        # TODO：index, id2word 都要存才能保证下次加载判断逻辑正确
+        :param index: index.loadIndex('*')
+        """
         self.id2word = {}
         self.word2id = {}
-        self.index = nmslib.init(method='hnsw', space='cosinesimil') if not index else index
+        self.index = index
 
     def __call__(self, *args, **kwargs):
         return self.query(*args, **kwargs)
@@ -57,6 +62,7 @@ class VecQuery(object):
 
     def _create(self, vectors, ids=None):
         # initialize a new index, using a HNSW index on Cosine Similarity
+        self.index = nmslib.init(method='hnsw', space='cosinesimil') if not self.index else self.index
         self.index.addDataPointBatch(vectors, ids)
         self.index.createIndex({'post': 2})
 

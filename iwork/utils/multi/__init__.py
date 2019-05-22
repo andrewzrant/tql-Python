@@ -3,7 +3,5 @@
 """
 __title__ = '__init__.py'
 __author__ = 'JieYuan'
-__mtime__ = '2019-05-17'
+__mtime__ = '2019-05-22'
 """
-
-from .Sql import Sql

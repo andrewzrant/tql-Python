@@ -23,7 +23,7 @@ class Sent2Vec(object):
         self.fname = fname
         self._load_wv()
 
-    def vec(self, sentence, tokenizer=str.split, mode='mean', normalize=False):
+    def transform(self, sentence, tokenizer=str.split, mode='mean', normalize=False):
         words = []
         flag = isinstance(self.embeddings, dict)
         for w in tokenizer(sentence.lower()):

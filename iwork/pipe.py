@@ -35,6 +35,9 @@ from sklearn.model_selection import StratifiedKFold, KFold
 import os
 import re
 import jieba
+import jieba.analyse as ja
+
+jieba.initialize()
 import json
 import pickle
 import numpy as np
@@ -120,6 +123,7 @@ def reader(fname='./tmp.txt', sep=',', mode='r'):
             yield l.strip().split(sep)
 
 
+
 @xx
 def xwrite(iterable, fname, mode='w', glue='\n'):
     with open(fname, mode) as f:
@@ -175,8 +179,9 @@ xtqdm = xx(lambda iterable, desc=None: tqdm(iterable, desc))
 xtuple, xlist, xset = xx(tuple), xx(list), xx(set)
 
 # string
-xjoin = xx(lambda string, sep=' ': sep.join(string))
-xcut = xx(lambda string, cut_all=False: jieba.lcut(string, cut_all=cut_all))
+xjoin = xx(lambda s, sep=' ': sep.join(s))
+xcut = xx(lambda s, cut_all=False: jieba.lcut(s, cut_all=cut_all))
+xtfidf = xx(lambda s, topK=20: ja.tfidf(s, topK=topK))
 
 # list transform
 xgroup_by_step = xx(lambda ls, step=3: [ls[idx: idx + step] for idx in range(0, len(ls), step)])

@@ -3,6 +3,8 @@ tqdm
 wrapt
 emoji
 retry
+pytz
+pybind11
 
 jieba
 keras
@@ -13,7 +15,6 @@ bayesian-optimization
 statsmodels
 pyspark
 gensim
-nmslib
 
 tables
 eli5
