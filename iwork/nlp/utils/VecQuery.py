@@ -8,6 +8,7 @@ __mtime__ = '2019-05-14'
 
 import numpy as np
 import nmslib
+from collections import OrderedDict
 
 
 class VecQuery(object):
@@ -67,7 +68,7 @@ class VecQuery(object):
         self.index.createIndex({'post': 2})
 
     def _parse_result(self, pair):
-        return [(self.id2word[k], 1 - v) for k, v in zip(*pair)]
+        return OrderedDict([(self.id2word[k], 1 - v) for k, v in zip(*pair)])
 
 
 if __name__ == '__main__':
