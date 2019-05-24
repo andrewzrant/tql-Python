@@ -123,7 +123,6 @@ def reader(fname='./tmp.txt', sep=',', mode='r'):
             yield l.strip().split(sep)
 
 
-
 @xx
 def xwrite(iterable, fname, mode='w', glue='\n'):
     with open(fname, mode) as f:
@@ -151,7 +150,10 @@ xvalue_counts = xx(
 __funcs = [sum, min, max, abs, len, np.mean, np.median]
 xsum, xmin, xmax, xabs, xlen, xmean, xmedian = [xx(i) for i in __funcs]
 
-xnorm = xx(lambda iterable, ord=2: np.linalg.norm(list(iterable), ord))
+xnorm = xx(lambda iterable, ord=2: np.linalg.norm(iterable, ord))
+xl1 = xx(lambda iterable: np.linalg.norm(iterable, 1))
+xl2 = xx(lambda iterable: np.linalg.norm(iterable, 2))
+
 xcount = xx(lambda iterable: Counter(list(iterable)))
 
 xunique = xx(lambda iterable: list(OrderedDict.fromkeys(list(iterable))))  # 移除列表中的重复元素(保持有序)
@@ -235,3 +237,9 @@ def xProcessPoolExecutor(iterable, func, max_workers=5):
     """
     with ProcessPoolExecutor(max_workers) as pool:
         return pool.map(func, iterable)
+
+
+# ip
+import socket
+
+ip = socket.gethostbyname(socket.getfqdn(socket.gethostname()))

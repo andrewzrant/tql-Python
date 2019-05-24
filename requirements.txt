@@ -2,7 +2,6 @@ sanic
 tqdm
 wrapt
 emoji
-retry
 pytz
 pybind11
 
@@ -13,7 +12,6 @@ catboost
 rgf_python
 bayesian-optimization
 statsmodels
-pyspark
 gensim
 
 tables
