@@ -6,4 +6,3 @@ __author__ = 'JieYuan'
 __mtime__ = '2019-05-17'
 """
 
-from .Sql import Sql

@@ -5,8 +5,9 @@ __title__ = 'setup.py'
 __author__ = 'JieYuan'
 __mtime__ = '18-12-14'
 """
-import re
 import os
+import re
+
 from setuptools import find_packages, setup
 
 # rename
