@@ -4,6 +4,7 @@ wrapt
 emoji
 pytz
 pybind11
+joblib
 
 jieba
 keras

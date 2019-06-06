@@ -19,3 +19,5 @@ def limit_memory(memory=16):
     resource.setrlimit(rsrc, (memlimit, memlimit))
     # soft, hard = resource.getrlimit(rsrc)
     print("memory limit as: %s G" % memory)
+
+import wxpy

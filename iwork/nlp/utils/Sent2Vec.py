@@ -19,6 +19,7 @@ from tqdm import tqdm
 class Sent2Vec(object):
 
     def __init__(self, gensim_model=None, fname=None):
+        gensim_model.init_sims(replace=True)  # 节省内存
         self.gensim_model = gensim_model
         self.fname = fname
         self._load_wv()
