@@ -7,3 +7,6 @@ cmake ..
 make -j4
 cd ../python-package
 python setup.py install
+
+# gpu
+# apt-get install --no-install-recommends git cmake build-essential libboost-dev libboost-system-dev libboost-filesystem-dev

@@ -7,3 +7,6 @@ cmake .. -DUSE_CUDA=ON
 make -j4
 cd ../python-package
 python setup.py install
+
+
+# 多gpu: https://www.cnblogs.com/kdyi/p/10636988.html

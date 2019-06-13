@@ -6,6 +6,5 @@ from .Sequence import Sequence
 from .WordVec2BOW import WordVec2BOW
 from .Emoji import Emoji
 from .ngrams import ngrams, everygrams, skipgrams
-from .VecQuery import VecQuery
 from .WordExtractor import WordExtractor
 # from .WordCloud import WordCloud
