@@ -23,6 +23,8 @@ class SparkInit(object):
             .enableHiveSupport() \
             .getOrCreate()
 
+
+
         self.sc = self.spark.sparkContext
         print('Spark Version: %s' % self.spark.version)
 
