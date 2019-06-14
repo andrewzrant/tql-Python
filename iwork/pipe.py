@@ -20,37 +20,40 @@ except:
 
 else:
     from tqdm import tqdm_notebook as tqdm
+
+import warnings
+
+warnings.filterwarnings("ignore")
 #########################################################################
 import os
 import re
 import time
+import json
+import pickle
+import socket
+import inspect
+import joblib
 import requests
+import numpy as np
+import pandas as pd
+import jieba
+import jieba.analyse as ja
+
 from pathlib import Path
+from functools import reduce
+from contextlib import contextmanager
+from collections import Counter, OrderedDict
+from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
+
 from sklearn.datasets import make_classification
 from sklearn.model_selection import cross_val_score
 from sklearn.ensemble import *
 from sklearn.linear_model import *
 from sklearn.model_selection import StratifiedKFold, KFold
-#########################################################################
-import os
-import re
-import jieba
-import jieba.analyse as ja
-
-import json
-import pickle
-import numpy as np
-import pandas as pd
-from pathlib import Path
-from functools import reduce
-from collections import Counter, OrderedDict
-from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
-
-import joblib
 from sklearn.feature_extraction.text import TfidfVectorizer
-import warnings
 
-warnings.filterwarnings("ignore")
+#########################################################################
+
 
 # p = Path(__file__)
 get_module_path = lambda path, file=__file__: \
@@ -240,11 +243,17 @@ def xProcessPoolExecutor(iterable, func, max_workers=5):
 
 
 # ip
-import socket
-
-ip = socket.gethostbyname(socket.getfqdn(socket.gethostname()))
+localhost = socket.gethostbyname(socket.getfqdn(socket.gethostname()))
 
 # args
-import inspect
-
 get_args = lambda func: inspect.getfullargspec(func).args
+
+
+@contextmanager
+def timer(task_name="timer"):
+    # a timer cm from https://www.kaggle.com/lopuhin/mercari-golf-0-3875-cv-in-75-loc-1900-s
+    print('\n')
+    cprint(">>> {} started".format(task_name))
+    t0 = time.time()
+    yield
+    cprint(">>> {} done in {:.0f} seconds".format(task_name, time.time() - t0))

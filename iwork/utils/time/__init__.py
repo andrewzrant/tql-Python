@@ -6,4 +6,4 @@ __author__ = 'JieYuan'
 __mtime__ = '19-3-12'
 """
 from .timer import timer
-from .time import timestamp2str, exponential_decay
+from .time_ import timestamp2str, exponential_decay
