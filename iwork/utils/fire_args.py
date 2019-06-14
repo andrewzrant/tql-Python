@@ -10,22 +10,23 @@ import fire
 
 
 class Config(object):
+    """默认参数"""
     x = 1
-    y = 1
+    y = 2
+    z = 3
 
 
 opt = Config()
 
 
-class G:
-    @staticmethod
-    def gen(**kwargs):
-        for i in kwargs.items():
-            setattr(opt, *i)
+def gen(**kwargs):
+    for item in kwargs.items():
+        setattr(opt, *item)
 
-        return opt.x + opt.y
+    _ = opt.x + opt.y + opt.z  # 操作逻辑
+    return _
 
 
-gen = G.gen
 if __name__ == '__main__':
     fire.Fire()
+    #  python ./fire_args.py gen --x 100
