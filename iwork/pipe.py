@@ -242,8 +242,9 @@ def xProcessPoolExecutor(iterable, func, max_workers=5):
         return pool.map(func, iterable)
 
 
-# ip
-localhost = socket.gethostbyname(socket.getfqdn(socket.gethostname()))
+# host
+hostname = socket.getfqdn(socket.gethostname())
+localhost = socket.gethostbyname(hostname)
 
 # args
 get_args = lambda func: inspect.getfullargspec(func).args

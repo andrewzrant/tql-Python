@@ -30,6 +30,7 @@ EMAIL=$AUTHOR
 --conf spark.yarn.alert.phone.number=$PHONE \
 --conf spark.yarn.alert.mail.address=$EMAIL \
 $MAIN
+# --py-files *.zip/*.py \
 
 #######################################################
 

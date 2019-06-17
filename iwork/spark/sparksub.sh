@@ -19,7 +19,8 @@ PHONE='18550288233'
 EMAIL=$AUTHOR
 
 #######################################################
-~/infra-client/bin/spark-submit --verbose \
+~/infra-client/bin/spark-submit -v \
+--name YuanjieApp \
 --cluster $CLUSTER \
 --master yarn-cluster \
 --queue $QUEUE \
