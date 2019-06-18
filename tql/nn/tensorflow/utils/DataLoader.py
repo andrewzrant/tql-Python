@@ -5,7 +5,7 @@ __title__ = 'DataLoader'
 __author__ = 'JieYuan'
 __mtime__ = '19-3-22'
 """
-import tensorflow as tf
+from nn import tensorflow as tf
 import pandas as pd
 
 

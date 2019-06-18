@@ -1,21 +1,25 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-__title__ = 'setup.py'
-__author__ = 'JieYuan'
-__mtime__ = '18-12-14'
-"""
+# @Project      : tql-Python.
+# @File         : setup
+# @Time         : 2019-06-17 16:12
+# @Author       : yuanjie
+# @Email        : yuanjie@xiaomi.com
+# @Software     : PyCharm
+# @Description  : 
+
+
 import os
 import re
-
+import time
 from setuptools import find_packages, setup
 
 # rename
-project_name = 'iWork'
-package_name = 'iwork'
-
-with open('./%s/__init__.py' % package_name, encoding='utf-8') as f:
-    version = re.search(r'__version__ = \'(.*?)\'', f.read()).group(1)
+package_name = 'tql'
+project_name = 'tql-Python'
+version = '0.0.%d' % time.time()
+# with open('./%s/__init__.py' % package_name, encoding='utf-8') as f:
+#     version = re.search(r'__version__ = \'(.*?)\'', f.read()).group(1)
 
 with open("README.md", encoding='utf-8') as f:
     long_description = f.read()
@@ -29,7 +33,7 @@ def get_requirements():
 
 
 setup(
-    name=project_name,
+    name=package_name,
     version=version,
     url='https://github.com/Jie-Yuan/' + project_name,
     keywords=["tool wheel", "yuanjie", 'utils'],

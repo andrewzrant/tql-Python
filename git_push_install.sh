@@ -20,6 +20,6 @@ git commit -m "$update_info"
 git push
 pip uninstall iWork -y \
 && pip install -U -i https://pypi.tuna.tsinghua.edu.cn/simple \
-git+https://github.com/Jie-Yuan/iWork.git
+git+https://github.com/Jie-Yuan/tql-Python.git
 
 exit 0

@@ -2,7 +2,7 @@
 """Summary of tensorflow basics.
 Parag K. Mital, Jan 2016."""
 # %% Import tensorflow and pyplot
-import tensorflow as tf
+from nn import tensorflow as tf
 import matplotlib.pyplot as plt
 
 # %% tf.Graph represents a collection of tf.Operations
