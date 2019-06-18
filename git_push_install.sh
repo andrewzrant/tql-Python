@@ -18,7 +18,7 @@ git pull
 git add *
 git commit -m "$update_info"
 git push
-pip uninstall iWork -y \
+pip uninstall tql -y \
 && pip install -U -i https://pypi.tuna.tsinghua.edu.cn/simple \
 git+https://github.com/Jie-Yuan/tql-Python.git
 
