@@ -9,7 +9,7 @@ from .utils.xx import xx
 from .eda import DataFrameSummary
 from .utils import cprint
 from .utils.config import _in_notebook
-from .utils.config import set_plot, set_pandas, limit_memory, MyInfo
+from .utils.config import timer, set_plot, set_pandas, limit_memory, MyInfo
 
 cprint("Please Fork And Star:", 'black')
 print("\thttps://github.com/Jie-Yuan/tql-Python")
