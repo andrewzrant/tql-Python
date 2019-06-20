@@ -23,15 +23,16 @@ class Sequence(object):
         :param num_words: top num_words-1(词频降序)：保留最常见的num_words-1词
         """
         self.maxlen = maxlen
-        self.num_words = num_words
+        self._num_words = num_words
         self.tokenizer = None
+        self.word_index = None
 
     def fit(self, docs):
         """
         :param corpus: ['some thing to do', 'some thing to drink']与sklearn提取文本特征一致
         """
         print('Create Bag Of Words ...')
-        self.tokenizer = Tokenizer(self.num_words, lower=False)  # 不改变大小写（需提前预处理）
+        self.tokenizer = Tokenizer(self._num_words, lower=False)  # 不改变大小写（需提前预处理）
         self.tokenizer.fit_on_texts(docs)
         self.word_index = self.tokenizer.word_index
         print("Get Unique Words In Corpus: %s" % len(self.word_index))

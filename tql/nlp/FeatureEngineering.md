@@ -15,6 +15,14 @@ https://blog.csdn.net/sinat_26917383/article/details/83584728
 ---
 ## 1. 特征工程
 
+### 统计特征
+- 长度：
+    - 字
+    - 词（按词性/实体）
+    - 特殊符号
+- BOW
+
+
 - question(leak): 
   - tf: q1/q2/q1+q2
   - tfidf: q1/q2/q1+q2
