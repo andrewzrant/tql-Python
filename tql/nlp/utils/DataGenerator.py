@@ -19,7 +19,7 @@ class DataGenerator(object):
     https://blog.csdn.net/u011311291/article/details/80991330
     """
 
-    def __init__(self, X, y, batch_size=32, maxlen=None, is_train=1, mapper=lambda *args: args):
+    def __init__(self, X, y, batch_size=32, mapper=lambda *args: args):
         """
 
         :param X:
@@ -41,8 +41,6 @@ class DataGenerator(object):
         self.y = y
         self.batch_size = batch_size
         self.steps = (len(X) + batch_size - 1) // batch_size
-        self._maxlen = maxlen if maxlen else max(map(len, X), 1024)
-        self._is_train = is_train
 
         assert callable(mapper) is True
         self.mapper = mapper
@@ -51,8 +49,7 @@ class DataGenerator(object):
         return self.steps
 
     def __iter__(self):
-        if self._is_train:
-            self.X, self.y = shuffle(self.X, self.y)
+        self.X, self.y = shuffle(self.X, self.y)
         while 1:
             for i in range(self.steps):
                 idx_s = i * self.batch_size
