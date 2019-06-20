@@ -9,7 +9,7 @@
 # @Description  :
 import os
 import socket
-from utils.string import cprint
+from .. import cprint
 import platform
 
 
