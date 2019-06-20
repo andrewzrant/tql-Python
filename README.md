@@ -1,18 +1,15 @@
-<h1 align = "center">:rocket: Yuan :facepunch:</h1>
+<h1 align = "center">:rocket: TQL :facepunch:</h1>
 
 ---
-> 数据不是创造规律,而是展示那些原本的规律
-
-https://www.kaggle.com/c/elo-merchant-category-recommendation/discussion/82055#479196
-[Competitions][1]
+> 太强了：数据不是创造规律,而是展示那些原本的规律
 
 ---
 ## Install
 ```
-pip install Yuan
+pip install tql
 ```
 ## Usage
-#### `from yuan.pipe import *`
+#### `from tql.pipe import *`
 ```python
 @X
 def xfunc1(x):
@@ -52,4 +49,3 @@ Name: iterable, dtype: object
 - ...
 
 ---
-[1]: https://iphysresearch.github.io/DataSciComp/?sub=PF,IT,AC,DM,CV,NLP,RL,SP

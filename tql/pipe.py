@@ -10,6 +10,11 @@ from .utils.xx import xx
 from .eda import DataFrameSummary
 from .utils import cprint
 
+print("\n")
+cprint("Please Fork And Star:", 'black')
+cprint("https://github.com/Jie-Yuan/tql-Python")
+print("\n")
+
 try:
     from IPython import get_ipython
 
