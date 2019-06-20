@@ -29,13 +29,11 @@ class DataGenerator(object):
         :param is_train:
         :param mapper:
             # bert keras
-            from functools import partial
             from keras.preprocessing.sequence import pad_sequences
             from keras_bert import load_trained_model_from_checkpoint, Tokenizer
 
-            func = partial(pad_sequences, maxlen=self._maxlen)
             def mapper(X, y):
-                X = list(map(mapper, zip(*map(tokenizer.encode, X))))
+                X = list(map(lambda x: pad_sequences(x, 128), zip(*map(tokenizer.encode, X))))
                 return X, y
 
         """
