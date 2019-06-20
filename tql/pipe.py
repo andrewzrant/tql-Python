@@ -11,10 +11,8 @@ from .utils import cprint
 from .utils.config import _in_notebook
 from .utils.config import set_plot, set_pandas, limit_memory, MyInfo
 
-print("\n")
 cprint("Please Fork And Star:", 'black')
-cprint("https://github.com/Jie-Yuan/tql-Python")
-print("\n")
+print("\thttps://github.com/Jie-Yuan/tql-Python")
 
 import warnings
 
