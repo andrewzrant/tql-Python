@@ -13,6 +13,11 @@ from sklearn.utils import shuffle
 
 
 class DataGenerator(object):
+    """
+    https://blog.csdn.net/leviopku/article/details/87912097
+    https://github.com/afshinea/keras-data-generator
+    https://blog.csdn.net/u011311291/article/details/80991330
+    """
 
     def __init__(self, X, y, batch_size=32, maxlen=None, is_train=1, mapper=lambda *args: args):
         """
