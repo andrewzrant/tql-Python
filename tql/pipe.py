@@ -5,37 +5,30 @@ __title__ = 'iter'
 __author__ = 'JieYuan'
 __mtime__ = '18-12-14'
 """
-
 from .utils.xx import xx
 from .eda import DataFrameSummary
 from .utils import cprint
+from .utils.config import _in_notebook
+from .utils.config import set_plot, set_pandas, limit_memory, MyInfo
 
 print("\n")
 cprint("Please Fork And Star:", 'black')
 cprint("https://github.com/Jie-Yuan/tql-Python")
 print("\n")
 
-try:
-    from IPython import get_ipython
-
-    if 'IPKernelApp' not in get_ipython().config:
-        raise ImportError("console")
-except:
-    from tqdm import tqdm
-
-else:
-    from tqdm import tqdm_notebook as tqdm
-
 import warnings
 
 warnings.filterwarnings("ignore")
+if _in_notebook():
+    from tqdm import tqdm_notebook as tqdm
+else:
+    from tqdm import tqdm
 #########################################################################
 import os
 import re
 import time
 import json
 import pickle
-import socket
 import inspect
 import joblib
 import requests
@@ -64,21 +57,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 get_module_path = lambda path, file=__file__: \
     os.path.normpath(os.path.join(os.getcwd(), os.path.dirname(file), path))
 
-
 ###################################################################
-
-def pd_set():
-    """
-    pd.set_option('display.max_rows', 1024)
-    pd.set_option('display.max_columns', 128)
-    pd.set_option('max_colwidth', 128)  # 列宽
-    # pd.set_option('expand_frame_repr', False)  # 允许换行显示
-    """
-    pd.set_option('display.max_rows', 1024)
-    pd.set_option('display.max_columns', 128)
-    pd.set_option('max_colwidth', 128)  # 列宽
-    # pd.set_option('expand_frame_repr', False)  # 允许换行显示
-    print('Setting Success!')
 
 
 import matplotlib.pyplot as plt
@@ -90,34 +69,7 @@ sns.set_context('paper')
 
 # sns.plotting_context()
 # sns.axes_style()
-
-
 # plt.style.use('ggplot')
-
-def plot_set():
-    """
-    plt.rcParams['font.sans-serif'] = ['Simhei']  # 中文乱码的处理
-    plt.rcParams['font.family'] = 'sans-serif'
-    plt.rcParams['axes.unicode_minus'] = False  # 负号
-    plt.rcParams["text.usetex"] = False
-    plt.rcParams["legend.numpoints"] = 1
-    plt.rcParams["figure.figsize"] = (18, 9)  # (12, 6)
-    plt.rcParams["figure.dpi"] = 128
-    plt.rcParams["savefig.dpi"] = plt.rcParams["figure.dpi"]
-    plt.rcParams["font.size"] = 12
-    plt.rcParams["pdf.fonttype"] = 42
-    """
-    plt.rcParams['font.sans-serif'] = ['Simhei']  # 中文乱码的处理
-    plt.rcParams['font.family'] = 'sans-serif'
-    plt.rcParams['axes.unicode_minus'] = False  # 负号
-    plt.rcParams["text.usetex"] = False
-    plt.rcParams["legend.numpoints"] = 1
-    plt.rcParams["figure.figsize"] = (18, 9)  # (12, 6)
-    plt.rcParams["figure.dpi"] = 128
-    plt.rcParams["savefig.dpi"] = plt.rcParams["figure.dpi"]
-    plt.rcParams["font.size"] = 12
-    plt.rcParams["pdf.fonttype"] = 42
-    print('Setting Success!')
 
 
 #########################################################################
@@ -247,19 +199,5 @@ def xProcessPoolExecutor(iterable, func, max_workers=5):
         return pool.map(func, iterable)
 
 
-# host
-hostname = socket.getfqdn(socket.gethostname())
-localhost = socket.gethostbyname(hostname)
-
 # args
 get_args = lambda func: inspect.getfullargspec(func).args
-
-
-@contextmanager
-def timer(task_name="timer"):
-    # a timer cm from https://www.kaggle.com/lopuhin/mercari-golf-0-3875-cv-in-75-loc-1900-s
-    print('\n')
-    cprint(">>> {} started".format(task_name))
-    t0 = time.time()
-    yield
-    cprint(">>> {} done in {:.0f} seconds".format(task_name, time.time() - t0))

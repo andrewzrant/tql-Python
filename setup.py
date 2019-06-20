@@ -51,14 +51,18 @@ setup(
     platforms=["all"],
     python_requires='>=3.5',
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Topic :: ML',
+        'Topic :: DL',
+        'Topic :: CV',
+        'Topic :: NLP',
+
+        'Development Status :: Beta',
         'Operating System :: OS Independent',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
+
         'Programming Language :: Python',
         'Programming Language :: Python :: Implementation',
-        'Programming Language :: Python :: 3.7',
-        'Topic :: Software Development :: Libraries'
     ],
 
     install_requires=get_requirements()
