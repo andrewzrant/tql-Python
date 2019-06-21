@@ -7,7 +7,7 @@ __mtime__ = '2019/4/17'
 """
 import torch
 
-from .TorchConfig import TorchConfig
+from .ConfigTorch import TorchConfig
 from .CustomDataset import CustomDataset
 from .WeightInit import WeightInit
 
