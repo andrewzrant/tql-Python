@@ -9,9 +9,9 @@
 # @Description  : 
 
 import os
+import random
 import numpy as np
 import tensorflow as tf
-import random
 from keras import backend as K
 
 
