@@ -53,6 +53,7 @@ class TextCNN(object):
         convs = []
         for kernel_size in self.kernel_size_list:
             c = Conv1D(128, kernel_size, activation='relu')(e)  # 卷积
+            # c = Dropout(0.5)(c)
             p = GlobalMaxPool1D()(c)  # 池化
             # p = GlobalAvgPool1D()(c)
             convs.append(p)
@@ -60,5 +61,8 @@ class TextCNN(object):
         output = Dense(self.class_num, activation=self.last_activation)(x)
 
         model = Model(inputs=input, outputs=output)
-        print(model.summary())
+        model.summary()
         return model
+
+if __name__ == '__main__':
+    TextCNN(1000, 10)()

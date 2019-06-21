@@ -9,3 +9,4 @@
 # @Description  : 
 
 
+from .TextCNN import TextCNN
