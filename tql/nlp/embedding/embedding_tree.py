@@ -25,9 +25,3 @@ class EmbeddingTrees(object):
             random_state=random_state)
         return rte
 
-
-import gensim
-
-m = gensim.models.KeyedVectors.load_word2vec_format()
-
-m.similar_by_word()

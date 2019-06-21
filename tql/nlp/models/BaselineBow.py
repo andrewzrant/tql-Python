@@ -13,6 +13,14 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 
 
 class BaselineBow(object):
+    """
+    from sklearn.naive_bayes import MultinomialNB
+    from sklearn.linear_model import SGDClassifier
+    from sklearn.linear_model import LogisticRegression
+    mnb = MultinomialNB()
+    svm = SGDClassifier(loss='hinge', n_iter=100)
+    lr = LogisticRegression()
+    """
 
     def __init__(self, estimator=LogisticRegression(), tokenizer=None, vectorizer=None):
         self._estimator = estimator

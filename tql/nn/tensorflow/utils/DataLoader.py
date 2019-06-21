@@ -5,7 +5,7 @@ __title__ = 'DataLoader'
 __author__ = 'JieYuan'
 __mtime__ = '19-3-22'
 """
-from nn import tensorflow as tf
+import tensorflow as tf
 import pandas as pd
 
 
@@ -90,7 +90,5 @@ if __name__ == '__main__':
         'PetalLength': [1.7, 4.2, 5.4],
         'PetalWidth': [0.5, 1.5, 2.1],
     }
-    from yuan.pipe import *
-    from pprint import pprint
 
-    pprint(clf.predict(DataLoader(predict_x).eval_input_fn) | xlist)
+    print(list(clf.predict(DataLoader(predict_x).eval_input_fn)))

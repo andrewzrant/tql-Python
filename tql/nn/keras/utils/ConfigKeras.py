@@ -21,15 +21,15 @@ class ConfigKeras(object):
     """
 
     def __init__(self, seed=2019):
-        self.seed = seed
+        self._seed = seed
 
     def set_seed(self):
         os.environ["PYTHONHASHSEED"] = '0'
         os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
-        random.seed(self.seed)
-        np.random.seed(self.seed)
-        tf.set_random_seed(self.seed)
+        random.seed(self._seed)
+        np.random.seed(self._seed)
+        tf.set_random_seed(self._seed)
         session_conf = tf.ConfigProto(intra_op_parallelism_threads=1,
                                       inter_op_parallelism_threads=1)
         sess = tf.Session(graph=tf.get_default_graph(), config=session_conf)

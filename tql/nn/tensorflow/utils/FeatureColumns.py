@@ -5,7 +5,7 @@ __title__ = 'FeatureColumns'
 __author__ = 'JieYuan'
 __mtime__ = '19-3-22'
 """
-from nn import tensorflow as tf
+import tensorflow as tf
 
 # 数值列
 # 分桶列
