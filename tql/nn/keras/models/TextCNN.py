@@ -9,12 +9,13 @@
 # @Description  : 
 
 
-from keras import Input, Model
-from keras.layers import Embedding, Dense, Concatenate, Dropout
-from keras.layers import Conv1D, GlobalMaxPool1D, GlobalAvgPool1D
+from tensorflow.python.keras import Input, Model
+from tensorflow.python.keras.layers import Embedding, Dense, Concatenate, Dropout
+from tensorflow.python.keras.layers import Conv1D, GlobalMaxPool1D, GlobalAvgPool1D
+from .BaseModel import BaseModel
 
 
-class TextCNN(object):
+class TextCNN(BaseModel):
     """ TextCNN:
     1. embedding layers,
     2. convolution layer,
@@ -30,6 +31,10 @@ class TextCNN(object):
         """
 
         :param embedding_size: 类别/实体嵌入时可不指定
+
+        model = TextCNN(max_token, maxlen, num_class=1)()
+        model.compile('adam', 'binary_crossentropy', metrics=['accuracy'])
+        model.fit_generator(DataIter(X, y), epochs=5)
         """
         self.maxlen = maxlen
         self.class_num = num_class
@@ -39,11 +44,7 @@ class TextCNN(object):
         self.weights = weights
         self.kernel_size_list = kernel_size_list
 
-    def __call__(self, *args, **kwargs):
-        return self.model
-
-    @property
-    def model(self):
+    def get_model(self):
         input = Input((self.maxlen,))
         # Embedding part can try multichannel as same as origin paper
         if self.weights:
@@ -61,8 +62,8 @@ class TextCNN(object):
         output = Dense(self.class_num, activation=self.last_activation)(x)
 
         model = Model(inputs=input, outputs=output)
-        model.summary()
         return model
+
 
 if __name__ == '__main__':
     TextCNN(1000, 10)()
