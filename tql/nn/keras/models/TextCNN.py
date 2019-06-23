@@ -17,7 +17,7 @@ from .BaseModel import BaseModel
 
 class TextCNN(BaseModel):
     """ TextCNN:
-    1. embedding layers,
+    1. embedding layers: embeddings = model.layers[0].get_weights()[0]
     2. convolution layer,
     3. max-pooling,
     4. softmax layer.
@@ -50,7 +50,7 @@ class TextCNN(BaseModel):
         input = Input((self.maxlen,))
         # Embedding part can try multichannel as same as origin paper
         if self.weights is not None:
-            e = Embedding(*self.weights.shape, input_length=self.maxlen, weights=self.weights, trainable=False)(input)
+            e = Embedding(*self.weights.shape, input_length=self.maxlen, weights=[self.weights], trainable=False)(input)
         else:
             e = Embedding(self.max_tokens, self.embedding_size, input_length=self.maxlen)(input)
         convs = []

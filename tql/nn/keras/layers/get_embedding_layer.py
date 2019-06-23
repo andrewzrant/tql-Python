@@ -9,7 +9,6 @@
 # @Description  :
 from tensorflow.python.keras.layers import Embedding
 
-
 def get_keras_embedding(maxlen, weights=None, trainable=False):
     """
 
