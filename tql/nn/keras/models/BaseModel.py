@@ -22,8 +22,11 @@ class BaseModel(object):
         if plot_model:
             image_file = Path(dir) / ('%s.png' % self._class_name)
             image_file = image_file.absolute().__str__()
-            _plot_model(model, to_file=image_file, show_shapes=True, dpi=256)
-            display.Image(image_file)
+            try:
+                _plot_model(model, to_file=image_file, show_shapes=True, dpi=256)
+            except Exception as e:
+                print(e)
+                print("brew install graphviz or apt-get install graphviz")
         return model
 
     @property
