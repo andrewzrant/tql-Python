@@ -10,9 +10,9 @@
 
 
 from tql.pipe import *
-from tql.nlp.utils import Text2SequenceByFastText
-from tql.nn.keras.utils import DataIter
-from tql.nn.keras.models import TextCNN
+from tql.algo_nlp.utils import Text2SequenceByFastText
+from tql.algo_dl.keras.utils import DataIter
+from tql.algo_dl.keras.models import TextCNN
 from gensim.models.fasttext import load_facebook_model
 
 jieba.initialize()

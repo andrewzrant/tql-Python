@@ -10,9 +10,9 @@
 
 
 from tql.pipe import *
-from tql.nlp.utils import Text2Sequence
-from tql.nn.keras.utils import DataIter
-from tql.nn.keras.models import TextCNN
+from tql.algo_nlp.utils import Text2Sequence
+from tql.algo_dl.keras.utils import DataIter
+from tql.algo_dl.keras.models import TextCNN
 
 jieba.initialize()
 

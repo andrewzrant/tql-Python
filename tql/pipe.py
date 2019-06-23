@@ -6,7 +6,6 @@ __author__ = 'JieYuan'
 __mtime__ = '18-12-14'
 """
 from .utils.xx import xx
-from ml.eda import DataFrameSummary
 from .utils import cprint
 from .utils.config import _in_notebook
 
@@ -86,7 +85,7 @@ def xpickle_load(file):
 
 
 # 统计函数: 待补充groupby.agg
-xsummary = xx(lambda iterable: DataFrameSummary(list(iterable) | xDataframe)['iterable'])
+# xsummary = xx(lambda iterable: DataFrameSummary(list(iterable) | xDataframe)['iterable'])
 xvalue_counts = xx(
     lambda iterable, normalize=False, bins=None: pd.value_counts(list(iterable), normalize=normalize, bins=bins))
 
