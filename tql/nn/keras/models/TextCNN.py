@@ -40,7 +40,7 @@ class TextCNN(BaseModel):
         self.class_num = num_class
         self.max_tokens = max_tokens
         self.last_activation = 'softmax' if num_class > 1 else 'sigmoid'
-        self.embedding_size = embedding_size if embedding_size else min(50, (max_tokens + 1) // 2)
+        self.embedding_size = embedding_size if embedding_size else min(50, (max_tokens + 1) // 2)  # 经验值
         self.weights = weights
         self.kernel_size_list = kernel_size_list
 
