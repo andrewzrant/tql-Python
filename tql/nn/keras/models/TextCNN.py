@@ -27,7 +27,8 @@ class TextCNN(BaseModel):
     非静态(non-static)方式：在训练过程中对embeddings进行更新和微调(fine tune)，能加速收敛。（通过设置trainable=True）
     """
 
-    def __init__(self, max_tokens, maxlen, num_class=1, embedding_size=None, weights=None, kernel_size_list=(3, 4, 5)):
+    def __init__(self, max_tokens, maxlen=128, num_class=1, embedding_size=None, weights=None,
+                 kernel_size_list=(3, 4, 5)):
         """
 
         :param embedding_size: 类别/实体嵌入时可不指定
@@ -48,7 +49,7 @@ class TextCNN(BaseModel):
     def get_model(self):
         input = Input((self.maxlen,))
         # Embedding part can try multichannel as same as origin paper
-        if self.weights:
+        if self.weights is not None:
             e = Embedding(*self.weights.shape, input_length=self.maxlen, weights=self.weights, trainable=False)(input)
         else:
             e = Embedding(self.max_tokens, self.embedding_size, input_length=self.maxlen)(input)
