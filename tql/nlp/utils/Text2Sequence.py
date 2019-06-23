@@ -12,9 +12,6 @@ from sklearn.base import BaseEstimator, TransformerMixin
 from tensorflow.python.keras.preprocessing.sequence import pad_sequences
 
 
-# OOV的索引为0
-# 词频
-
 class Text2Sequence(BaseEstimator, TransformerMixin):
 
     def __init__(self, num_words=None, maxlen=128, tokenizer=str.split):
@@ -36,12 +33,13 @@ class Text2Sequence(BaseEstimator, TransformerMixin):
             for doc in X:
                 for word in self._tokenizer(doc):
                     _[word] = _.get(word, 0) + 1
-            _ = sorted(_.items(), key=lambda x: x[0], reverse=True)[:self._num_words]
+            _ = dict(sorted(_.items(), key=lambda x: x[0], reverse=True)[:self._num_words])
 
         else:
             _ = set()
             for doc in X:
                 _.update(self._tokenizer(doc))
+            print('num_words: %s' % len(_))
 
         self.index2word = dict(enumerate(_, 2))
         self.index2word[1] = 'OOV'
