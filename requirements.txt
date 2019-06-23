@@ -7,7 +7,6 @@ pybind11
 joblib
 
 jieba
-tensorflow
 lightgbm
 catboost
 rgf_python
