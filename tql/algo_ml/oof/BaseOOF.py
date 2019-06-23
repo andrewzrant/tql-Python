@@ -80,5 +80,5 @@ class BaseOOF(object):
             file = self.estimator.__str__().split('(')[0][:32]
             file = '%s👍%s.csv' % (file, time.ctime())
         assert isinstance(file, str)
-        pd.Series(np.append(self.oof_train, self.oof_test), name='oof: train+test') \
+        pd.DataFrame(np.append(self.oof_train, self.oof_test), columns='oof: train+test') \
             .to_csv(file, index=False)
