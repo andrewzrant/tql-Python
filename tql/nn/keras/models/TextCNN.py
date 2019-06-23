@@ -36,6 +36,7 @@ class TextCNN(BaseModel):
         model.compile('adam', 'binary_crossentropy', metrics=['accuracy'])
         model.fit_generator(DataIter(X, y), epochs=5)
         """
+        super().__init__()
         self.maxlen = maxlen
         self.class_num = num_class
         self.max_tokens = max_tokens

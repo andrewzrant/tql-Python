@@ -10,11 +10,14 @@
 
 from abc import abstractmethod
 from tensorflow.python.keras.utils import plot_model as _plot_model
-from IPython import display
 from pathlib import Path
 
 
 class BaseModel(object):
+
+    @abstractmethod
+    def __init__(self):
+        pass
 
     def __call__(self, plot_model=None, dir='.', **kwargs):
         model = self.get_model()
