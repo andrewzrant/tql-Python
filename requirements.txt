@@ -5,6 +5,7 @@ emoji
 pytz
 pybind11
 joblib
+pydot
 
 jieba
 lightgbm
