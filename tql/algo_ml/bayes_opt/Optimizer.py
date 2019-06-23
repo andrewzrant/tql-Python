@@ -11,7 +11,7 @@ from sklearn import clone
 import numpy as np
 from functools import partial
 from pprint import pprint
-from .. import OOF
+from ml.models import OOF
 
 from sklearn.model_selection import StratifiedKFold, KFold
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """
 __title__ = 'fm_data'
 __author__ = 'JieYuan'
@@ -15,20 +15,20 @@ import math
 train_path = '../input/train.csv'
 
 dont_use = ['MachineIdentifier',
-                     'Census_FirmwareVersionIdentifier',
-                     'Census_OEMModelIdentifier',
-                     'CityIdentifier']
+            'Census_FirmwareVersionIdentifier',
+            'Census_OEMModelIdentifier',
+            'CityIdentifier']
 
 num_cols = []
 cat_cols = []
 
 too_many_vals = ["Census_PrimaryDiskTotalCapacity",
-                              "Census_SystemVolumeTotalCapacity",
-                              "Census_TotalPhysicalRAM",
-                              "Census_InternalPrimaryDiagonalDisplaySizeInInches",
-                              "Census_InternalPrimaryDisplayResolutionHorizontal",
-                              "Census_InternalPrimaryDisplayResolutionVertical",
-                              "Census_InternalBatteryNumberOfCharges"]
+                 "Census_SystemVolumeTotalCapacity",
+                 "Census_TotalPhysicalRAM",
+                 "Census_InternalPrimaryDiagonalDisplaySizeInInches",
+                 "Census_InternalPrimaryDisplayResolutionHorizontal",
+                 "Census_InternalPrimaryDisplayResolutionVertical",
+                 "Census_InternalBatteryNumberOfCharges"]
 
 categories = [k for k, v in dtypes.items() if k not in dont_use]
 categories_index = dict(zip(categories, range(len(categories))))

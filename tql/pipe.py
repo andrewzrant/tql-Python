@@ -6,10 +6,9 @@ __author__ = 'JieYuan'
 __mtime__ = '18-12-14'
 """
 from .utils.xx import xx
-from .eda import DataFrameSummary
+from ml.eda import DataFrameSummary
 from .utils import cprint
 from .utils.config import _in_notebook
-from .utils.config import timer, set_plot, set_pandas, limit_memory, MyInfo
 
 cprint("Please Fork And Star:", 'black')
 print("\thttps://github.com/Jie-Yuan/tql-Python")
@@ -23,30 +22,17 @@ else:
     from tqdm import tqdm
 #########################################################################
 import os
-import re
-import time
 import json
 import pickle
 import inspect
-import joblib
-import requests
 import numpy as np
 import pandas as pd
 import jieba
 import jieba.analyse as ja
 
-from pathlib import Path
 from functools import reduce
-from contextlib import contextmanager
 from collections import Counter, OrderedDict
 from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
-
-from sklearn.datasets import make_classification
-from sklearn.model_selection import cross_val_score
-from sklearn.ensemble import *
-from sklearn.linear_model import *
-from sklearn.model_selection import StratifiedKFold, KFold
-from sklearn.feature_extraction.text import TfidfVectorizer
 
 #########################################################################
 
@@ -58,7 +44,6 @@ get_module_path = lambda path, file=__file__: \
 ###################################################################
 
 
-import matplotlib.pyplot as plt
 import seaborn as sns
 
 sns.set(style="darkgrid")  # darkgrid, whitegrid, dark, white,和ticks

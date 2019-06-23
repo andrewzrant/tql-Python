@@ -8,7 +8,7 @@
 # @Software     : PyCharm
 # @Description  : 
 
-from ..nlp.models import BaselineBow
+from nlp.models import BaselineBow
 from sklearn.linear_model import LogisticRegression
 from lime.lime_text import LimeTextExplainer
 
