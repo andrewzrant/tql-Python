@@ -9,7 +9,6 @@
 # @Description  :
 from abc import abstractmethod
 
-from h2o.estimators.stackedensemble import H2OStackedEnsembleEstimator
 import time
 import numpy as np
 import pandas as pd
