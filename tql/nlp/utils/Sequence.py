@@ -46,7 +46,3 @@ class Sequence(object):
         if self.maxlen is None:
             self.maxlen = pad_docs.shape[1]
         return pad_docs
-
-    def fit_transform(self, docs):
-        self.fit(docs)
-        return self.transform(docs)

@@ -8,8 +8,37 @@
 # @Software     : PyCharm
 # @Description  : 
 
+from ...pipe import get_module_path
 
-# TODO:
+import jieba.posseg as jp
+
+
+# TODO: 统计特征、emoji
+
+
+class TextClean(object):
+
+    def __init__(self):
+        self._stopwords = self._get_stopwords()
+
+    # def get_words(self, sent, flags=None):
+    #     """
+    #     :flags mode: ['v', 'vn']
+    #     """
+    #     for p in jp.cut(sent.lower()):
+    #         if p.flag in flags:
+    #             yield p.word
+
+    def get_noun(self, doc, with_flag=False):
+        for p in jp.cut(doc.lower()):
+            if p.word not in self._stopwords:
+                if 'n' in p.flag and len(p.word) > 1:  # 长度大于1且非停顿词的名词
+                    yield p if with_flag else p.word
+
+    def _get_stopwords(self):
+        with open(get_module_path('../data/stop_words.txt', __file__), encoding='utf8') as f:
+            return set(f.read().split())
+
 # def remove_special_characters(text):
 #     tokens = tokenize_text(text)
 #     pattern = re.compile('[{}]'.format(re.escape(string.punctuation)))

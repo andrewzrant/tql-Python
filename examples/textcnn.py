@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # @Project      : tql-Python.
-# @File         : textcnn_fasttext
-# @Time         : 2019-06-23 19:10
+# @File         : textcnn
+# @Time         : 2019-06-23 19:16
 # @Author       : yuanjie
 # @Email        : yuanjie@xiaomi.com
 # @Software     : PyCharm
@@ -10,19 +10,17 @@
 
 
 from tql.pipe import *
-from tql.nlp.utils import Text2SequenceByFastText
+from tql.nlp.utils import Text2Sequence
 from tql.nn.keras.utils import DataIter
 from tql.nn.keras.models import TextCNN
-from gensim.models.fasttext import load_facebook_model
 
 jieba.initialize()
 
-fasttext = load_facebook_model('../../../fds/data/wv/skipgram.title')
 df = pd.read_csv('../../../fds/data/sentiment.tsv.zip', '\t')
-ts = Text2SequenceByFastText(maxlen=128, fasttext_model=fasttext, tokenizer=jieba.cut)
+ts = Text2Sequence(num_words=None, maxlen=128, tokenizer=jieba.cut)
 X = ts.fit_transform(df.text.astype(str))
 y = df.label
 
-cnn = TextCNN(len(ts.word2index), maxlen=128, weights=ts.weights)(1)
+cnn = TextCNN(len(ts.word2index) + 1, maxlen=128, embedding_size=64)(1)
 cnn.compile('adam', 'binary_crossentropy', metrics=['accuracy'])
 cnn.fit_generator(DataIter(X, y), epochs=10)
