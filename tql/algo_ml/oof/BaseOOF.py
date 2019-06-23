@@ -40,11 +40,17 @@ class BaseOOF(object):
     def _fit(self, eval_set):
         raise NotImplementedError
 
-    def fit(self, X, y, X_test, feval=None):
-        self.y_true = y
+    @abstractmethod
+    def _predict(self, X):
+        raise NotImplementedError
 
-        # Cross validation model
-        # Create arrays and dataframes to store results
+    def fit(self, X, y, X_test):
+        """全数组
+        :param X:
+        :param y:
+        :param X_test:
+        :return:
+        """
         self.oof_train = np.zeros(len(X))
         self.oof_test = np.zeros((len(X_test), self._num_preds))
         for n_fold, (train_index, valid_index) in enumerate(self._kf.split(X, y)):
@@ -53,27 +59,15 @@ class BaseOOF(object):
             X_valid, y_valid = X[valid_index], y[valid_index]
             eval_set = [(X_train, y_train), (X_valid, y_valid)]
 
-            # 重写fit
+            # TODO: 多分类
+            # 重写 fit/predict
             self.estimator = self._fit(eval_set)
-
-            # TODO: 多分类需要修改
-            if hasattr(self.estimator, 'predict_proba'):
-                self.oof_train[valid_index] = self.estimator.predict_proba(X_valid)[:, 1]
-                self.oof_test[:, n_fold] = self.estimator.predict_proba(X_test)[:, 1]
-            else:
-                self.oof_train[valid_index] = self.estimator.predict(X_valid)
-                self.oof_test[:, n_fold] = self.estimator.predict(X_test)
+            self.oof_train[valid_index] = self.estimator.predict_proba(X_valid)[:, 1]
+            self.oof_test[:, n_fold] = self.estimator.predict_proba(X_test)[:, 1]
 
         # 输出需要的结果
         self.oof_test_rank = pd.DataFrame(self.oof_test).rank().mean(1) / len(self.oof_test)
         self.oof_test = self.oof_test.mean(1)
-        if feval:
-            if hasattr(feval, '__repr__'):
-                metric_name = feval.__repr__().split()[1].title()
-            else:
-                metric_name = "Score"
-            score = feval(y, self.oof_test)
-            print("\n\033[94mCV %s: %s ended at %s\033[0m" % (metric_name, score, time.ctime()))
 
     def oof_save(self, file=None):
         if file is None:

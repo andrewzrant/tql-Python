@@ -29,8 +29,7 @@ class LGB(BaseOOF):
 
 if __name__ == '__main__':
     from sklearn.datasets import make_classification
-    from sklearn.metrics import roc_auc_score
 
     X, y = make_classification()
     clf = LGB()
-    clf.fit(X, y, X, roc_auc_score)
+    clf.fit(X, y, X)
