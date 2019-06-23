@@ -42,7 +42,7 @@ class Text2Sequence(BaseEstimator, TransformerMixin):
             print('num_words: %s' % len(_))
 
         self.index2word = dict(enumerate(_, 2))
-        self.index2word[1] = 'OOV'
+        self.index2word[1] = '__OOV__'
         self.word2index = {v: k for k, v in self.index2word.items()}
         return self
 

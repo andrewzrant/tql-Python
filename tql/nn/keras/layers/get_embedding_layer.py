@@ -7,7 +7,7 @@
 # @Email        : yuanjie@xiaomi.com
 # @Software     : PyCharm
 # @Description  :
-from keras.layers import Embedding
+from tensorflow.python.keras.layers import Embedding
 
 
 def get_keras_embedding(maxlen, weights=None, trainable=False):
