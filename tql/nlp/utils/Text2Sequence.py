@@ -8,14 +8,14 @@
 # @Software     : PyCharm
 # @Description  : 
 
-
+from sklearn.base import BaseEstimator, TransformerMixin
 from tensorflow.python.keras.preprocessing.sequence import pad_sequences
 
 
 # OOV的索引为0
 # 词频
 
-class Text2Sequence(object):
+class Text2Sequence(BaseEstimator, TransformerMixin):
 
     def __init__(self, num_words=None, maxlen=128, tokenizer=str.split):
         """OOV索引为1: embedding多了两个索引0（padding）和 1（oov）
@@ -26,7 +26,7 @@ class Text2Sequence(object):
         """
         self._num_words = num_words
         self._maxlen = maxlen
-        self._tokenizer = tokenizer
+        self._tokenizer = tokenizer  # 必须返回list
         self.word2index = None
         self.index2word = None
 
