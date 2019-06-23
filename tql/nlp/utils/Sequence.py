@@ -6,8 +6,8 @@ __author__ = 'JieYuan'
 __mtime__ = '18-12-28'
 """
 
-from keras.preprocessing.text import Tokenizer
-from keras.preprocessing.sequence import pad_sequences
+from tensorflow.python.keras.preprocessing.text import Tokenizer
+from tensorflow.python.keras.preprocessing.sequence import pad_sequences
 
 
 class Sequence(object):
@@ -19,6 +19,7 @@ class Sequence(object):
 
     def __init__(self, num_words=20000, maxlen=None):
         """
+        OOV对应的索引是1
         :param maxlen: 句子序列最大长度
         :param num_words: top num_words-1(词频降序)：保留最常见的num_words-1词
         """
