@@ -41,7 +41,7 @@ class BaseModel(object):
                 _plot_model(model, to_file=image_file, show_shapes=True, dpi=256)
                 try:
                     from IPython import display
-                    return display.Image(filename=image_file)
+                    display.Image(filename=image_file)
                 except ImportError:
                     pass
             except Exception as e:
