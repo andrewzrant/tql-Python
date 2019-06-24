@@ -10,3 +10,7 @@
 
 
 from .TextCNN import TextCNN
+from .TextRNN import TextRNN
+from .TextRNNBi import TextRNNBi
+from .TextRCNN import TextRCNN
+from .TextRCNNVariant import TextRCNNVariant

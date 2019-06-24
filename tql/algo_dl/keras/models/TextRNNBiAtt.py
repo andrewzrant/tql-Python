@@ -16,6 +16,10 @@ from tensorflow.python.keras.layers import Bidirectional, LSTM, CuDNNLSTM, GRU, 
 
 
 class TextRNNBiAtt(BaseModel):
+    """
+    TODO:
+    """
+
     def __init__(self, max_tokens, maxlen=128, embedding_size=None, num_class=1, weights=None, rnn=GRU):
         """
         :param rnn: LSTM, CuDNNLSTM, GRU, CuDNNGRU

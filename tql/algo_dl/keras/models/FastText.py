@@ -8,10 +8,10 @@
 # @Software     : PyCharm
 # @Description  : 
 
-from tensorflow.python.keras.layers import GlobalAveragePooling1D
+from .BaseModel import BaseModel
 from tensorflow.python.keras import Input, Model
 from tensorflow.python.keras.layers import Dense
-from .BaseModel import BaseModel
+from tensorflow.python.keras.layers import GlobalAveragePooling1D
 
 
 class FastText(BaseModel):

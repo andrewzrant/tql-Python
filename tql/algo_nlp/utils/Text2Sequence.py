@@ -10,6 +10,7 @@
 
 from sklearn.base import BaseEstimator, TransformerMixin
 from tensorflow.python.keras.preprocessing.sequence import pad_sequences
+from ...pipe import tqdm
 
 
 class Text2Sequence(BaseEstimator, TransformerMixin):
@@ -31,13 +32,13 @@ class Text2Sequence(BaseEstimator, TransformerMixin):
         if self._num_words:
             _ = {}
             for doc in X:
-                for word in self._tokenizer(doc):
+                for word in tqdm(self._tokenizer(doc)):
                     _[word] = _.get(word, 0) + 1
             _ = dict(sorted(_.items(), key=lambda x: x[1], reverse=True)[:self._num_words])
 
         else:
             _ = set()
-            for doc in X:
+            for doc in tqdm(X):
                 _.update(self._tokenizer(doc))
             print('num_words: %s' % len(_))
 
