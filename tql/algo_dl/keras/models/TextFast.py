@@ -14,7 +14,7 @@ from tensorflow.python.keras.layers import Dense
 from tensorflow.python.keras.layers import GlobalAveragePooling1D
 
 
-class FastText(BaseModel):
+class TextFast(BaseModel):
 
     def __init__(self, max_tokens, maxlen=128, embedding_size=None, num_class=1, weights=None):
         super().__init__(max_tokens, maxlen, embedding_size, num_class, weights)

@@ -9,6 +9,7 @@
 # @Description  : 
 
 
+from .TextFast import TextFast
 from .TextCNN import TextCNN
 from .TextRNN import TextRNN
 from .TextRNNBi import TextRNNBi
