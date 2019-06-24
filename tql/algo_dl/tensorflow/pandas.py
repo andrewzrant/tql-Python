@@ -10,8 +10,9 @@
 
 
 # https://github.com/tensorflow/tensorflow/issues/20995
-
-
 import tensorflow as tf
 
-tf.estimator.RunConfig()
+# input_func = tf.estimator.inputs.pandas_input_fn()
+#
+#
+# tf.estim
