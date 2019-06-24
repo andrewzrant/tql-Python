@@ -45,7 +45,7 @@ class Text2SequenceByFastText(BaseEstimator, TransformerMixin):
             for w in self._tokenizer(doc):
                 if w not in self.word2index:
                     self.word2index[w] = len(self.word2index)
-                    _array.append(self.model.wv[w])  # TODO: 非fasttext怎么解决OOV?
+                    _array.append(self.model.wv[w])  # TODO: 非fasttext怎么解决OOV? 直接补位1（OOV标识）
         print("New Words: %s" % len(_array))
 
         self.weights = np.row_stack((self.weights, *_array))

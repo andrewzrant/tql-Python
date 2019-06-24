@@ -6,18 +6,26 @@
 # @Author       : yuanjie
 # @Email        : yuanjie@xiaomi.com
 # @Software     : PyCharm
-# @Description  : 
+# @Description  :
 
+from pathlib import Path
 from abc import abstractmethod
 from tensorflow.python.keras.utils import plot_model as _plot_model
-from pathlib import Path
+from tensorflow.python.keras.layers import Embedding
 
 
 class BaseModel(object):
 
     @abstractmethod
-    def __init__(self):
-        pass
+    def __init__(self, max_tokens=20000, maxlen=128, embedding_size=None, num_class=1, weights=None, **kwargs):
+        self.max_tokens = max_tokens
+        self.maxlen = maxlen
+        self.embedding_size = embedding_size if embedding_size else min(50, (max_tokens + 1) // 2)  # 经验值
+
+        self.num_class = num_class
+        self.last_activation = 'softmax' if num_class > 1 else 'sigmoid'
+
+        self.weights = weights
 
     def __call__(self, plot_model=None, dir='.', **kwargs):
         model = self.get_model()
@@ -32,13 +40,20 @@ class BaseModel(object):
                 print("brew install graphviz or apt-get install graphviz")
         return model
 
+    @abstractmethod
+    def get_model(self):
+        pass
+
     @property
     def _class_name(self):
         return str(self).split(maxsplit=1)[0][10:]
 
-    @abstractmethod
-    def get_model(self):
-        pass
+    @property
+    def embedding_layer(self):
+        if self.weights is not None:
+            return Embedding(*self.weights.shape, input_length=self.maxlen, weights=[self.weights], trainable=False)
+        else:
+            return Embedding(self.max_tokens, self.embedding_size, input_length=self.maxlen)
 
 
 if __name__ == '__main__':

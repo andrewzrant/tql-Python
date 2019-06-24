@@ -25,7 +25,11 @@ class A:
 class B(A):
 
     def __init__(self, a=100000, **kwargs):
+        self.a = a+11111
         super().__init__(**kwargs)
+
+        print(self.a)
+
         pass
 
 

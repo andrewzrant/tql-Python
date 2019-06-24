@@ -8,11 +8,10 @@
 # @Software     : PyCharm
 # @Description  : 
 
-
-from tensorflow.python.keras import Input, Model
-from tensorflow.python.keras.layers import Embedding, Dense, Concatenate, Dropout
-from tensorflow.python.keras.layers import Conv1D, GlobalMaxPool1D, GlobalAvgPool1D
 from .BaseModel import BaseModel
+from tensorflow.python.keras import Input, Model
+from tensorflow.python.keras.layers import Dense, Concatenate, Dropout
+from tensorflow.python.keras.layers import Conv1D, GlobalMaxPool1D, GlobalAvgPool1D
 
 
 class TextCNN(BaseModel):
@@ -27,8 +26,8 @@ class TextCNN(BaseModel):
     非静态(non-static)方式：在训练过程中对embeddings进行更新和微调(fine tune)，能加速收敛。（通过设置trainable=True）
     """
 
-    def __init__(self, max_tokens, maxlen=128, num_class=1, embedding_size=None, weights=None,
-                 kernel_size_list=(3, 4, 5)):
+    def __init__(self, max_tokens, maxlen=128, embedding_size=None, num_class=1, kernel_size_list=(3, 4, 5),
+                 weights=None):
         """
 
         :param embedding_size: 类别/实体嵌入时可不指定
@@ -37,31 +36,22 @@ class TextCNN(BaseModel):
         model.compile('adam', 'binary_crossentropy', metrics=['accuracy'])
         model.fit_generator(DataIter(X, y), epochs=5)
         """
-        super().__init__()
-        self.maxlen = maxlen
-        self.class_num = num_class
-        self.max_tokens = max_tokens
-        self.last_activation = 'softmax' if num_class > 1 else 'sigmoid'
-        self.embedding_size = embedding_size if embedding_size else min(50, (max_tokens + 1) // 2)  # 经验值
-        self.weights = weights
+        super().__init__(max_tokens, maxlen, embedding_size, num_class, weights)
         self.kernel_size_list = kernel_size_list
 
     def get_model(self):
-        input = Input((self.maxlen,))
+        input = Input(self.maxlen)
         # Embedding part can try multichannel as same as origin paper
-        if self.weights is not None:
-            e = Embedding(*self.weights.shape, input_length=self.maxlen, weights=[self.weights], trainable=False)(input)
-        else:
-            e = Embedding(self.max_tokens, self.embedding_size, input_length=self.maxlen)(input)
+        embedding = self.embedding_layer(input)
         convs = []
         for kernel_size in self.kernel_size_list:
-            c = Conv1D(128, kernel_size, activation='relu')(e)  # 卷积
+            c = Conv1D(128, kernel_size, activation='relu')(embedding)  # 卷积
             # c = Dropout(0.5)(c)
             p = GlobalMaxPool1D()(c)  # 池化
             # p = GlobalAvgPool1D()(c)
             convs.append(p)
         x = Concatenate()(convs)
-        output = Dense(self.class_num, activation=self.last_activation)(x)
+        output = Dense(self.num_class, activation=self.last_activation)(x)
 
         model = Model(inputs=input, outputs=output)
         return model
