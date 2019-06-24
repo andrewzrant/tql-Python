@@ -35,6 +35,11 @@ class BaseModel(object):
             image_file = image_file.absolute().__str__()
             try:
                 _plot_model(model, to_file=image_file, show_shapes=True, dpi=256)
+                try:
+                    from IPython import display
+                    return display.Image(filename=image_file)
+                except ImportError:
+                    pass
             except Exception as e:
                 print(e)
                 print("brew install graphviz or apt-get install graphviz")

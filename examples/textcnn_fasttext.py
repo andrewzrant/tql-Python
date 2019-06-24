@@ -25,4 +25,5 @@ y = df.label
 
 cnn = TextCNN(len(ts.word2index), maxlen=128, weights=ts.weights)(1)
 cnn.compile('adam', 'binary_crossentropy', metrics=['accuracy'])
-cnn.fit_generator(DataIter(X, y), epochs=10)
+cnn.fit_generator(DataIter(X, y, batch_size=128), epochs=10)
+# cnn.fit(X, y, batch_size=128, epochs=10, validation_split=0.3)
