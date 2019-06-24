@@ -12,13 +12,16 @@ from pathlib import Path
 from abc import abstractmethod
 from tensorflow.python.keras.utils import plot_model as _plot_model
 from tensorflow.python.keras.layers import Embedding
-import tensorflow as tf
 
 
+# import tensorflow as tf
 # tf.keras.backend.clear_session()
 
 
 class BaseModel(object):
+    """
+    https://github.com/ShawnyXiao/TextClassification-Keras
+    """
 
     @abstractmethod
     def __init__(self, max_tokens=20000, maxlen=128, embedding_size=None, num_class=1, weights=None, **kwargs):

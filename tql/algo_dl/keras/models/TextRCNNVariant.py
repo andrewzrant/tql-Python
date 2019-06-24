@@ -45,10 +45,13 @@ class TextRCNNVariant(BaseModel):
         convs = []
         for kernel_size in self.kernel_size_list:
             conv = Conv1D(128, kernel_size, activation='relu')(x)
-            convs.append(conv)
+            convs.append(GlobalMaxPooling1D()(conv))
+            convs.append(GlobalAveragePooling1D()(conv))
 
-        poolings = [GlobalAveragePooling1D()(conv) for conv in convs] + [GlobalMaxPooling1D()(conv) for conv in convs]
-        x = Concatenate()(poolings)
+        # poolings = [GlobalAveragePooling1D()(conv) for conv in convs] + \
+        #            [GlobalMaxPooling1D()(conv) for conv in convs]
+        x = Concatenate()(convs)
 
         output = Dense(self.num_class, activation=self.last_activation)(x)
         model = Model(inputs=input, outputs=output)
+        return model
