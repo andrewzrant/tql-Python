@@ -12,6 +12,10 @@ from pathlib import Path
 from abc import abstractmethod
 from tensorflow.python.keras.utils import plot_model as _plot_model
 from tensorflow.python.keras.layers import Embedding
+import tensorflow as tf
+
+
+# tf.keras.backend.clear_session()
 
 
 class BaseModel(object):
