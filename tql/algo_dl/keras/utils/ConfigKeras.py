@@ -29,6 +29,8 @@ class ConfigKeras(object):
 
         random.seed(self._seed)
         np.random.seed(self._seed)
+        # config = tf.estimator.RunConfig(tf_random_seed=234)
+        # tf.contrib.learn.RunConfig(tf_random_seed=234)
         tf.set_random_seed(self._seed)
         session_conf = tf.ConfigProto(intra_op_parallelism_threads=1,
                                       inter_op_parallelism_threads=1)
