@@ -31,8 +31,8 @@ class Text2Sequence(BaseEstimator, TransformerMixin):
     def fit(self, X):
         if self._num_words:
             _ = {}
-            for doc in X:
-                for word in tqdm(self._tokenizer(doc)):
+            for doc in tqdm(X):
+                for word in self._tokenizer(doc):
                     _[word] = _.get(word, 0) + 1
             _ = dict(sorted(_.items(), key=lambda x: x[1], reverse=True)[:self._num_words])
 
